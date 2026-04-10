@@ -55,7 +55,7 @@
             
             <!-- Logo -->
             <a href="#" class="flex items-center transition-transform hover:scale-105 duration-300 flex-shrink-0">
-                <img src="https://hoangtruongenglish.com/image/logo.png" alt="Anh Ngữ Hoàng Trường Logo" class="h-16 md:h-20 w-auto object-contain">
+                <img src="https://hoangtruongenglish.com/image/logo.png" alt="Anh Ngữ Hoàng Trường Logo" class="h-16 md:h-20 w-auto object-contain" onerror="this.src='https://via.placeholder.com/200x80?text=Hoang+Truong+English'">
             </a>
 
             <!-- Thanh tra từ điển đa nền tảng (Cambridge, Oxford, Longman) -->
@@ -84,38 +84,6 @@
                     </button>
                 </form>
             </div>
-
-            <!-- Hàm xử lý tìm kiếm đa từ điển -->
-            <script>
-                function searchDictionary(event) {
-                    event.preventDefault(); // Ngăn trang tải lại
-                    const word = document.getElementById('dictSearchInput').value.trim();
-                    const dict = document.getElementById('dictSelector').value;
-                    
-                    if (word) {
-                        let url = '';
-                        // Xử lý từ khoá (thêm dấu - nếu từ có khoảng trắng đối với Oxford/Longman)
-                        const encodedWord = encodeURIComponent(word.toLowerCase().replace(/\s+/g, '-'));
-                        
-                        if (dict === 'cambridge') {
-                            // Cambridge hỗ trợ tra Anh-Việt
-                            url = `https://dictionary.cambridge.org/dictionary/english-vietnamese/${encodedWord}`;
-                        } else if (dict === 'oxford') {
-                            // Oxford
-                            url = `https://www.oxfordlearnersdictionaries.com/definition/english/${encodedWord}`;
-                        } else if (dict === 'longman') {
-                            // Longman
-                            url = `https://www.ldoceonline.com/dictionary/${encodedWord}`;
-                        } else if (dict === 'ozdic') {
-                            // Ozdic (Collocation Dictionary)
-                            url = `https://ozdic.com/collocation/${encodedWord}`;
-                        }
-                        
-                        window.open(url, '_blank'); // Mở trong tab mới
-                        document.getElementById('dictSearchInput').value = ''; // Xoá chữ sau khi tìm
-                    }
-                }
-            </script>
 
             <!-- Social Icons (Thiết kế lớn, bóng đổ, nhiều màu) -->
             <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
@@ -197,7 +165,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     
                     <!-- Vocabulary -->
-                    <a href="#vocabulary" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/vocabulary" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
                             <i data-lucide="book-a" class="w-7 h-7"></i>
                         </div>
@@ -207,7 +175,7 @@
                     </a>
 
                     <!-- Grammar -->
-                    <a href="#grammar" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/grammar" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <i data-lucide="library-big" class="w-7 h-7"></i>
                         </div>
@@ -217,7 +185,7 @@
                     </a>
 
                     <!-- Speaking -->
-                    <a href="#speaking" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/speaking" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
                             <i data-lucide="mic" class="w-7 h-7"></i>
                         </div>
@@ -227,7 +195,7 @@
                     </a>
 
                     <!-- Listening -->
-                    <a href="#listening" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/listening" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                             <i data-lucide="headphones" class="w-7 h-7"></i>
                         </div>
@@ -237,7 +205,7 @@
                     </a>
 
                     <!-- Reading -->
-                    <a href="#reading" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/reading" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-600 mb-4 group-hover:bg-gray-600 group-hover:text-white transition-colors">
                             <i data-lucide="book-open-text" class="w-7 h-7"></i>
                         </div>
@@ -247,7 +215,7 @@
                     </a>
 
                     <!-- Writing -->
-                    <a href="#writing" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/writing" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center text-pink-600 mb-4 group-hover:bg-pink-600 group-hover:text-white transition-colors">
                             <i data-lucide="pen-tool" class="w-7 h-7"></i>
                         </div>
@@ -257,7 +225,7 @@
                     </a>
 
                     <!-- Collocations -->
-                    <a href="#collocations" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/collocations" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                             <i data-lucide="link" class="w-7 h-7"></i>
                         </div>
@@ -267,7 +235,7 @@
                     </a>
 
                     <!-- Idioms -->
-                    <a href="#idioms" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                    <a href="https://hoangtruongenglish.com/idioms" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
                         <div class="w-14 h-14 bg-rose-100 rounded-xl flex items-center justify-center text-rose-600 mb-4 group-hover:bg-rose-600 group-hover:text-white transition-colors">
                             <i data-lucide="sparkles" class="w-7 h-7"></i>
                         </div>
@@ -286,7 +254,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     
                     <!-- General English -->
-                    <a href="#general" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                    <a href="https://hoangtruongenglish.com/general" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
                         <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center text-cyan-600 flex-shrink-0 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
                             <i data-lucide="globe" class="w-8 h-8"></i>
                         </div>
@@ -297,7 +265,7 @@
                     </a>
 
                     <!-- Communication -->
-                    <a href="#communication" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                    <a href="https://hoangtruongenglish.com/communication" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
                         <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 flex-shrink-0 group-hover:bg-amber-600 group-hover:text-white transition-colors">
                             <i data-lucide="messages-square" class="w-8 h-8"></i>
                         </div>
@@ -308,7 +276,7 @@
                     </a>
 
                     <!-- TOEIC -->
-                    <a href="#toeic" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                    <a href="https://hoangtruongenglish.com/toeic" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
                         <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-red-600 flex-shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
                             <i data-lucide="briefcase" class="w-8 h-8"></i>
                         </div>
@@ -319,7 +287,7 @@
                     </a>
 
                     <!-- Cambridge -->
-                    <a href="#cambridge" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                    <a href="https://hoangtruongenglish.com/cambridge" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
                         <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 flex-shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                             <i data-lucide="award" class="w-8 h-8"></i>
                         </div>
@@ -330,7 +298,7 @@
                     </a>
 
                     <!-- IELTS -->
-                    <a href="#ielts" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                    <a href="https://hoangtruongenglish.com/ielts" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
                         <div class="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center text-violet-600 flex-shrink-0 group-hover:bg-violet-600 group-hover:text-white transition-colors">
                             <i data-lucide="target" class="w-8 h-8"></i>
                         </div>
@@ -341,7 +309,7 @@
                     </a>
 
                     <!-- Test (General Exams) -->
-                    <a href="#test" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                    <a href="https://hoangtruongenglish.com/test" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
                         <div class="w-16 h-16 bg-fuchsia-100 rounded-full flex items-center justify-center text-fuchsia-600 flex-shrink-0 group-hover:bg-fuchsia-600 group-hover:text-white transition-colors">
                             <i data-lucide="clipboard-check" class="w-8 h-8"></i>
                         </div>
@@ -365,9 +333,35 @@
         </div>
     </footer>
 
-    <!-- Khởi tạo Icon -->
+    <!-- Scripts -->
     <script>
+        // Khởi tạo Icon Lucide
         lucide.createIcons();
+
+        // Xử lý tìm kiếm từ điển
+        function searchDictionary(event) {
+            event.preventDefault();
+            const word = document.getElementById('dictSearchInput').value.trim();
+            const dict = document.getElementById('dictSelector').value;
+            
+            if (word) {
+                let url = '';
+                const encodedWord = encodeURIComponent(word.toLowerCase().replace(/\s+/g, '-'));
+                
+                if (dict === 'cambridge') {
+                    url = `https://dictionary.cambridge.org/dictionary/english-vietnamese/${encodedWord}`;
+                } else if (dict === 'oxford') {
+                    url = `https://www.oxfordlearnersdictionaries.com/definition/english/${encodedWord}`;
+                } else if (dict === 'longman') {
+                    url = `https://www.ldoceonline.com/dictionary/${encodedWord}`;
+                } else if (dict === 'ozdic') {
+                    url = `https://ozdic.com/collocation/${encodedWord}`;
+                }
+                
+                window.open(url, '_blank');
+                document.getElementById('dictSearchInput').value = '';
+            }
+        }
     </script>
 </body>
 </html>
