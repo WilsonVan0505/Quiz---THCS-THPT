@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Từ Vựng B1-B2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            /* Màu Zinc-50 (Sạch sẽ, kim loại) */
+        }
+
+        .flip-card {
+            perspective: 1000px;
+            width: 100%;
+            height: 520px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+            /* Indigo shadow */
+            outline: none;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-5px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .input-error {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #b91c1c !important;
+        }
+
+        #topic-toast {
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 p-4 md:p-8 min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+
+    <!-- Toast Notification -->
+    <div id="topic-toast"
+        class="absolute top-8 left-1/2 transform -translate-x-1/2 translate-y-[-250%] bg-white border-2 border-zinc-400 text-zinc-800 px-6 py-3 rounded-full shadow-2xl font-bold text-lg z-50 flex items-center gap-3">
+        <span class="text-2xl">🥄</span>
+        <span id="toast-message">Chủ đề mới: Baking Equipment & Tools</span>
+        <span class="text-2xl">🥣</span>
+    </div>
+
+    <div class="max-w-xl w-full mx-auto relative">
+        <!-- Nút quay lại từ trước đó (ẩn ở thẻ đầu tiên) -->
+        <button id="top-prev-btn" onclick="prevCard()"
+            class="absolute left-0 top-0 mt-1 flex items-center justify-center p-2 text-gray-400 hover:text-zinc-700 hover:bg-zinc-100 rounded-full transition-colors hidden"
+            title="Quay lại từ trước">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </button>
+
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <h1 id="main-topic-title" class="text-3xl font-bold text-zinc-800 tracking-tight uppercase">CHỦ ĐỀ: BAKING
+                EQUIPMENT & TOOLS</h1>
+            <p class="text-zinc-600 mt-2 font-medium">Level: B1-B2 | <span id="progress-text">1 / X</span></p>
+
+            <div class="w-full bg-zinc-200 rounded-full h-2.5 mt-4">
+                <div id="progress-bar" class="bg-zinc-600 h-2.5 rounded-full transition-all duration-300"
+                    style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Vùng chứa Flashcard -->
+        <div class="flip-card" id="flashcard">
+            <div class="flip-card-inner">
+
+                <!-- Mặt trước: Câu hỏi -->
+                <div class="flip-card-front p-6 md:p-8 border-t-4 border-zinc-500">
+                    <div class="flex-grow flex flex-col justify-center items-center text-center">
+
+                        <!-- Nghĩa tiếng Việt và Loại từ -->
+                        <div class="flex items-center justify-center gap-3 mb-2">
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800" id="word-mean"></h2>
+                            <span
+                                class="inline-block px-2 py-1 bg-indigo-100 text-indigo-800 rounded font-semibold text-sm uppercase"
+                                id="word-type"></span>
+                        </div>
+
+                        <div class="w-16 h-1 bg-zinc-300 my-4 mx-auto rounded"></div>
+
+                        <!-- Câu tiếng Anh lên trước, câu tiếng Việt xuống dưới -->
+                        <p class="text-xl md:text-2xl text-zinc-700 font-medium mb-3 leading-relaxed" id="word-ex"></p>
+                        <p class="text-zinc-500 italic text-base md:text-lg mb-6" id="word-exVi"></p>
+
+                        <div class="w-full flex flex-col items-center gap-4">
+                            <div id="letter-inputs-container" class="flex flex-wrap justify-center gap-x-1 gap-y-3">
+                            </div>
+
+                            <!-- Nút Loa & Nút Hint -->
+                            <div class="flex items-center justify-center gap-3">
+                                <button onclick="speakCurrentWord()"
+                                    class="flex items-center justify-center w-9 h-9 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm"
+                                    title="Nghe phát âm (Phím tắt: Shift + Enter)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <button onclick="giveHint()" title="Gợi ý (Phím tắt: Alt + H)"
+                                    class="text-sm px-4 py-1.5 h-9 bg-sky-100 text-sky-700 hover:bg-sky-200 font-medium rounded-full transition-colors flex items-center gap-1 shadow-sm border border-sky-200">
+                                    Hint
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="checkAnswer()"
+                        class="mt-4 w-full py-3 bg-zinc-600 hover:bg-zinc-700 text-white font-semibold rounded-lg shadow-md transition-colors duration-200 flex items-center justify-center gap-2">
+                        Check Answer
+                    </button>
+                </div>
+
+                <!-- Mặt sau: Kết quả -->
+                <div class="flip-card-back p-6 md:p-8 flex flex-col border-t-4 border-zinc-500">
+                    <div id="result-header" class="text-center py-2 rounded-lg font-bold text-lg mb-4"></div>
+
+                    <div class="flex-grow flex flex-col justify-center items-center text-center">
+                        <h2 class="text-4xl md:text-5xl font-bold text-zinc-800 mb-2" id="back-word"></h2>
+
+                        <div
+                            class="flex items-center gap-2 mb-4 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-full">
+                            <p class="text-xl text-indigo-700 font-mono font-medium" id="back-phonetic"></p>
+                            <button onclick="speakCurrentWord()"
+                                class="flex items-center justify-center w-8 h-8 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-full transition-colors focus:outline-none"
+                                title="Nghe phát âm (Phím tắt: Shift + Enter)">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <p class="text-lg text-zinc-600 font-medium mb-3" id="back-mean"></p>
+
+                        <!-- Thêm khối hiển thị câu ví dụ trọn vẹn -->
+                        <div class="bg-slate-100 border border-slate-200 rounded-lg p-4 w-full max-w-md mt-2">
+                            <p class="text-zinc-800 text-xl md:text-2xl font-medium leading-relaxed" id="back-ex"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 mt-4">
+                        <button onclick="prevCard()"
+                            class="flex-1 py-3 bg-slate-200 hover:bg-slate-300 text-zinc-800 font-semibold rounded-lg transition-colors">Quay
+                            lại</button>
+                        <button onclick="nextCard()" id="next-btn"
+                            class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors">Tiếp
+                            theo</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Điểm số (hiện khi kết thúc) -->
+        <div id="final-screen" class="hidden bg-white rounded-2xl shadow-xl p-8 text-center border-t-4 border-zinc-500">
+            <h2 class="text-3xl font-bold text-zinc-800 mb-4">Hoàn thành bài tập!</h2>
+            <p class="text-lg text-zinc-600 mb-6">Bạn đã ôn tập xong toàn bộ danh sách từ vựng.</p>
+            <div class="text-6xl mb-6">🏆</div>
+            <button onclick="resetQuiz()"
+                class="px-8 py-3 bg-zinc-600 hover:bg-zinc-700 text-white font-semibold rounded-lg shadow-md transition-colors">Học
+                lại từ đầu</button>
+        </div>
+
+    </div>
+
+    <script>
+        const flashcards = [
+            // VOCABULARY - BAKING EQUIPMENT & TOOLS
+            { topic: "Baking Equipment & Tools", word: "bain-marie", phonetic: "/ˌbeɪn məˈriː/", type: "noun", mean: "nồi/khay cách thủy", ex: "Put the cheesecake in a _______ so it bakes evenly without cracking.", exVi: "Đặt bánh phô mai vào nồi cách thủy để bánh chín đều mà không bị nứt." },
+            { topic: "Baking Equipment & Tools", word: "batch", phonetic: "/bætʃ/", type: "noun", mean: "mẻ, lô", ex: "This _______ of cookies smells sweeter than the last one.", exVi: "Mẻ bánh quy này có mùi thơm ngọt hơn mẻ trước." },
+            { topic: "Baking Equipment & Tools", word: "ladle", phonetic: "/ˈleɪdəl/", type: "noun", mean: "vá, muôi lớn", ex: "Use a _______ to pour the soup into the bowls neatly.", exVi: "Dùng một chiếc muôi lớn để múc súp vào bát một cách gọn gàng." },
+            { topic: "Baking Equipment & Tools", word: "mold", phonetic: "/məʊld/", type: "noun", mean: "khuôn", ex: "Pour the chocolate into the _______ and leave it to set.", exVi: "Đổ chocolate vào khuôn và để cho nó đông lại." },
+            { topic: "Baking Equipment & Tools", word: "muffin Pan", phonetic: "/ˈmʌfɪn pæn/", type: "noun", mean: "khay nướng muffin", ex: "Place the paper cups into the _______ before adding batter.", exVi: "Đặt các cốc giấy vào khay nướng muffin trước khi thêm bột nhão." },
+            { topic: "Baking Equipment & Tools", word: "nonstick", phonetic: "/ˌnɒnˈstɪk/", type: "adjective", mean: "chống dính", ex: "A _______ pan helps the pancakes cook more easily.", exVi: "Một chiếc chảo chống dính giúp rán bánh pancake dễ dàng hơn." },
+            { topic: "Baking Equipment & Tools", word: "parchment", phonetic: "/ˈpɑːtʃmənt/", type: "noun", mean: "giấy nến", ex: "Line the tray with _______ before baking the cookies.", exVi: "Lót khay bằng giấy nến trước khi nướng bánh quy." },
+            { topic: "Baking Equipment & Tools", word: "peel", phonetic: "/piːl/", type: "noun", mean: "xẻng xúc bánh/pizza", ex: "Use the _______ to move the pizza into the hot oven safely.", exVi: "Sử dụng xẻng xúc bánh để đưa pizza vào lò nóng một cách an toàn." },
+            { topic: "Baking Equipment & Tools", word: "sieve", phonetic: "/sɪv/", type: "noun", mean: "rây lọc", ex: "Pass the flour through a _______ to remove lumps.", exVi: "Cho bột mì qua rây lọc để loại bỏ các cục vón." },
+            { topic: "Baking Equipment & Tools", word: "silpat", phonetic: "/ˈsɪlpæt/", type: "noun", mean: "tấm lót nướng silicon", ex: "A _______ keeps the cookies from sticking to the tray.", exVi: "Một tấm lót nướng silicon giúp bánh quy không bị dính vào khay." },
+            { topic: "Baking Equipment & Tools", word: "turntable", phonetic: "/ˈtɜːnteɪbəl/", type: "noun", mean: "bàn xoay trang trí bánh", ex: "The baker uses a _______ to decorate the cake smoothly.", exVi: "Người thợ làm bánh sử dụng bàn xoay để trang trí bánh một cách trơn tru." }
+        ];
+
+        let currentIndex = 0;
+        const totalCards = flashcards.length;
+        let canGoNext = false;
+
+        const flashcardEl = document.getElementById('flashcard');
+        const inputsContainer = document.getElementById('letter-inputs-container');
+        const finalScreen = document.getElementById('final-screen');
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSuccessSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(987.77, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+
+        function playErrorSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(350, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(250, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.1);
+            gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.15);
+            gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.25);
+        }
+
+        function playTransitionSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.15);
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.3);
+            osc.frequency.setValueAtTime(1046.50, audioCtx.currentTime + 0.45);
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.1);
+            gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.8);
+        }
+
+        // --- Tính năng Text-to-Speech ---
+        let preferredVoice = null;
+
+        function loadVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length === 0) return;
+
+            const goodFemaleVoices = [
+                "Google US English",
+                "Google UK English Female",
+                "Samantha",
+                "Victoria",
+                "Karen",
+                "Microsoft Zira",
+                "Microsoft Hazel"
+            ];
+
+            for (let name of goodFemaleVoices) {
+                const voice = voices.find(v => v.name.includes(name));
+                if (voice) {
+                    preferredVoice = voice;
+                    break;
+                }
+            }
+
+            if (!preferredVoice) {
+                preferredVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) ||
+                    voices.find(v => v.lang === 'en-US') || voices[0];
+            }
+        }
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function speakCurrentWord() {
+            if (window.event) window.event.stopPropagation();
+
+            const card = flashcards[currentIndex];
+            const wordToSpeak = card.word.replace(/-/g, ' ');
+            const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+            } else {
+                utterance.lang = 'en-US';
+            }
+
+            utterance.rate = 0.85;
+            utterance.pitch = 1.15;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function showTopicToast(topicName) {
+            const toast = document.getElementById('topic-toast');
+            document.getElementById('toast-message').textContent = `Chủ đề mới: ${topicName}`;
+            toast.classList.remove('translate-y-[-250%]');
+            toast.classList.add('translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0');
+                toast.classList.add('translate-y-[-250%]');
+            }, 2500);
+        }
+
+        function renderCard() {
+            const card = flashcards[currentIndex];
+
+            document.getElementById('main-topic-title').textContent = `CHỦ ĐỀ: ${card.topic.toUpperCase()}`;
+            document.getElementById('word-type').textContent = card.type;
+
+            document.getElementById('word-mean').textContent = card.mean;
+            document.getElementById('word-exVi').textContent = card.exVi;
+
+            const blankedEx = card.ex.replace('_______', `<span class="text-zinc-600 border-b-2 border-zinc-600 inline-block w-24"></span>`);
+            document.getElementById('word-ex').innerHTML = blankedEx;
+
+            inputsContainer.innerHTML = '';
+            const words = card.word.split(' ');
+
+            words.forEach((w, wordIndex) => {
+                const wordGroup = document.createElement('div');
+                wordGroup.className = 'flex gap-1';
+
+                for (let i = 0; i < w.length; i++) {
+                    if (w[i] === '-') {
+                        const dash = document.createElement('span');
+                        dash.textContent = '-';
+                        dash.className = 'text-xl font-bold text-gray-400 self-center px-1';
+                        wordGroup.appendChild(dash);
+                        continue;
+                    }
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.maxLength = 1;
+
+                    if (i === 0) {
+                        input.value = w[i].toLowerCase();
+                        input.readOnly = true;
+                        input.className = 'char-input hint-input w-9 h-11 md:w-10 md:h-12 text-center text-xl font-bold border-2 border-slate-200 bg-slate-100 text-slate-500 rounded-lg cursor-not-allowed select-none shadow-sm';
+                    } else {
+                        input.className = 'char-input editable-input w-9 h-11 md:w-10 md:h-12 text-center text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:bg-indigo-50 transition-colors bg-white text-indigo-700 shadow-inner';
+
+                        input.addEventListener('input', function () {
+                            this.value = this.value.toLowerCase();
+                            this.classList.remove('input-error');
+
+                            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
+                            const currentIdx = editableInputs.indexOf(this);
+                            if (this.value && currentIdx < editableInputs.length - 1) {
+                                editableInputs[currentIdx + 1].focus();
+                            }
+                        });
+
+                        input.addEventListener('keydown', function (e) {
+                            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
+                            const currentIdx = editableInputs.indexOf(this);
+
+                            if (e.key === 'Backspace' && !this.value && currentIdx > 0) {
+                                editableInputs[currentIdx - 1].focus();
+                            } else if (e.key === 'Enter') {
+                                if (!e.shiftKey) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    checkAnswer();
+                                }
+                            } else if (e.key === 'ArrowLeft' && currentIdx > 0) {
+                                editableInputs[currentIdx - 1].focus();
+                                e.preventDefault();
+                            } else if (e.key === 'ArrowRight' && currentIdx < editableInputs.length - 1) {
+                                editableInputs[currentIdx + 1].focus();
+                                e.preventDefault();
+                            }
+                        });
+                    }
+                    wordGroup.appendChild(input);
+                }
+                inputsContainer.appendChild(wordGroup);
+
+                if (wordIndex < words.length - 1) {
+                    const space = document.createElement('div');
+                    space.className = 'w-3 md:w-4';
+                    inputsContainer.appendChild(space);
+                }
+            });
+
+            setTimeout(() => {
+                const firstEditableInput = document.querySelector('.editable-input');
+                if (firstEditableInput) firstEditableInput.focus();
+            }, 100);
+
+            document.getElementById('progress-text').textContent = `${currentIndex + 1} / ${totalCards}`;
+            const percent = ((currentIndex + 1) / totalCards) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+
+            const topPrevBtn = document.getElementById('top-prev-btn');
+            if (currentIndex > 0) {
+                topPrevBtn.classList.remove('hidden');
+            } else {
+                topPrevBtn.classList.add('hidden');
+            }
+
+            const nextBtn = document.getElementById('next-btn');
+            if (currentIndex === totalCards - 1) {
+                nextBtn.textContent = "Hoàn thành";
+                nextBtn.className = "flex-1 py-3 bg-zinc-600 hover:bg-zinc-700 text-white font-semibold rounded-lg shadow-md transition-colors";
+            } else {
+                nextBtn.textContent = "Tiếp theo";
+                nextBtn.className = "flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors";
+            }
+        }
+
+        function giveHint() {
+            const card = flashcards[currentIndex];
+            const targetWord = card.word.replace(/[\s-]/g, '');
+            const allInputs = document.querySelectorAll('.char-input');
+            const editableInputs = document.querySelectorAll('.editable-input');
+
+            for (let i = 0; i < allInputs.length; i++) {
+                if (!allInputs[i].readOnly && allInputs[i].value.toLowerCase() !== targetWord[i].toLowerCase()) {
+                    allInputs[i].value = targetWord[i].toLowerCase();
+                    allInputs[i].classList.remove('input-error');
+                    allInputs[i].classList.add('bg-sky-100', 'border-sky-400', 'text-sky-800');
+
+                    let currentEditableIdx = Array.from(editableInputs).indexOf(allInputs[i]);
+                    let next = currentEditableIdx + 1;
+                    while (next < editableInputs.length && editableInputs[next].value !== '') {
+                        next++;
+                    }
+                    if (next < editableInputs.length) editableInputs[next].focus();
+                    else editableInputs[editableInputs.length - 1].focus();
+
+                    break;
+                }
+            }
+        }
+
+        function checkAnswer() {
+            const card = flashcards[currentIndex];
+            const allInputs = document.querySelectorAll('.char-input');
+
+            const userAnswer = Array.from(allInputs).map(inp => inp.value).join('').toLowerCase();
+            const correctAnswer = card.word.replace(/[\s-]/g, '').toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                playSuccessSound();
+
+                const resultHeader = document.getElementById('result-header');
+                resultHeader.textContent = "🎉 Chính xác!";
+                resultHeader.className = "text-center py-2 rounded-lg font-bold text-lg mb-4 bg-green-100 text-green-800";
+
+                document.getElementById('back-word').textContent = card.word;
+                document.getElementById('back-phonetic').textContent = card.phonetic;
+                document.getElementById('back-mean').textContent = `${card.mean} (${card.type})`;
+
+                const fullSentence = card.ex.replace('_______', `<span class="font-bold text-indigo-700">${card.word}</span>`);
+                document.getElementById('back-ex').innerHTML = fullSentence;
+
+                flashcardEl.classList.add('flipped');
+
+                canGoNext = false;
+                setTimeout(() => { canGoNext = true; }, 500);
+
+                if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+                    document.activeElement.blur();
+                }
+            } else {
+                playErrorSound();
+                inputsContainer.classList.add('shake');
+                setTimeout(() => inputsContainer.classList.remove('shake'), 400);
+
+                let firstEmptyOrWrongInput = null;
+
+                for (let i = 0; i < allInputs.length; i++) {
+                    if (!allInputs[i].readOnly) {
+                        if (allInputs[i].value !== '' && allInputs[i].value.toLowerCase() !== correctAnswer[i]) {
+                            allInputs[i].value = '';
+                            allInputs[i].classList.add('input-error');
+                            if (!firstEmptyOrWrongInput) firstEmptyOrWrongInput = allInputs[i];
+                        } else if (allInputs[i].value === '') {
+                            allInputs[i].classList.add('input-error');
+                            if (!firstEmptyOrWrongInput) firstEmptyOrWrongInput = allInputs[i];
+                        }
+                    }
+                }
+
+                if (firstEmptyOrWrongInput) {
+                    firstEmptyOrWrongInput.focus();
+                }
+            }
+        }
+
+        function nextCard() {
+            flashcardEl.classList.remove('flipped');
+
+            setTimeout(() => {
+                if (currentIndex < totalCards - 1) {
+                    const currentTopic = flashcards[currentIndex].topic;
+                    const nextTopicCard = flashcards[currentIndex + 1].topic;
+
+                    currentIndex++;
+
+                    if (currentTopic !== nextTopicCard) {
+                        showTopicToast(nextTopicCard);
+                        playTransitionSound();
+                    }
+
+                    renderCard();
+                } else {
+                    flashcardEl.classList.add('hidden');
+                    finalScreen.classList.remove('hidden');
+                }
+            }, 300);
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                flashcardEl.classList.remove('flipped');
+                setTimeout(() => {
+                    currentIndex--;
+                    renderCard();
+                }, 300);
+            } else {
+                flashcardEl.classList.remove('flipped');
+            }
+        }
+
+        function resetQuiz() {
+            currentIndex = 0;
+            finalScreen.classList.add('hidden');
+            flashcardEl.classList.remove('hidden');
+            renderCard();
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.altKey && e.key.toLowerCase() === 'h') {
+                e.preventDefault();
+                giveHint();
+                return;
+            }
+
+            if ((e.shiftKey && e.key === 'Enter') || (e.ctrlKey && e.code === 'Space')) {
+                e.preventDefault();
+                speakCurrentWord();
+                return;
+            }
+
+            if (e.key === 'Enter' && !e.shiftKey && flashcardEl.classList.contains('flipped') && canGoNext) {
+                e.preventDefault();
+                nextCard();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', renderCard);
+
+    </script>
+</body>
+
+</html>
