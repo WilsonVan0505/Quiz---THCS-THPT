@@ -1,1 +1,373 @@
-Hello, Welcome to Hoàng Trường English 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anh Ngữ Hoàng Trường - Nền tảng học tập</title>
+    
+    <!-- Tích hợp Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tích hợp Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Tích hợp Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Cấu hình màu sắc và phông chữ -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#CD9A3A', // Màu vàng đất từ logo
+                            light: '#DFB564',
+                            dark: '#A67926',
+                            50: '#FDF8F0' // Màu nền vàng nhạt
+                        },
+                        dark: '#2A3135', // Màu chữ xám đen (giống chữ Anh Ngữ Hoàng Trường)
+                        surface: '#FAFAFA'
+                    },
+                    fontFamily: {
+                        serif: ['Cambria', 'Georgia', 'serif'], // Phông cho tiêu đề
+                        sans: ['Cambria', 'Georgia', 'sans-serif'], // Phông cho nội dung
+                        times: ['"Times New Roman"', 'Times', 'serif'], // Phông Times New Roman
+                        artistic: ['"Playfair Display"', 'serif'], // Phông nghệ thuật
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FAFAFA; font-size: 105%; }
+        .hover-card { transition: all 0.3s ease; }
+        .hover-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(205, 154, 58, 0.15); border-color: #CD9A3A; }
+    </style>
+</head>
+<body class="font-sans text-dark antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center transition-transform hover:scale-105 duration-300 flex-shrink-0">
+                <img src="https://hoangtruongenglish.com/image/logo.png" alt="Anh Ngữ Hoàng Trường Logo" class="h-16 md:h-20 w-auto object-contain">
+            </a>
+
+            <!-- Thanh tra từ điển đa nền tảng (Cambridge, Oxford, Longman) -->
+            <div class="hidden lg:flex flex-1 max-w-lg mx-auto">
+                <form onsubmit="searchDictionary(event)" class="w-full relative flex items-center group bg-gray-50 border border-gray-200 rounded-full focus-within:ring-2 focus-within:ring-primary/50 focus-within:border-primary focus-within:bg-white transition-all shadow-sm">
+                    
+                    <!-- Dropdown Chọn từ điển -->
+                    <div class="relative flex items-center border-r border-gray-200 h-full">
+                        <i data-lucide="book-text" class="w-4 h-4 text-gray-500 absolute left-4 pointer-events-none"></i>
+                        <select id="dictSelector" class="bg-transparent text-gray-700 text-sm font-semibold py-3 pl-10 pr-8 outline-none cursor-pointer appearance-none hover:text-primary transition-colors rounded-l-full">
+                            <option value="cambridge">Cambridge</option>
+                            <option value="oxford">Oxford</option>
+                            <option value="longman">Longman</option>
+                            <option value="ozdic">Ozdic</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 absolute right-2 pointer-events-none"></i>
+                    </div>
+                    
+                    <!-- Ô nhập từ -->
+                    <input type="text" id="dictSearchInput" placeholder="Nhập từ cần tra..." 
+                           class="w-full bg-transparent text-gray-800 text-sm rounded-r-full pl-4 pr-12 py-3 focus:outline-none">
+                    
+                    <!-- Nút Search -->
+                    <button type="submit" class="absolute right-2 p-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-full transition-colors" title="Tra cứu">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Hàm xử lý tìm kiếm đa từ điển -->
+            <script>
+                function searchDictionary(event) {
+                    event.preventDefault(); // Ngăn trang tải lại
+                    const word = document.getElementById('dictSearchInput').value.trim();
+                    const dict = document.getElementById('dictSelector').value;
+                    
+                    if (word) {
+                        let url = '';
+                        // Xử lý từ khoá (thêm dấu - nếu từ có khoảng trắng đối với Oxford/Longman)
+                        const encodedWord = encodeURIComponent(word.toLowerCase().replace(/\s+/g, '-'));
+                        
+                        if (dict === 'cambridge') {
+                            // Cambridge hỗ trợ tra Anh-Việt
+                            url = `https://dictionary.cambridge.org/dictionary/english-vietnamese/${encodedWord}`;
+                        } else if (dict === 'oxford') {
+                            // Oxford
+                            url = `https://www.oxfordlearnersdictionaries.com/definition/english/${encodedWord}`;
+                        } else if (dict === 'longman') {
+                            // Longman
+                            url = `https://www.ldoceonline.com/dictionary/${encodedWord}`;
+                        } else if (dict === 'ozdic') {
+                            // Ozdic (Collocation Dictionary)
+                            url = `https://ozdic.com/collocation/${encodedWord}`;
+                        }
+                        
+                        window.open(url, '_blank'); // Mở trong tab mới
+                        document.getElementById('dictSearchInput').value = ''; // Xoá chữ sau khi tìm
+                    }
+                }
+            </script>
+
+            <!-- Social Icons (Thiết kế lớn, bóng đổ, nhiều màu) -->
+            <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                <!-- Facebook -->
+                <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white shadow-[0_4px_15px_-3px_rgba(0,0,0,0.07)] flex items-center justify-center hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(24,119,242,0.2)] transition-all duration-300" title="Facebook">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 12.0733C24 5.40533 18.627 0 12 0C5.373 0 0 5.40533 0 12.0733C0 18.1067 4.388 23.0947 10.125 24V15.56H7.078V12.0733H10.125V9.41333C10.125 6.38667 11.916 4.716 14.657 4.716C15.97 4.716 17.343 4.952 17.343 4.952V7.92533H15.83C14.34 7.92533 13.875 8.85733 13.875 9.816V12.0733H17.203L16.671 15.56H13.875V24C19.612 23.0947 24 18.1067 24 12.0733Z" fill="#1877F2"/>
+                        <path d="M16.671 15.56L17.203 12.0733H13.875V9.816C13.875 8.85733 14.34 7.92533 15.83 7.92533H17.343V4.952C17.343 4.952 15.97 4.716 14.657 4.716C11.916 4.716 10.125 6.38667 10.125 9.41333V12.0733H7.078V15.56H10.125V24C10.741 24.096 11.366 24.1467 12 24.1467C12.634 24.1467 13.259 24.096 13.875 24V15.56H16.671Z" fill="white"/>
+                    </svg>
+                </a>
+
+                <!-- Nghe nhạc (Spotify) -->
+                <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white shadow-[0_4px_15px_-3px_rgba(0,0,0,0.07)] flex items-center justify-center hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(29,185,84,0.2)] transition-all duration-300" title="Nghe nhạc">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="#1DB954" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.241 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.84.241 1.2zM20.16 9.6C15.84 7.08 9.12 6.96 5.28 8.16c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.76-1.2 16.68 1.68.54.36.72 1.08.36 1.62-.36.54-1.08.72-1.62.36z"/>
+                    </svg>
+                </a>
+
+                <!-- Youtube -->
+                <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white shadow-[0_4px_15px_-3px_rgba(0,0,0,0.07)] flex items-center justify-center hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(255,0,0,0.2)] transition-all duration-300" title="Youtube">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M23.498 6.186a2.936 2.936 0 0 0-2.064-2.074C19.615 3.618 12 3.618 12 3.618s-7.615 0-9.434.494a2.936 2.936 0 0 0-2.064 2.074C.008 8.016 0 12 0 12s.008 3.984.502 5.814a2.936 2.936 0 0 0 2.064 2.074c1.819.494 9.434.494 9.434.494s7.615 0 9.434-.494a2.936 2.936 0 0 0 2.064-2.074C23.992 15.984 24 12 24 12s-.008-3.984-.502-5.814ZM9.6 15.6V8.4l6.4 3.6-6.4 3.6Z" fill="#FF0000"/>
+                    </svg>
+                </a>
+                
+                <!-- TikTok -->
+                <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white shadow-[0_4px_15px_-3px_rgba(0,0,0,0.07)] flex items-center justify-center hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.2)] transition-all duration-300" title="TikTok">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a5.63 5.63 0 0 1-1.04-.1z" fill="#000000"/>
+                    </svg>
+                </a>
+
+                <!-- Zalo -->
+                <a href="#" class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white shadow-[0_4px_15px_-3px_rgba(0,0,0,0.07)] flex items-center justify-center hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(33,104,255,0.2)] transition-all duration-300" title="Zalo">
+                    <svg class="w-7 h-7 md:w-9 md:h-9" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#2168FF" d="M 52.4 25.3 C 21 48.4 8.3 89.8 18.1 127.9 C 22.1 143.6 29.9 157.5 41.1 168 C 42.9 169.7 43.5 172.2 42.4 174.4 L 33.5 192 C 48.7 187.2 62.8 180.4 75.3 171.8 C 92.4 176.3 111.1 176 128 170.3 C 91.5 184.8 49.2 178.7 26.9 151 C 8.5 128.1 6.9 93.7 24.5 68.5 C 36.8 50.8 59.3 38.8 83.3 38.6 C 72.5 33.4 61.5 29 52.4 25.3 Z" />
+                        <text x="56" y="132" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="75" fill="#2168FF" letter-spacing="-2.5">Zalo</text>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        
+        <!-- Hero Section (Giới thiệu ngắn gọn) -->
+        <section class="text-center max-w-4xl mx-auto mb-16 relative">
+            <div class="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-white text-primary-dark text-sm font-bold tracking-widest uppercase mb-6 border border-primary/20 shadow-sm">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
+                Kho lưu trữ học liệu
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-times font-bold mb-8 leading-tight text-gray-800 tracking-wide">
+                MỘT GÓC NHỎ <br> 
+                <span class="relative inline-block mt-2">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-dark via-primary to-primary-light font-normal">CHO HÀNH TRÌNH LỚN</span>
+                    <!-- Đường kẻ mờ dưới chữ -->
+                    <span class="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-40"></span>
+                </span>
+            </h1>
+
+            <!-- Hoạ tiết trang trí -->
+            <div class="flex justify-center items-center gap-3 opacity-70">
+                <span class="w-16 h-[1px] bg-primary"></span>
+                <i data-lucide="sparkle" class="w-4 h-4 text-primary"></i>
+                <span class="w-16 h-[1px] bg-primary"></span>
+            </div>
+        </section>
+
+        <!-- Lưới Nội Dung Học Tập -->
+        <div class="space-y-16">
+
+            <!-- Nhóm 1: Kỹ Năng Cốt Lõi (Core Skills) -->
+            <div>
+                <h2 class="text-2xl md:text-3xl font-serif font-bold border-b border-gray-200 pb-2 mb-8 flex items-center gap-3">
+                    <i data-lucide="layers" class="w-7 h-7 text-primary"></i> Kỹ Năng & Nền Tảng
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    
+                    <!-- Vocabulary -->
+                    <a href="#vocabulary" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                            <i data-lucide="book-a" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-green-600 transition-colors">Vocabulary</h3>
+                        <p class="text-base text-gray-500">Từ vựng theo chủ đề.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Grammar -->
+                    <a href="#grammar" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i data-lucide="library-big" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-blue-600 transition-colors">Grammar</h3>
+                        <p class="text-base text-gray-500">Cấu trúc ngữ pháp cơ bản đến nâng cao.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Speaking -->
+                    <a href="#speaking" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                            <i data-lucide="mic" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-orange-600 transition-colors">Speaking</h3>
+                        <p class="text-base text-gray-500">Luyện phát âm & phản xạ.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Listening -->
+                    <a href="#listening" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                            <i data-lucide="headphones" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-purple-600 transition-colors">Listening</h3>
+                        <p class="text-base text-gray-500">Luyện nghe hiểu qua Audio/Video.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Reading -->
+                    <a href="#reading" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-600 mb-4 group-hover:bg-gray-600 group-hover:text-white transition-colors">
+                            <i data-lucide="book-open-text" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-gray-700 transition-colors">Reading</h3>
+                        <p class="text-base text-gray-500">Đọc hiểu đoạn văn, bài báo.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Writing -->
+                    <a href="#writing" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center text-pink-600 mb-4 group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                            <i data-lucide="pen-tool" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-pink-600 transition-colors">Writing</h3>
+                        <p class="text-base text-gray-500">Luyện viết câu và đoạn văn.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Collocations -->
+                    <a href="#collocations" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                            <i data-lucide="link" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-indigo-600 transition-colors">Collocations</h3>
+                        <p class="text-base text-gray-500">Các cụm từ thường đi chung với nhau.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+
+                    <!-- Idioms -->
+                    <a href="#idioms" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden">
+                        <div class="w-14 h-14 bg-rose-100 rounded-xl flex items-center justify-center text-rose-600 mb-4 group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i data-lucide="sparkles" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 group-hover:text-rose-600 transition-colors">Idioms</h3>
+                        <p class="text-base text-gray-500">Thành ngữ và các cách diễn đạt tự nhiên.</p>
+                        <i data-lucide="arrow-up-right" class="absolute top-6 right-6 w-5 h-5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nhóm 2: Chương trình & Chứng chỉ (Programs & Exams) -->
+            <div>
+                <h2 class="text-2xl md:text-3xl font-serif font-bold border-b border-gray-200 pb-2 mb-8 flex items-center gap-3">
+                    <i data-lucide="graduation-cap" class="w-7 h-7 text-primary"></i> Chương Trình & Bài Thi
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    
+                    <!-- General English -->
+                    <a href="#general" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                        <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center text-cyan-600 flex-shrink-0 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                            <i data-lucide="globe" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold group-hover:text-cyan-600 transition-colors">General English</h3>
+                            <p class="text-base text-gray-500">Tiếng Anh tổng quát.</p>
+                        </div>
+                    </a>
+
+                    <!-- Communication -->
+                    <a href="#communication" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                        <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 flex-shrink-0 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                            <i data-lucide="messages-square" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold group-hover:text-amber-600 transition-colors">Communication</h3>
+                            <p class="text-base text-gray-500">Tiếng Anh giao tiếp thực tế.</p>
+                        </div>
+                    </a>
+
+                    <!-- TOEIC -->
+                    <a href="#toeic" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-red-600 flex-shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                            <i data-lucide="briefcase" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold group-hover:text-red-600 transition-colors">TOEIC</h3>
+                            <p class="text-base text-gray-500">Luyện thi môi trường làm việc.</p>
+                        </div>
+                    </a>
+
+                    <!-- Cambridge -->
+                    <a href="#cambridge" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 flex-shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <i data-lucide="award" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold group-hover:text-emerald-600 transition-colors">Cambridge</h3>
+                            <p class="text-base text-gray-500">Starters, Movers, Flyers, KET, PET.</p>
+                        </div>
+                    </a>
+
+                    <!-- IELTS -->
+                    <a href="#ielts" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                        <div class="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center text-violet-600 flex-shrink-0 group-hover:bg-violet-600 group-hover:text-white transition-colors">
+                            <i data-lucide="target" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold group-hover:text-violet-600 transition-colors">IELTS</h3>
+                            <p class="text-base text-gray-500">Luyện thi Academic & General.</p>
+                        </div>
+                    </a>
+
+                    <!-- Test (General Exams) -->
+                    <a href="#test" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 flex items-center gap-4 group">
+                        <div class="w-16 h-16 bg-fuchsia-100 rounded-full flex items-center justify-center text-fuchsia-600 flex-shrink-0 group-hover:bg-fuchsia-600 group-hover:text-white transition-colors">
+                            <i data-lucide="clipboard-check" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold group-hover:text-fuchsia-600 transition-colors">Test / Quizzes</h3>
+                            <p class="text-base text-gray-500">Kiểm tra năng lực & thi thử.</p>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-serif text-primary font-semibold text-lg mb-2">Niềm tin - Chất lượng</p>
+            <p class="text-gray-400 text-sm">© 2026 Anh Ngữ Hoàng Trường. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Khởi tạo Icon -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
