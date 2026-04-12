@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Culinary & Baking Vocabulary</title>
+    <title>Hoàng Trường English - Learning Portal</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <script>
         tailwind.config = {
             theme: {
@@ -23,13 +22,6 @@
                             bg: '#fdfbf7',
                             brown: '#5c4033',
                             accent: '#e6a87c',
-                            card1: '#fce4ec', // Pink
-                            card2: '#e0f2f1', // Mint
-                            card3: '#fff3e0', // Orange
-                            card4: '#e8eaf6', // Indigo
-                            card5: '#f1f8e9', // Light Green
-                            card6: '#fff8e1', // Yellow
-                            card7: '#f3e5f5', // Soft Purple
                         }
                     }
                 }
@@ -42,186 +34,76 @@
             background-image: radial-gradient(#e6a87c 0.5px, transparent 0.5px), radial-gradient(#e6a87c 0.5px, #fdfbf7 0.5px);
             background-size: 20px 20px;
             background-position: 0 0, 10px 10px;
+            font-family: 'Cambria', serif;
         }
-
-        .infographic-card {
-            transition: all 0.3s ease;
+        .menu-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .infographic-card:hover {
-            transform: translateY(-5px) scale(1.02);
-        }
-
-        .icon-circle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin: -40px auto 20px auto;
-            position: relative;
-            z-index: 10;
-            border: 4px solid white;
+        .menu-item:hover {
+            transform: translateX(10px);
+            background-color: #fffaf5;
         }
     </style>
 </head>
-
-<body class="text-gray-800 min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+<body class="text-gray-800 min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
 
     <!-- Header Section -->
-    <header
-        class="text-center max-w-3xl mx-auto mb-16 mt-8 relative z-10 bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-sm border border-orange-100">
-        <h1 class="text-4xl md:text-5xl font-serif font-bold text-bakery-brown mb-4 tracking-tight">
-            The Master Baker's <br> Vocabulary Guide
+    <header class="text-center max-w-2xl mx-auto mb-12 relative z-10 bg-white/90 backdrop-blur-md p-10 rounded-3xl shadow-sm border border-orange-100 w-full">
+        <h1 class="text-3xl md:text-4xl font-bold text-bakery-brown mb-3 tracking-tight">
+            Hoàng Trường English
         </h1>
-        <p class="text-lg text-gray-600 font-sans">
-            Explore the essential terminology of the culinary world. Click on any category below to master the art of
-            baking and cooking.
+        <div class="h-1 w-20 bg-bakery-accent mx-auto mb-6 rounded-full"></div>
+        <p class="text-lg text-gray-600 italic">
+            Learning Resources Portal
         </p>
     </header>
 
-    <!-- Infographic Grid -->
-    <main class="w-full max-w-6xl mx-auto relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 mt-10">
-
-            <!-- Card 1: Baking Actions & Techniques (was Card 2) -->
-            <a href="https://hoangtruongenglish.com/former/BAKINGACTIONSandTECHNIQUES" target="_blank"
-                class="block infographic-card relative">
-                <div
-                    class="bg-bakery-card2 rounded-3xl p-8 pt-12 shadow-md border border-teal-100 h-full flex flex-col text-center relative">
-                    <div class="icon-circle text-teal-500 text-3xl">
-                        <i class="fa-solid fa-hands-bubbles"></i>
+    <!-- Main Navigation List -->
+    <nav class="w-full max-w-2xl mx-auto relative z-10 space-y-4">
+        <div class="bg-white rounded-3xl shadow-xl border border-orange-50 overflow-hidden p-2">
+            
+            <!-- Item 1: Vocabulary Guide -->
+            <!-- Lưu ý: Link này dẫn đến mục đầu tiên trong bộ từ vựng hoặc trang tổng quát của bạn -->
+            <a href="https://hoangtruongenglish.com/former/mastervocal" target="_blank" class="menu-item block p-8 rounded-2xl group border border-transparent hover:border-orange-100">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-6">
+                        <div class="bg-bakery-accent/10 p-4 rounded-2xl text-bakery-accent group-hover:bg-bakery-accent group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-book-open text-3xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-bakery-brown">The Master Baker's Vocabulary Guide</h2>
+                            <p class="text-gray-500 text-sm mt-1">Explore essential baking terminology and techniques.</p>
+                        </div>
                     </div>
-                    <span
-                        class="absolute top-4 right-6 text-teal-300 font-bold text-4xl opacity-50 font-serif">01</span>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 mt-2">Baking Actions & Techniques</h2>
-                    <p class="text-gray-600 text-sm flex-grow">Learn the crucial verbs from folding and kneading to
-                        creaming and blind baking.</p>
-                    <div class="mt-6 flex items-center justify-center text-teal-600 font-semibold group">
-                        <span>Explore Module</span>
-                        <i
-                            class="fa-solid fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-300 group-hover:text-bakery-accent group-hover:translate-x-2 transition-all"></i>
                 </div>
             </a>
 
-            <!-- Card 2: Baking Equipment & Tools (was Card 3) -->
-            <a href="https://hoangtruongenglish.com/former/BAKINGEQUIPMENTandTOOLS" target="_blank"
-                class="block infographic-card relative">
-                <div
-                    class="bg-bakery-card3 rounded-3xl p-8 pt-12 shadow-md border border-orange-200 h-full flex flex-col text-center relative">
-                    <div class="icon-circle text-orange-500 text-3xl">
-                        <i class="fa-solid fa-blender"></i>
+            <div class="border-t border-orange-50 mx-6"></div>
+
+            <!-- Item 2: Unit 1 of Book 1 -->
+            <a href="https://hoangtruongenglish.com/former/unit1b1" target="_blank" class="menu-item block p-8 rounded-2xl group border border-transparent hover:border-blue-100">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-6">
+                        <div class="bg-blue-50 p-4 rounded-2xl text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-bakery-brown">Unit 1 of Book 1</h2>
+                            <p class="text-gray-500 text-sm mt-1">Access the official lesson content for Unit 1.</p>
+                        </div>
                     </div>
-                    <span
-                        class="absolute top-4 right-6 text-orange-300 font-bold text-4xl opacity-50 font-serif">02</span>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 mt-2">Baking Equipment & Tools</h2>
-                    <p class="text-gray-600 text-sm flex-grow">Familiarize yourself with the essential hardware, from
-                        bench scrapers and piping bags to stand mixers.</p>
-                    <div class="mt-6 flex items-center justify-center text-orange-600 font-semibold group">
-                        <span>Explore Module</span>
-                        <i
-                            class="fa-solid fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i>
                 </div>
             </a>
-
-            <!-- Card 3: Baking Ingredients & Texture (was Card 4) -->
-            <a href="https://hoangtruongenglish.com/former/BAKINGINGREDIENTSandTEXTURE" target="_blank"
-                class="block infographic-card relative">
-                <div
-                    class="bg-bakery-card4 rounded-3xl p-8 pt-12 shadow-md border border-indigo-100 h-full flex flex-col text-center relative">
-                    <div class="icon-circle text-indigo-500 text-3xl">
-                        <i class="fa-solid fa-egg"></i>
-                    </div>
-                    <span
-                        class="absolute top-4 right-6 text-indigo-300 font-bold text-4xl opacity-50 font-serif">03</span>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 mt-2">Baking Ingredients & Texture</h2>
-                    <p class="text-gray-600 text-sm flex-grow">Understand the science of leaveners, fats, sugars, and
-                        the textural outcomes they produce.</p>
-                    <div class="mt-6 flex items-center justify-center text-indigo-600 font-semibold group">
-                        <span>Explore Module</span>
-                        <i
-                            class="fa-solid fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 4: Cooking Verbs (was Card 5) -->
-            <a href="https://hoangtruongenglish.com/former/COOKINGVERBS" target="_blank"
-                class="block infographic-card relative">
-                <div
-                    class="bg-bakery-card5 rounded-3xl p-8 pt-12 shadow-md border border-green-100 h-full flex flex-col text-center relative">
-                    <div class="icon-circle text-green-500 text-3xl">
-                        <i class="fa-solid fa-fire-burner"></i>
-                    </div>
-                    <span
-                        class="absolute top-4 right-6 text-green-300 font-bold text-4xl opacity-50 font-serif">04</span>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 mt-2">Cooking Verbs</h2>
-                    <p class="text-gray-600 text-sm flex-grow">Expand beyond the oven with general culinary action words
-                        like sauté, braise, and blanch.</p>
-                    <div class="mt-6 flex items-center justify-center text-green-600 font-semibold group">
-                        <span>Explore Module</span>
-                        <i
-                            class="fa-solid fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 5: Flour, Bread & Dough (was Card 6) -->
-            <a href="https://hoangtruongenglish.com/former/FLOURBREADDOUGH" target="_blank"
-                class="block infographic-card relative">
-                <div
-                    class="bg-bakery-card7 rounded-3xl p-8 pt-12 shadow-md border border-purple-200 h-full flex flex-col text-center relative">
-                    <div class="icon-circle text-purple-500 text-3xl">
-                        <i class="fa-solid fa-bread-slice"></i>
-                    </div>
-                    <span
-                        class="absolute top-4 right-6 text-purple-300 font-bold text-4xl opacity-50 font-serif">05</span>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 mt-2">Flour, Bread & Dough</h2>
-                    <p class="text-gray-600 text-sm flex-grow">Master the foundation of baking, exploring hydration,
-                        gluten development, and various bread styles.</p>
-                    <div class="mt-6 flex items-center justify-center text-purple-600 font-semibold group">
-                        <span>Explore Module</span>
-                        <i
-                            class="fa-solid fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 6: Advanced Pastry Terms (was Card 1) -->
-            <a href="https://hoangtruongenglish.com/former/ADVANCEDPASTRYTERMS" target="_blank"
-                class="block infographic-card relative">
-                <div
-                    class="bg-bakery-card1 rounded-3xl p-8 pt-12 shadow-md border border-pink-100 h-full flex flex-col text-center relative">
-                    <div class="icon-circle text-pink-500 text-3xl">
-                        <i class="fa-solid fa-cookie-bite"></i>
-                    </div>
-                    <span
-                        class="absolute top-4 right-6 text-pink-300 font-bold text-4xl opacity-50 font-serif">06</span>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 mt-2">Advanced Pastry Terms</h2>
-                    <p class="text-gray-600 text-sm flex-grow">Dive into sophisticated terminology for laminated doughs,
-                        glazes, and complex dessert constructions.</p>
-                    <div class="mt-6 flex items-center justify-center text-pink-500 font-semibold group">
-                        <span>Explore Module</span>
-                        <i
-                            class="fa-solid fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-            </a>
-
+            
         </div>
-    </main>
+    </nav>
 
     <!-- Footer -->
-    <footer class="mt-20 mb-8 text-center text-sm text-gray-500 font-sans relative z-10">
-        <p>Created for culinary learning & vocabulary mastery.</p>
-        <p class="mt-2 font-medium">Copyright &copy; 2026 Hoàng Trường English</p>
+    <footer class="mt-16 text-center text-sm text-gray-500 relative z-10">
+        <p class="font-medium">Copyright &copy; 2026 Hoàng Trường English</p>
     </footer>
 
 </body>
-
 </html>
