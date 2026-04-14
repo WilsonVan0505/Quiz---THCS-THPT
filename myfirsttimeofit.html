@@ -58,7 +58,8 @@
             top: 0;
             left: 0;
             transform-origin: center;
-            transition: opacity 0.8s ease, filter 0.8s ease, transform 1.1s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 1.1s ease;
+            /* Giảm thời gian lật thẻ xuống nhanh và mượt hơn */
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), border-radius 0.65s ease;
         }
 
         /* --- HIỆU ỨNG MORPH CHUYỂN TRANG MỞ ĐẦU --- */
@@ -570,6 +571,13 @@
             overflow: hidden;
         }
 
+        /* --- Lật ngược khối bán nguyệt ở mặt sau --- */
+        .flip-card-back .crystal-crescent {
+            border-radius: 12px 12px 60px 60px; /* Phẳng trên, cong dưới */
+            border: 2px solid rgba(255, 255, 255, 0.2); /* Viền mờ ở trên */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6); /* Viền sáng ở dưới */
+        }
+
         .crystal-crescent::after {
             content: '';
             position: absolute;
@@ -588,14 +596,28 @@
                 filter: drop-shadow(0 0 20px #f472b6) blur(8px);
             }
             50% {
-                opacity: 0.8;
-                transform: translateY(-8px) scale(1.05); /* Bay vút qua vị trí chuẩn một chút */
+                opacity: 0.9;
+                transform: translateY(-4px) scale(1.02); /* Giảm độ nảy để mượt hơn khi chạy nhanh */
                 filter: drop-shadow(0 0 15px #c084fc) blur(0px);
             }
             100% {
                 opacity: 1;
                 transform: translateY(0) scale(1); /* Ổn định tại vị trí trung tâm */
                 filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            }
+        }
+
+        /* --- HIỆU ỨNG SPIRAL IN CHO CHỮ TIẾNG VIỆT (MẶT SAU) --- */
+        @keyframes spiral-in {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-1080deg); /* Xoay 3 vòng từ nhỏ xíu */
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg); /* Phóng to, hết xoay, rõ nét */
+                filter: blur(0px);
             }
         }
 
@@ -620,7 +642,7 @@
         
         /* --- HIỆU ỨNG MƯA SAO BĂNG (METEOR SHOWER) --- */
         .meteor {
-            position: fixed;
+            position: absolute;
             width: 2px;
             height: 140px; /* Chiều dài đuôi sao băng */
             background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(168, 85, 247, 0.6) 30%, rgba(255,255,255,0) 100%);
@@ -864,9 +886,9 @@
 
     <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <linearGradient id="purple-fire" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stop-color="#7e22ce" />
-            <stop offset="50%" stop-color="#a855f7" />
-            <stop offset="100%" stop-color="#f472b6" />
+            <stop offset="0%" stop-color="#9333ea" />
+            <stop offset="50%" stop-color="#c084fc" />
+            <stop offset="100%" stop-color="#f0abfc" />
         </linearGradient>
         <linearGradient id="gray-fire" x1="0%" y1="100%" x2="0%" y2="0%">
             <stop offset="0%" stop-color="#d1d5db" />
@@ -1010,18 +1032,10 @@
                         <p class="text-base sm:text-lg md:text-xl lg:text-3xl text-purple-100 font-medium mb-1.5 sm:mb-2 lg:mb-3 leading-snug sm:leading-relaxed"
                             id="word-ex"></p>
                         
-                        <!-- HIỆU ỨNG KÍNH VÀ MƯA SAO BĂNG BẢO VỆ VÍ DỤ TIẾNG VIỆT -->
-                        <div class="relative cursor-pointer group w-fit max-w-[90%] mx-auto flex justify-center mb-3 sm:mb-4 md:mb-6" onclick="triggerMeteorShower(this)">
-                            <p class="text-purple-300 italic text-xs sm:text-sm md:text-base lg:text-xl transition-all duration-700 blur-[5px] opacity-40 select-none px-4 py-1.5 m-0"
+                        <!-- HIỆU ỨNG MƯA SAO BĂNG BẢO VỆ VÍ DỤ TIẾNG VIỆT -->
+                        <div class="relative cursor-pointer w-fit max-w-[90%] mx-auto flex justify-center mb-3 sm:mb-4 md:mb-6" onclick="triggerMeteorShower(this)">
+                            <p class="text-purple-300 italic text-xs sm:text-sm md:text-base lg:text-xl transition-all duration-700 blur-[5px] opacity-40 hover:opacity-60 select-none px-4 py-1.5 m-0"
                                 id="word-exVi"></p>
-                            
-                            <!-- Lớp Liquid Glass phủ lên trên -->
-                            <div id="exVi-glass" class="absolute inset-0 z-10 glass-panel flex items-center justify-center rounded-xl overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
-                                <span class="text-white drop-shadow-md flex items-center justify-center z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:scale-125 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                </span>
-                            </div>
                         </div>
 
                         <div class="w-full flex flex-col items-center gap-3 sm:gap-4 lg:gap-6 shrink-0">
@@ -1209,6 +1223,67 @@
                     <div id="tree-words-container"
                         class="relative z-20 flex flex-wrap justify-center items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-[90%] h-[90%] p-2 sm:p-4">
                         <!-- Apples go here -->
+                    </div>
+
+                    <!-- Hộp câu hỏi kiểm tra trí nhớ cuối cùng (Tách rời từng câu) -->
+                    <div id="final-question-box"
+                        class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50 opacity-0 transform scale-0 transition-all duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+                        <div class="card-crystal p-6 sm:p-8 md:p-10 border border-purple-400/50 shadow-[0_15px_35px_rgba(88,28,135,0.9)] flex flex-col items-center w-11/12 max-w-xl md:max-w-2xl pointer-events-auto max-h-[90vh] overflow-y-auto no-scrollbar relative min-h-[280px]">
+                            
+                            <!-- STEP 2 CONTAINER (Chứa các câu hỏi tuần tự thay vì hiện 1 lúc) -->
+                            <div id="step-2-container" class="flex flex-col items-center w-full transition-all">
+                                
+                                <!-- STEP 2 - Q1: Chọn 2 từ -->
+                                <div id="step-2-q1" class="w-full flex flex-col items-center gap-6 transition-all duration-300 transform scale-100 opacity-100">
+                                    <p class="text-base sm:text-xl md:text-2xl font-bold text-fuchsia-200 text-center drop-shadow-md">Which 2 words do you remember best?</p>
+                                    <div class="flex gap-3 sm:gap-5 w-full justify-center">
+                                        <input type="text" id="mem-word-1" class="glass-input-editable w-32 sm:w-40 md:w-48 px-3 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-base sm:text-lg md:text-xl placeholder-white/30 transition-colors" placeholder="Word 1" autocomplete="off" spellcheck="false">
+                                        <input type="text" id="mem-word-2" class="glass-input-editable w-32 sm:w-40 md:w-48 px-3 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-base sm:text-lg md:text-xl placeholder-white/30 transition-colors" placeholder="Word 2" autocomplete="off" spellcheck="false">
+                                    </div>
+                                </div>
+
+                                <!-- STEP 2 - Q2: Yes/No -->
+                                <div id="step-2-q2" class="w-full hidden flex-col items-center gap-6 transition-all duration-300 transform scale-95 opacity-0">
+                                    <p class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">Will you use these words today?</p>
+                                    <div class="flex justify-center gap-4 sm:gap-6">
+                                        <button id="btn-yes" class="px-8 py-2 md:px-10 md:py-2.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition-all font-bold text-base sm:text-lg">Yes</button>
+                                        <button id="btn-no" class="px-8 py-2 md:px-10 md:py-2.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition-all font-bold text-base sm:text-lg">No</button>
+                                    </div>
+                                </div>
+
+                                <!-- STEP 2 - Q3: Where -->
+                                <div id="step-2-q3" class="w-full hidden flex-col items-center gap-4 transition-all duration-300 transform scale-95 opacity-0">
+                                    <p class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">Where would you use them?</p>
+                                    <input type="text" id="where-input" class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-center font-semibold outline-none text-white text-base sm:text-lg placeholder-white/30 transition-colors" placeholder="Type your thoughts here..." autocomplete="off" spellcheck="false">
+                                    <button id="btn-next-q3" class="btn-crystal w-full py-2.5 rounded-full font-bold opacity-50 pointer-events-none transition-all mt-2">Continue</button>
+                                </div>
+
+                                <!-- STEP 2 - Q4: Translate 1 -->
+                                <div id="step-2-q4" class="w-full hidden flex-col items-center gap-4 transition-all duration-300 transform scale-95 opacity-0">
+                                    <p class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">Translate to English:</p>
+                                    <div class="w-full bg-black/20 p-4 sm:p-5 rounded-2xl border border-white/10 relative transition-all duration-300" id="sent-box-1">
+                                        <p id="label-word-1" class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5">Sentence with Word 1:</p>
+                                        <p id="vi-ex-1" class="text-base sm:text-lg md:text-xl text-white italic mb-3"></p>
+                                        <input type="text" id="sent-input-1" class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent" placeholder="Type the English sentence..." autocomplete="off" spellcheck="false">
+                                        <p id="feedback-1" class="text-xs sm:text-sm mt-1.5 hidden"></p>
+                                    </div>
+                                </div>
+
+                                <!-- STEP 2 - Q5: Translate 2 & Submit -->
+                                <div id="step-2-q5" class="w-full hidden flex-col items-center gap-4 transition-all duration-300 transform scale-95 opacity-0">
+                                    <p class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">Translate to English:</p>
+                                    <div class="w-full bg-black/20 p-4 sm:p-5 rounded-2xl border border-white/10 relative transition-all duration-300" id="sent-box-2">
+                                        <p id="label-word-2" class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5">Sentence with Word 2:</p>
+                                        <p id="vi-ex-2" class="text-base sm:text-lg md:text-xl text-white italic mb-3"></p>
+                                        <input type="text" id="sent-input-2" class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent" placeholder="Type the English sentence..." autocomplete="off" spellcheck="false">
+                                        <p id="feedback-2" class="text-xs sm:text-sm mt-1.5 hidden"></p>
+                                    </div>
+                                    <button id="final-submit-btn" class="btn-crystal w-full py-3 md:py-4 mt-2 rounded-full font-bold text-lg md:text-xl opacity-50 pointer-events-none transition-all">Submit</button>
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
 
                     <!-- Badge COMPLETED ở giữa tán cây -->
@@ -1488,7 +1563,6 @@
                 return `<span class="inline-flex items-center justify-center px-2.5 sm:px-4 py-0.5 sm:py-1 bg-white text-yellow-600 font-black text-[0.65rem] sm:text-sm uppercase tracking-wider shadow-lg border-2 border-yellow-400 transition-transform hover:scale-105" style="border-radius: 0 12px 0 12px; min-width: 2.5rem sm:min-width: 3rem;">${type}</span>`;
             }
             else if (t === 'adv' || t === 'adverb') {
-                // Sửa thành hình lục giác cho adv
                 const svgHex = `<svg class="absolute inset-0 w-full h-full drop-shadow-lg" preserveAspectRatio="none" viewBox="0 0 100 60"><polygon points="15,2 85,2 98,30 85,58 15,58 2,30" fill="#ffffff" stroke="#fb923c" stroke-width="3" stroke-linejoin="round"/></svg>`;
                 return `<div class="relative inline-flex items-center justify-center px-4 sm:px-6 py-0.5 sm:py-1 min-w-[3rem] sm:min-w-[4rem] transition-transform hover:scale-105">${svgHex}<span class="relative z-10 font-black text-[0.65rem] sm:text-sm uppercase tracking-wider text-orange-600">${type}</span></div>`;
             }
@@ -1608,34 +1682,69 @@
 
         function harvest(type, btnElement) {
             if (!firesHaveFallen) return;
+            
+            // Bỏ qua nếu giỏ này đã được bấm rồi (ngăn bấm đúp 1 giỏ nhiều lần)
+            if (btnElement.dataset.clicked) return;
+            btnElement.dataset.clicked = "true";
+            
+            // Tăng biến đếm số giỏ đã thu hoạch
+            window.basketsClickedCount = (window.basketsClickedCount || 0) + 1;
+
             const apples = document.querySelectorAll(`.tree-apple[data-type="${type}"]:not(.harvested)`);
-            if (apples.length === 0 && type !== 'adv') return;
 
             playTransitionSound();
 
+            // Tính toán vị trí trung tâm của giỏ 1 LẦN DUY NHẤT để không bị sai lệch khi giỏ nảy
             const btnRect = btnElement.getBoundingClientRect();
+            const targetX = btnRect.left + btnRect.width / 2;
+            const targetY = btnRect.top + btnRect.height / 2;
 
             apples.forEach((apple, index) => {
                 apple.classList.add('harvested');
 
                 setTimeout(() => {
+                    // Lấy vị trí của quả táo ngay trước khi bay
                     const appleRect = apple.getBoundingClientRect();
 
-                    const dx = (btnRect.left + btnRect.width / 2) - (appleRect.left + appleRect.width / 2);
-                    const dy = (btnRect.top + btnRect.height / 2) - (appleRect.top + appleRect.height / 2);
+                    // TẠO CLONE (BẢN SAO) ĐỂ BAY
+                    // Giúp giữ nguyên layout của cây để các quả táo khác không bị giật, văng lung tung
+                    const clone = apple.cloneNode(true);
+                    clone.style.position = 'fixed';
+                    clone.style.margin = '0';
+                    clone.style.left = `${appleRect.left}px`;
+                    clone.style.top = `${appleRect.top}px`;
+                    clone.style.width = `${appleRect.width}px`;
+                    clone.style.height = `${appleRect.height}px`;
+                    clone.style.zIndex = '9999';
+                    clone.style.transition = 'all 0.8s cubic-bezier(0.55, 0.085, 0.68, 0.53)';
+                    clone.style.opacity = '1';
+                    
+                    document.body.appendChild(clone);
 
-                    apple.style.transition = 'all 0.8s cubic-bezier(0.55, 0.085, 0.68, 0.53)';
-                    apple.style.transform = `translate(${dx}px, ${dy}px) scale(0.2) rotate(${Math.random() > 0.5 ? 180 : -180}deg)`;
+                    // Ẩn quả táo thật nhưng VẪN GIỮ khoảng trống của nó trên cây
+                    apple.style.opacity = '0';
 
+                    // Tính toán khoảng cách và kích hoạt bay ở frame tiếp theo
+                    requestAnimationFrame(() => {
+                        const dx = targetX - (appleRect.left + appleRect.width / 2);
+                        const dy = targetY - (appleRect.top + appleRect.height / 2);
+                        
+                        clone.style.transform = `translate(${dx}px, ${dy}px) scale(0.2) rotate(${Math.random() > 0.5 ? 180 : -180}deg)`;
+                    });
+
+                    // Khi clone đã bay tới giỏ (sau 800ms)
                     setTimeout(() => {
-                        apple.style.transition = 'none';
-                        apple.style.position = 'absolute';
-                        apple.style.transform = `scale(0.3) rotate(${Math.random() * 60 - 30}deg)`;
-                        apple.style.left = `calc(50% - ${apple.offsetWidth / 2}px + ${Math.random() * 20 - 10}px)`;
-                        apple.style.top = `${-5 + Math.random() * 15}px`;
-                        apple.style.zIndex = '0';
-                        btnElement.appendChild(apple);
+                        // Biến clone thành táo nằm trong giỏ
+                        clone.style.transition = 'none';
+                        clone.style.position = 'absolute';
+                        clone.style.transform = `scale(0.3) rotate(${Math.random() * 60 - 30}deg)`;
+                        clone.style.left = `calc(50% - ${apple.offsetWidth / 2}px + ${Math.random() * 20 - 10}px)`;
+                        clone.style.top = `${-5 + Math.random() * 15}px`;
+                        clone.style.zIndex = '0';
+                        
+                        btnElement.appendChild(clone);
 
+                        // Giỏ nảy lên nhẹ khi có táo rơi vào
                         btnElement.classList.add('scale-125', 'brightness-110');
                         setTimeout(() => btnElement.classList.remove('scale-125', 'brightness-110'), 200);
                     }, 800);
@@ -1643,7 +1752,8 @@
                 }, index * 100);
             });
 
-            if (type === 'adv') {
+            // KÍCH HOẠT HIỆU ỨNG KẾT THÚC KHI ĐÃ BẤM ĐỦ 4 GIỎ BẤT KỲ
+            if (window.basketsClickedCount === 4) {
                 const maxDelay = (apples.length * 100) + 1000;
                 setTimeout(() => {
                     triggerDoveAnimation();
@@ -1678,6 +1788,7 @@
                 
                 // Thêm thẻ span bên trong để xử lý hiệu ứng vỗ cánh 3D độc lập với đường bay
                 const flapSpan = document.createElement('span');
+                
                 flapSpan.textContent = '🕊️';
                 flapSpan.style.display = 'inline-block';
                 flapSpan.style.transformOrigin = 'center';
@@ -1730,11 +1841,12 @@
             }, 1200);
 
             setTimeout(() => {
+                // XẾP 4 GIỎ THÀNH HÀNG NGANG Ở TRÊN CÙNG CỦA CÂY (Y=10%)
                 const targets = [
-                    { x: 15, y: 30 }, // n: Top Left
-                    { x: 85, y: 30 }, // v: Top Right
-                    { x: 30, y: 75 }, // adj: Bottom Left
-                    { x: 70, y: 75 }  // adv: Bottom Right
+                    { x: 16, y: 10 }, // n: Top Left
+                    { x: 39, y: 10 }, // v: Top Center-Left
+                    { x: 61, y: 10 }, // adj: Top Center-Right
+                    { x: 84, y: 10 }  // adv: Top Right
                 ];
 
                 baskets.forEach((b, i) => {
@@ -1780,17 +1892,19 @@
                 });
 
                 setTimeout(() => {
-                    const completedBadge = document.getElementById('completed-badge');
-                    if (completedBadge) {
-                        completedBadge.classList.remove('opacity-0', 'scale-0');
-                        completedBadge.classList.add('opacity-100', 'scale-100');
+                    const questionBox = document.getElementById('final-question-box');
+                    if (questionBox) {
+                        questionBox.classList.remove('opacity-0', 'scale-0');
+                        questionBox.classList.add('opacity-100', 'scale-100');
                         playSuccessSound();
 
-                        window.completedShown = true;
-
-                        const restartBtn = document.getElementById('restart-btn');
-                        if (restartBtn) restartBtn.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
+                        // Tự động focus vào ô nhập liệu đầu tiên sau khi hộp hiện ra
+                        setTimeout(() => {
+                            const w1 = document.getElementById('mem-word-1');
+                            if (w1) w1.focus();
+                        }, 1000);
                     }
+                    window.completedShown = true;
                 }, 1800);
 
             }, 2600);
@@ -1964,20 +2078,14 @@
 
         // HÀM HIỆU ỨNG MƯA SAO BĂNG (Meteor Shower Effect)
         function triggerMeteorShower(container) {
-            const glassLayer = container.querySelector('#exVi-glass');
             const textElement = container.querySelector('#word-exVi');
             
-            // Chỉ chạy nếu lớp kính đang hiển thị
-            if (!glassLayer || glassLayer.style.display === 'none') return;
-
-            // Xóa mờ lớp kính nhẹ nhàng
-            glassLayer.style.transition = 'opacity 0.4s ease';
-            glassLayer.style.opacity = '0';
-            setTimeout(() => glassLayer.style.display = 'none', 400);
+            // Chỉ chạy nếu dòng chữ đang bị làm mờ
+            if (!textElement || !textElement.classList.contains('blur-[5px]')) return;
             
             // Xóa bỏ class làm mờ chữ, cho chữ hiện rõ lại một cách mượt mà
             textElement.style.transition = 'all 1s ease';
-            textElement.classList.remove('blur-[5px]', 'opacity-40', 'select-none');
+            textElement.classList.remove('blur-[5px]', 'opacity-40', 'select-none', 'hover:opacity-60');
 
             // --- TẠO MƯA SAO BĂNG KHẮP MÀN HÌNH ---
             const numMeteors = 260 + Math.floor(Math.random() * 40); // Tăng số lượng lên 260 - 300 sao băng cực kỳ dày đặc
@@ -2028,362 +2136,8 @@
             }
         }
 
-        function renderCard() {
-            const card = flashcards[currentIndex];
-
-            const reviewBtn = document.getElementById('review-btn');
-
-            if (currentIndex >= originalFlashcardsCount) {
-                document.getElementById('main-topic-title').textContent = `REVIEW`;
-                reviewBtn.classList.add('hidden');
-                reviewBtn.classList.remove('flex');
-            } else {
-                document.getElementById('main-topic-title').textContent = `BOOK 1`;
-
-                if (card.marked) {
-                    reviewBtn.className = "hidden text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-purple-500 text-white hover:bg-purple-600 font-medium rounded-full transition-colors items-center gap-1 shadow-sm border border-purple-300";
-                } else {
-                    reviewBtn.className = "hidden text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-purple-900/50 text-purple-200 hover:bg-purple-800 font-medium rounded-full transition-colors items-center gap-1 shadow-sm border border-purple-500/30";
-                }
-            }
-
-            document.getElementById('word-type-container').innerHTML = getShapeHTML(card.type);
-            
-            // Xử lý nội dung tiếng Việt ở mặt trước
-            const wordMeanEl = document.getElementById('word-mean');
-            wordMeanEl.textContent = card.mean;
-            
-            // Lấy Wrapper chứa cả từ tiếng Việt và loại từ để cùng bay lên
-            const frontContainer = document.getElementById('front-magic-container');
-            
-            // Khởi động lại animation bay ma thuật (chậm hơn và mượt hơn)
-            frontContainer.style.animation = 'none';
-            frontContainer.style.opacity = '0'; // Đảm bảo tàng hình trước khi bay
-            void frontContainer.offsetWidth; // Trigger reflow
-            
-            // Thêm độ trễ 150ms và kéo dài thời gian bay lên 1.3s
-            setTimeout(() => {
-                frontContainer.style.animation = 'magic-fly-up 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-            }, 150);
-
-            // CÀI ĐẶT LẠI HIỆU ỨNG KÍNH CHO CÂU VÍ DỤ MẶT TRƯỚC
-            const exViEl = document.getElementById('word-exVi');
-            exViEl.textContent = card.exVi;
-            // Làm mờ text lại
-            exViEl.classList.add('blur-[5px]', 'opacity-40', 'select-none');
-            // Hiện lại lớp kính
-            const glassLayer = document.getElementById('exVi-glass');
-            if (glassLayer) glassLayer.style.display = 'flex';
-
-            const blankedEx = card.ex.replace('_______', `<span class="text-fuchsia-300 border-b-2 border-fuchsia-300 inline-block w-16 sm:w-20 md:w-24"></span>`);
-            document.getElementById('word-ex').innerHTML = blankedEx;
-
-            inputsContainer.innerHTML = '';
-            const words = card.word.split(' ');
-
-            words.forEach((w, wordIndex) => {
-                const wordGroup = document.createElement('div');
-                wordGroup.className = 'flex gap-1.5 sm:gap-2 md:gap-2.5'; // Tăng khoảng cách các chữ
-
-                for (let i = 0; i < w.length; i++) {
-                    if (w[i] === '-' || w[i] === '/' || w[i] === "'") {
-                        const symbol = document.createElement('span');
-                        symbol.textContent = w[i];
-                        symbol.className = 'text-base sm:text-xl font-bold text-gray-400 self-center px-0.5 sm:px-1';
-                        wordGroup.appendChild(symbol);
-                        continue;
-                    }
-
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.maxLength = 1;
-
-                    const baseInputClasses = 'char-input text-center font-bold rounded-lg w-7 h-9 sm:w-9 sm:h-11 md:w-11 md:h-12 lg:w-14 lg:h-16 text-base sm:text-lg md:text-xl lg:text-3xl glass-input-base';
-
-                    if (i === 0) {
-                        input.value = w[i].toLowerCase();
-                        input.dataset.correctChar = w[i].toLowerCase();
-                        input.readOnly = true;
-                        input.className = `${baseInputClasses} hint-input glass-input-hint cursor-not-allowed select-none`;
-                    } else {
-                        input.placeholder = '';
-                        input.dataset.correctChar = w[i].toLowerCase();
-                        input.className = `${baseInputClasses} editable-input glass-input-editable placeholder-white/30`;
-
-                        input.addEventListener('input', function () {
-                            this.value = this.value.toLowerCase();
-                            this.classList.remove('input-error');
-
-                            if (this.value) {
-                                createFlyingNote(this);
-                            }
-
-                            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
-                            const currentIdx = editableInputs.indexOf(this);
-                            if (this.value && currentIdx < editableInputs.length - 1) {
-                                editableInputs[currentIdx + 1].focus();
-                            }
-                        });
-
-                        input.addEventListener('keydown', function (e) {
-                            if (e.shiftKey && e.key === 'F12') {
-                                e.preventDefault(); e.stopPropagation(); giveHint(); return;
-                            }
-                            if (e.shiftKey && e.key.toLowerCase() === 'r') {
-                                e.preventDefault(); e.stopPropagation();
-                                const reviewBtn = document.getElementById('review-btn');
-                                if (reviewBtn && !reviewBtn.classList.contains('hidden')) markForReview();
-                                return;
-                            }
-                            if ((e.shiftKey && e.key === 'Enter') || (e.ctrlKey && e.code === 'Space')) {
-                                e.preventDefault(); e.stopPropagation(); speakCurrentWord(); return;
-                            }
-
-                            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
-                            const currentIdx = editableInputs.indexOf(this);
-
-                            if (e.key === 'Backspace' && !this.value && currentIdx > 0) {
-                                editableInputs[currentIdx - 1].focus();
-                            } else if (e.key === 'Enter') {
-                                if (!e.shiftKey) { e.preventDefault(); e.stopPropagation(); checkAnswer(); }
-                            } else if (e.key === 'ArrowLeft' && currentIdx > 0) {
-                                editableInputs[currentIdx - 1].focus(); e.preventDefault();
-                            } else if (e.key === 'ArrowRight' && currentIdx < editableInputs.length - 1) {
-                                editableInputs[currentIdx + 1].focus(); e.preventDefault();
-                            }
-                        });
-                    }
-                    wordGroup.appendChild(input);
-                }
-                inputsContainer.appendChild(wordGroup);
-
-                if (wordIndex < words.length - 1) {
-                    const space = document.createElement('div');
-                    space.className = 'w-4 sm:w-6 md:w-8'; // Tăng khoảng cách các từ
-                    inputsContainer.appendChild(space);
-                }
-            });
-
-            setTimeout(() => {
-                // Do not focus input initially if start screen is active!
-                const startScreen = document.getElementById('start-screen');
-                if (startScreen && startScreen.classList.contains('hidden')) {
-                    const firstEditableInput = document.querySelector('.editable-input');
-                    if (firstEditableInput) firstEditableInput.focus();
-                }
-            }, 100);
-
-            document.getElementById('progress-text').textContent = `${currentIndex + 1} / ${totalCards}`;
-
-            updateFireProgress();
-
-            const nextBtn = document.getElementById('next-btn');
-            const baseBtnClass = "btn-crystal w-[100px] sm:w-[110px] md:w-[130px] lg:w-[150px] py-2 sm:py-2.5 lg:py-3 font-semibold rounded-full text-xs sm:text-sm md:text-base lg:text-lg cursor-pointer";
-
-            if (currentIndex === totalCards - 1) {
-                nextBtn.textContent = "Finish";
-                nextBtn.className = baseBtnClass;
-            } else {
-                nextBtn.textContent = "Next";
-                nextBtn.className = baseBtnClass;
-            }
-
-            buildHintSequence();
-        }
-
-        function buildHintSequence() {
-            const allInputs = Array.from(document.querySelectorAll('.char-input'));
-            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
-            const totalChars = allInputs.length;
-
-            hintSequence = [];
-            currentHintStep = 0;
-
-            const hintBtn = document.getElementById('hint-btn');
-            if (hintBtn) {
-                hintBtn.disabled = false;
-                hintBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            }
-
-            let maxHints = totalChars >= 6 ? 3 : 2;
-            maxHints = Math.min(maxHints, editableInputs.length);
-
-            if (editableInputs.length > 0) {
-                if (editableInputs.length >= 1) hintSequence.push(() => revealInput(editableInputs[0]));
-                if (editableInputs.length > 1) hintSequence.push(() => revealInput(editableInputs[editableInputs.length - 1]));
-                let midInputs = [];
-                if (editableInputs.length > 2) {
-                    midInputs = editableInputs.slice(1, editableInputs.length - 1);
-                    midInputs.sort(() => Math.random() - 0.5);
-                }
-                if (midInputs.length > 0) hintSequence.push(() => revealInput(midInputs.pop()));
-            }
-
-            hintSequence = hintSequence.slice(0, maxHints);
-
-            if (currentIndex >= originalFlashcardsCount) {
-                hintSequence.push(() => {
-                    const editableInputs = document.querySelectorAll('.editable-input');
-                    editableInputs.forEach(input => {
-                        if (!input.readOnly) {
-                            input.value = '';
-                            input.placeholder = input.dataset.correctChar;
-                            input.classList.remove('input-error');
-                        }
-                    });
-
-                    const firstEmpty = Array.from(editableInputs).find(i => !i.readOnly);
-                    if (firstEmpty) firstEmpty.focus();
-                });
-            }
-
-            if (hintSequence.length === 0 && currentIndex < originalFlashcardsCount) {
-                const reviewBtn = document.getElementById('review-btn');
-                reviewBtn.classList.remove('hidden');
-                reviewBtn.classList.add('flex');
-            }
-        }
-
-        function revealInput(input) {
-            if (!input || input.readOnly) return;
-            input.value = input.dataset.correctChar;
-            input.readOnly = true;
-            input.classList.remove('input-error', 'glass-input-editable', 'editable-input', 'placeholder-white/30');
-            input.classList.add('glass-input-hint');
-
-            const remainingEditable = Array.from(document.querySelectorAll('.editable-input'));
-            const nextEmpty = remainingEditable.find(i => i.value === '');
-            if (nextEmpty) nextEmpty.focus();
-            else if (remainingEditable.length > 0) remainingEditable[remainingEditable.length - 1].focus();
-        }
-
-        function giveHint() {
-            if (currentHintStep < hintSequence.length) {
-                hintSequence[currentHintStep]();
-                currentHintStep++;
-            }
-
-            if (currentHintStep >= hintSequence.length) {
-                const hintBtn = document.getElementById('hint-btn');
-                if (hintBtn) {
-                    hintBtn.disabled = true;
-                    hintBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-
-                if (currentIndex < originalFlashcardsCount) {
-                    const reviewBtn = document.getElementById('review-btn');
-                    reviewBtn.classList.remove('hidden');
-                    reviewBtn.classList.add('flex');
-                }
-            }
-        }
-
-        function createFlyingNote(inputElement) {
-            // Gọi hàm sinh nốt nhạc 2 lần đồng thời: 1 hướng lên (-1) và 1 hướng xuống (1)
-            spawnDirectionalNote(inputElement, -1);
-            spawnDirectionalNote(inputElement, 1);
-        }
-
-        function spawnDirectionalNote(inputElement, directionMultiplier) {
-            const notes = ['♪', '♫', '♩', '♬', '♭', '♮', '♯', '✨', '💎'];
-            const noteChar = notes[Math.floor(Math.random() * notes.length)];
-
-            // Container chứa nốt nhạc và hiệu ứng lấp lánh
-            const container = document.createElement('div');
-            container.style.position = 'fixed';
-            container.style.pointerEvents = 'none';
-            container.style.zIndex = '9999';
-            container.style.display = 'flex';
-            container.style.justifyContent = 'center';
-            container.style.alignItems = 'center';
-
-            const rect = inputElement.getBoundingClientRect();
-            const startX = rect.left + rect.width / 2;
-            const startY = rect.top + rect.height / 2;
-
-            container.style.left = `${startX}px`;
-            container.style.top = `${startY}px`;
-
-            // Tạo nốt nhạc chính với hiệu ứng pha lê/kim cương
-            const noteEl = document.createElement('span');
-            noteEl.textContent = noteChar;
-            noteEl.style.fontSize = '1.8rem';
-            noteEl.style.fontWeight = '900';
-            
-            // Background gradient dạng pha lê phản chiếu ánh sáng
-            const gradients = [
-                'linear-gradient(135deg, #ffffff 0%, #e879f9 40%, #ffffff 60%, #c084fc 100%)',
-                'linear-gradient(135deg, #ffffff 0%, #a78bfa 40%, #ffffff 60%, #818cf8 100%)',
-                'linear-gradient(135deg, #ffffff 0%, #38bdf8 40%, #ffffff 60%, #67e8f9 100%)',
-                'linear-gradient(135deg, #ffffff 0%, #fbcfe8 40%, #ffffff 60%, #f472b6 100%)'
-            ];
-            noteEl.style.background = gradients[Math.floor(Math.random() * gradients.length)];
-            noteEl.style.backgroundSize = '200% auto';
-            noteEl.style.webkitBackgroundClip = 'text';
-            noteEl.style.webkitTextFillColor = 'transparent';
-            
-            // Bóng đổ phát sáng rực rỡ (Crystal Glow)
-            noteEl.style.filter = 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 15px rgba(232, 121, 249, 0.8)) drop-shadow(0 0 25px rgba(192, 132, 252, 0.6))';
-            
-            // Animation chuyển động màu gradient bên trong chữ để tạo độ bóng
-            noteEl.animate([
-                { backgroundPosition: '0% center' },
-                { backgroundPosition: '200% center' }
-            ], {
-                duration: 1000,
-                iterations: Infinity
-            });
-
-            container.appendChild(noteEl);
-
-            // Thêm các hạt lấp lánh (sparkles) nhỏ bay xung quanh
-            const numSparkles = 2 + Math.floor(Math.random() * 3);
-            for(let i = 0; i < numSparkles; i++) {
-                const sparkle = document.createElement('span');
-                sparkle.textContent = '✦';
-                sparkle.style.position = 'absolute';
-                sparkle.style.color = '#ffffff';
-                sparkle.style.fontSize = `${0.4 + Math.random() * 0.6}rem`;
-                sparkle.style.textShadow = '0 0 5px #ffffff, 0 0 10px #c084fc';
-                sparkle.style.left = `${(Math.random() - 0.5) * 45}px`;
-                sparkle.style.top = `${(Math.random() - 0.5) * 45}px`;
-
-                // Hiệu ứng hạt nhấp nháy xoay vòng
-                sparkle.animate([
-                    { transform: 'scale(0) rotate(0deg)', opacity: 0 },
-                    { transform: 'scale(1.5) rotate(90deg)', opacity: 1, offset: 0.5 },
-                    { transform: 'scale(0) rotate(180deg)', opacity: 0 }
-                ], {
-                    duration: 400 + Math.random() * 500,
-                    iterations: Infinity
-                });
-
-                container.appendChild(sparkle);
-            }
-
-            document.body.appendChild(container);
-
-            // Hiệu ứng phân tán bay lên/xuống
-            const flyX = (Math.random() - 0.5) * 120; // Bay trái/phải ngẫu nhiên
-            
-            // Nhân với -1 thì bay lên (âm), nhân với 1 thì bay xuống (dương)
-            const flyY = directionMultiplier * (Math.random() * 80 + 180); 
-
-            const animation = container.animate([
-                { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 1 },
-                { transform: `translate(calc(-50% + ${flyX}px), calc(-50% + ${flyY}px)) scale(1.6) rotate(${(Math.random() - 0.5) * 40}deg)`, opacity: 0 }
-            ], {
-                duration: 1300 + Math.random() * 500, // Bay chậm và lâu do quãng đường xa
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-                fill: 'forwards'
-            });
-
-            animation.onfinish = () => container.remove();
-        }
-
-        // HÀM TẠO MƯA SAO BĂNG + TUYẾT + SAO + TIM KHI TRẢ LỜI ĐÚNG
-        function triggerCelebrationShower() {
-            const totalElements = 300;
+        // HÀM TẠO HIỆU ỨNG ĂN MỪNG THEO CHU KỲ (5 VẬT THỂ KHỔNG LỒ)
+        function triggerCelebrationShower(cardIndex) {
             const container = document.createElement('div');
             container.style.position = 'fixed';
             container.style.top = '0';
@@ -2395,76 +2149,107 @@
             container.style.overflow = 'hidden';
             document.body.appendChild(container);
 
-            const icons = ['⭐', '✨', '🌟', '💖', '❤️', '💜', '💕', '❄️', '⚪', '🤍'];
+            // Mảng chu kỳ các hiệu ứng
+            const types = ['stars', 'snowflakes', 'hearts', 'meteors', 'drops'];
+            const currentType = types[cardIndex % types.length];
+            const count = 5; // Chỉ rơi đúng 5 vật thể khổng lồ
 
-            for (let i = 0; i < totalElements; i++) {
-                const el = document.createElement('div');
-                el.style.position = 'absolute';
+            for (let i = 0; i < count; i++) {
+                if (currentType === 'meteors') {
+                    // SAO BĂNG KHỔNG LỒ
+                    const m = document.createElement('div');
+                    m.style.position = 'absolute';
+                    m.style.width = '6px'; // Độ dày khủng
+                    m.style.height = `${300 + Math.random() * 200}px`; // Đuôi rất dài
+                    m.style.background = 'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(217, 70, 239, 0.8) 20%, rgba(255,255,255,0) 100%)';
+                    m.style.borderRadius = '6px';
+                    m.style.boxShadow = '0 0 20px 5px rgba(217, 70, 239, 0.6)';
+                    
+                    // Đầu sao băng phát sáng chói lóa
+                    const head = document.createElement('div');
+                    head.style.position = 'absolute';
+                    head.style.bottom = '0';
+                    head.style.left = '50%';
+                    head.style.transform = 'translateX(-50%)';
+                    head.style.width = '16px';
+                    head.style.height = '16px';
+                    head.style.background = '#ffffff';
+                    head.style.borderRadius = '50%';
+                    head.style.boxShadow = '0 0 20px 10px #ffffff, 0 0 50px 20px #c084fc, 0 0 80px 30px #38bdf8';
+                    m.appendChild(head);
 
-                // Tỷ lệ: 15% sao băng, 85% là các icon rơi
-                const isMeteor = Math.random() < 0.15;
+                    const startX = (Math.random() * window.innerWidth * 1.5) - (window.innerWidth * 0.25);
+                    const startY = -300 - Math.random() * 400;
+                    m.style.left = `${startX}px`;
+                    m.style.top = `${startY}px`;
 
-                if (isMeteor) {
-                    el.className = 'meteor';
-                    // Điểm bắt đầu của sao băng (trải rộng)
-                    const startX = (Math.random() * window.innerWidth * 2) - (window.innerWidth * 0.5);
-                    const startY = -100 - Math.random() * 500;
-                    el.style.left = `${startX}px`;
-                    el.style.top = `${startY}px`;
-                    el.style.height = `${50 + Math.random() * 100}px`;
+                    const angle = -40 - Math.random() * 10;
+                    const distance = window.innerHeight + 1500;
+                    const duration = 600 + Math.random() * 200; // Rơi nhanh hơn (0.6s - 0.8s)
+                    const delay = i * 150; // Rơi liên tiếp nhanh hơn
 
-                    const angle = -35 - Math.random() * 20;
-                    const distance = window.innerHeight + 1000 + Math.random() * 500;
-                    const duration = 500 + Math.random() * 600;
-
-                    const anim = el.animate([
-                        { transform: `rotate(${angle}deg) translateY(0) scale(${0.4 + Math.random() * 0.6})`, opacity: 0, offset: 0 },
+                    const anim = m.animate([
+                        { transform: `rotate(${angle}deg) translateY(0) scale(${1 + Math.random() * 0.5})`, opacity: 0, offset: 0 },
                         { opacity: 1, offset: 0.1 },
-                        { opacity: 1, offset: 0.7 },
-                        { transform: `rotate(${angle}deg) translateY(${distance}px) scale(0.2)`, opacity: 0, offset: 1 }
+                        { opacity: 1, offset: 0.8 },
+                        { transform: `rotate(${angle}deg) translateY(${distance}px) scale(0.6)`, opacity: 0, offset: 1 }
                     ], {
                         duration: duration,
-                        delay: Math.random() * 1000,
+                        delay: delay,
                         easing: 'linear',
                         fill: 'forwards'
                     });
-                    container.appendChild(el);
-                    anim.onfinish = () => el.remove();
-                } else {
-                    // Xử lý icon rơi (Tuyết, Sao, Tim)
-                    const icon = icons[Math.floor(Math.random() * icons.length)];
-                    el.innerHTML = icon;
                     
-                    if (icon === '⚪' || icon === '🤍') {
-                        // Bông tuyết tròn mờ
-                        el.style.fontSize = `${0.2 + Math.random() * 0.6}rem`;
-                        el.style.opacity = 0.3 + Math.random() * 0.5;
-                        el.style.filter = 'blur(1px)';
-                    } else {
-                        // Sao và Tim
-                        el.style.fontSize = `${0.6 + Math.random() * 1.2}rem`;
-                        el.style.opacity = 0.6 + Math.random() * 0.4;
-                        el.style.filter = 'drop-shadow(0 0 5px rgba(255,255,255,0.6))';
+                    container.appendChild(m);
+                    anim.onfinish = () => m.remove();
+
+                } else {
+                    // CÁC ICON KHỔNG LỒ (Sao, Tuyết, Tim, Nước)
+                    const el = document.createElement('div');
+                    el.style.position = 'absolute';
+                    
+                    let icon = '';
+                    let filterGlow = '';
+                    let size = `${4.5 + Math.random() * 2.5}rem`; // RẤT LỚN (72px - 112px)
+
+                    if (currentType === 'stars') {
+                        const starIcons = ['⭐', '✨', '🌟'];
+                        icon = starIcons[Math.floor(Math.random() * starIcons.length)];
+                        filterGlow = 'drop-shadow(0 0 20px rgba(251, 191, 36, 1)) drop-shadow(0 0 40px rgba(252, 211, 77, 0.8))';
+                    } else if (currentType === 'snowflakes') {
+                        icon = '❄️';
+                        filterGlow = 'drop-shadow(0 0 20px rgba(255, 255, 255, 1)) drop-shadow(0 0 40px rgba(186, 230, 253, 0.8))';
+                    } else if (currentType === 'hearts') {
+                        const heartIcons = ['💖', '❤️', '💕', '💜'];
+                        icon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                        filterGlow = 'drop-shadow(0 0 20px rgba(244, 114, 182, 1)) drop-shadow(0 0 40px rgba(225, 29, 72, 0.8))';
+                    } else if (currentType === 'drops') {
+                        icon = '💧';
+                        filterGlow = 'drop-shadow(0 0 20px rgba(56, 189, 248, 1)) drop-shadow(0 0 40px rgba(2, 132, 199, 0.8))';
                     }
 
-                    const startX = Math.random() * window.innerWidth;
-                    const startY = -50 - Math.random() * 300;
-                    el.style.left = `${startX}px`;
-                    el.style.top = `${startY}px`;
+                    el.innerHTML = icon;
+                    el.style.fontSize = size;
+                    el.style.filter = filterGlow;
+                    
+                    // Trải đều ngang màn hình
+                    el.style.left = `${10 + (i * 16) + Math.random() * 10}vw`; 
+                    el.style.top = `-150px`;
 
-                    const duration = 1500 + Math.random() * 3500;
-                    const sway = (Math.random() - 0.5) * 300; // Lắc lư trái phải
-                    const rot = (Math.random() - 0.5) * 1080; // Xoay vòng
+                    const duration = 1500 + Math.random() * 1000; // Rơi bồng bềnh nhưng nhanh hơn nhiều (1.5s - 2.5s)
+                    const delay = Math.random() * 300; // Bắt đầu rơi sớm hơn
+                    const sway = (Math.random() - 0.5) * 300; // Giảm độ lắc ngang để nhìn mượt hơn khi rơi nhanh
+                    const rot = (Math.random() - 0.5) * 360;
 
                     const anim = el.animate([
-                        { transform: 'translate(0, 0) rotate(0deg)', opacity: 0, offset: 0 },
-                        { opacity: 1, offset: 0.1 },
-                        { opacity: 1, offset: 0.8 },
-                        { transform: `translate(${sway}px, ${window.innerHeight + 100}px) rotate(${rot}deg)`, opacity: 0, offset: 1 }
+                        { transform: 'translate(0, 0) rotate(0deg) scale(0.2)', opacity: 0, offset: 0 },
+                        { transform: `translate(${sway * 0.2}px, ${window.innerHeight * 0.3}px) rotate(${rot * 0.3}deg) scale(1.1)`, opacity: 1, offset: 0.2 },
+                        { transform: `translate(${sway * 0.8}px, ${window.innerHeight * 0.8}px) rotate(${rot * 0.8}deg) scale(1)`, opacity: 1, offset: 0.8 },
+                        { transform: `translate(${sway}px, ${window.innerHeight + 200}px) rotate(${rot}deg) scale(0.8)`, opacity: 0, offset: 1 }
                     ], {
                         duration: duration,
-                        delay: Math.random() * 800, // Tuôn rơi liên tục trong 0.8s đầu
-                        easing: 'ease-in',
+                        delay: delay,
+                        easing: 'ease-in-out',
                         fill: 'forwards'
                     });
                     
@@ -2472,11 +2257,9 @@
                     anim.onfinish = () => el.remove();
                 }
             }
-            
-            // Xóa container sau khi hiệu ứng kết thúc (6 giây)
-            setTimeout(() => {
-                if (container.parentNode) container.remove();
-            }, 6000);
+
+            // Xóa container sớm hơn do thời gian rơi đã được rút ngắn
+            setTimeout(() => { if (container.parentNode) container.remove(); }, 3500);
         }
 
         function checkAnswer() {
@@ -2488,7 +2271,7 @@
 
             if (userAnswer === correctAnswer) {
                 playSuccessSound();
-                triggerCelebrationShower(); // Kích hoạt hiệu ứng ăn mừng
+                triggerCelebrationShower(currentIndex); // Kích hoạt hiệu ứng ăn mừng truyền vào vị trí thẻ
 
                 const currentFire = document.getElementById(`fire-${currentIndex}`);
                 if (currentFire) {
@@ -2504,6 +2287,16 @@
                 const backMeanEl = document.getElementById('back-mean');
                 backMeanEl.textContent = card.mean;
                 
+                // Hiệu ứng Spiral In cho nghĩa tiếng Việt
+                backMeanEl.style.animation = 'none';
+                backMeanEl.style.opacity = '0'; // Ẩn trước khi animate
+                void backMeanEl.offsetWidth; // Trigger reflow
+                
+                // Bắt đầu xoay khi thẻ vừa lật sang mặt sau (delay 250ms)
+                setTimeout(() => {
+                    backMeanEl.style.animation = 'spiral-in 1s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                }, 250); 
+                
                 // Lấy Wrapper chứa cả từ tiếng Việt và loại từ để cùng bay lên
                 const backContainer = document.getElementById('back-magic-container');
                 
@@ -2511,10 +2304,10 @@
                 backContainer.style.animation = 'none';
                 void backContainer.offsetWidth; // Trigger reflow
                 
-                // Tạo độ trễ chờ thẻ quay mặt xong rồi mới bay chữ lên
+                // Tạo độ trễ chờ thẻ quay mặt xong rồi mới bay chữ lên (Giảm delay và tăng tốc)
                 setTimeout(() => {
-                    backContainer.style.animation = 'magic-fly-up 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-                }, 200);
+                    backContainer.style.animation = 'magic-fly-up 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                }, 100);
 
                 const fullSentence = card.exFull ? card.exFull : card.ex.replace('_______', `<span class="font-bold text-fuchsia-300">${card.word}</span>`);
                 document.getElementById('back-ex').innerHTML = fullSentence;
@@ -2522,7 +2315,8 @@
                 flashcardEl.classList.add('flipped');
 
                 canGoNext = false;
-                setTimeout(() => { canGoNext = true; }, 1100);
+                // Khớp thời gian với CSS transform mới (0.65s + buffer nhỏ)
+                setTimeout(() => { canGoNext = true; }, 700);
 
                 if (document.activeElement && document.activeElement.tagName === 'INPUT') {
                     document.activeElement.blur();
@@ -2556,6 +2350,7 @@
         function nextCard() {
             flashcardEl.classList.remove('flipped');
 
+            // Khớp thời gian với CSS transform lật thẻ về (0.65s + buffer)
             setTimeout(() => {
                 if (currentIndex === originalFlashcardsCount - 1 && totalCards > originalFlashcardsCount && !hasShownReviewTransition) {
                     flashcardEl.classList.add('hidden');
@@ -2586,7 +2381,7 @@
                     finalScreen.classList.add('flex');
                     stopTimer();
                 }
-            }, 1100);
+            }, 700);
         }
 
         function startReviewPhase() {
@@ -2624,7 +2419,8 @@
 
             // TẠO BÓ HOA (BOUQUET)
             if (correctCount > 0) {
-                const maxDelay = 3.5; 
+                // Tăng maxDelay từ 3.5 lên 6.5 để dàn đều thời gian mọc hoa cho khít 10 giây
+                const maxDelay = 6.5; 
                 
                 // SVG Canvas để vẽ cành cây
                 const svgNS = "http://www.w3.org/2000/svg";
@@ -2703,7 +2499,7 @@
             renderCard();
 
             // KỊCH BẢN THỜI GIAN
-            // Sau 7 giây: Làm mờ vườn hoa (thời gian ngắm hoa lâu hơn), ẩn chữ cũ, hiện dòng nhắc nhở "Let's review..."
+            // Sau 10 giây: Làm mờ vườn hoa (thời gian ngắm hoa lâu hơn), ẩn chữ cũ, hiện dòng nhắc nhở "Let's review..."
             setTimeout(() => {
                 flowerContainer.style.opacity = '0.15';
                 flowerContainer.style.filter = 'blur(8px)';
@@ -2715,9 +2511,9 @@
                     reminderText.classList.remove('opacity-0', 'scale-90');
                     reminderText.classList.add('opacity-100', 'scale-100');
                 }, 300); // Chờ chữ trên bay đi rồi mới hiện
-            }, 7000); 
+            }, 10000); 
 
-            // Sau 10 giây (7s hoa + 3s chữ): Tự động qua trang tiếp theo
+            // Sau 13 giây (10s hoa + 3s chữ): Tự động qua trang tiếp theo
             setTimeout(() => {
                 flowerScreen.classList.remove('opacity-100');
                 flowerScreen.classList.add('opacity-0', 'pointer-events-none');
@@ -2732,7 +2528,7 @@
 
                     flowerContainer.innerHTML = '';
                 }, 500); // Đợi CSS transition mờ dần
-            }, 10000); 
+            }, 13000); 
         }
 
         // --- THUẬT TOÁN XẾP BÓ HOA KHÔNG BỊ TRÙNG LẶP ---
@@ -2888,10 +2684,11 @@
         function prevCard() {
             if (currentIndex > 0) {
                 flashcardEl.classList.remove('flipped');
+                // Khớp thời gian lật thẻ
                 setTimeout(() => {
                     currentIndex--;
                     renderCard();
-                }, 1100);
+                }, 700);
             } else {
                 flashcardEl.classList.remove('flipped');
             }
@@ -2909,6 +2706,76 @@
             firesHaveFallen = false;
             window.completedShown = false;
             window.basketsClickedCount = 0; // Reset biến đếm
+
+            const questionBox = document.getElementById('final-question-box');
+            if (questionBox) {
+                questionBox.classList.add('opacity-0', 'scale-0');
+                questionBox.classList.remove('opacity-100', 'scale-100');
+            }
+
+            // RESET LẠI TRẠNG THÁI CỦA CÁC STEP
+            document.getElementById('step-2-container').classList.add('hidden');
+            document.getElementById('step-2-container').classList.remove('flex');
+            
+            // Ẩn hết các step con của step 2
+            const q1 = document.getElementById('step-2-q1');
+            const q2 = document.getElementById('step-2-q2');
+            const q3 = document.getElementById('step-2-q3');
+            const q4 = document.getElementById('step-2-q4');
+            const q5 = document.getElementById('step-2-q5');
+
+            [q1, q2, q3, q4, q5].forEach(el => {
+                el.classList.add('hidden', 'opacity-0', 'scale-95');
+                el.classList.remove('flex', 'opacity-100', 'scale-100');
+            });
+            // Hiển thị lại Q1
+            q1.classList.remove('hidden', 'opacity-0', 'scale-95');
+            q1.classList.add('flex', 'opacity-100', 'scale-100');
+
+            const w1 = document.getElementById('mem-word-1');
+            const w2 = document.getElementById('mem-word-2');
+            if (w1) {
+                w1.value = '';
+                w1.readOnly = false;
+                w1.classList.remove('input-error', 'opacity-50', 'pointer-events-none');
+            }
+            if (w2) {
+                w2.value = '';
+                w2.readOnly = false;
+                w2.classList.remove('input-error', 'opacity-50', 'pointer-events-none');
+            }
+
+            document.getElementById('where-input').value = '';
+            
+            const sentInp1 = document.getElementById('sent-input-1');
+            const sentInp2 = document.getElementById('sent-input-2');
+            sentInp1.value = '';
+            sentInp2.value = '';
+            sentInp1.classList.remove('border-green-400', 'bg-green-900/40', 'border-rose-400', 'bg-rose-900/40');
+            sentInp2.classList.remove('border-green-400', 'bg-green-900/40', 'border-rose-400', 'bg-rose-900/40');
+            document.getElementById('sent-box-1').classList.remove('border-green-500/50', 'border-rose-500/50');
+            document.getElementById('sent-box-2').classList.remove('border-green-500/50', 'border-rose-500/50');
+            document.getElementById('feedback-1').classList.add('hidden');
+            document.getElementById('feedback-2').classList.add('hidden');
+            document.getElementById('vi-ex-1').textContent = '';
+            document.getElementById('vi-ex-2').textContent = '';
+
+            const btnYes = document.getElementById('btn-yes');
+            const btnNo = document.getElementById('btn-no');
+            btnYes.disabled = false;
+            btnNo.disabled = false;
+            btnYes.className = 'px-8 py-2 md:px-10 md:py-2.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition-all font-bold text-base sm:text-lg';
+            btnNo.className = 'px-8 py-2 md:px-10 md:py-2.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition-all font-bold text-base sm:text-lg';
+            
+            document.getElementById('btn-next-q3').classList.add('opacity-50', 'pointer-events-none');
+            document.getElementById('final-submit-btn').classList.add('opacity-50', 'pointer-events-none');
+
+            // Reset logic variables
+            step2YesNo = '';
+            origNorm1 = '';
+            origNorm2 = '';
+            currentWord1 = '';
+            currentWord2 = '';
 
             const completedBadge = document.getElementById('completed-badge');
             if (completedBadge) {
@@ -2941,6 +2808,10 @@
                         b.style.transition = '';
                         b.classList.add('hover:-translate-y-2', 'group-hover:scale-110');
                         basketsContainer.appendChild(b);
+                        
+                        // XÓA NHỮNG TRÁI TÁO ĐÃ THU HOẠCH (CLONE) KHỎI GIỎ KHI RESTART
+                        const applesInBasket = b.querySelectorAll('.tree-apple');
+                        applesInBasket.forEach(a => a.remove());
                     }
                 });
             }
@@ -3020,8 +2891,301 @@
             initFireProgress();
             renderCard();
             initStartScreenButterfly(); // Khởi tạo bướm to bay vòng ở màn hình chờ
+            setupFinalQuestion(); // Khởi tạo logic kiểm tra câu hỏi cuối cùng
             // startTimer();  <-- Bộ đếm chỉ chạy sau khi click nút Bướm Start
         });
+
+        // Biến toàn cục cho Step 2
+        let step2YesNo = '';
+        let origNorm1 = '';
+        let origNorm2 = '';
+        let currentWord1 = '';
+        let currentWord2 = '';
+
+        // Hàm xử lý văn bản cho câu hỏi Reorder
+        function normalizeString(str) {
+            return str.toLowerCase().replace(/[.,!?"']/g, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function getPlainSentence(word) {
+            const card = flashcards.find(c => c.word.toLowerCase() === word);
+            if (!card) return "";
+            if (card.exFull) {
+                let tmp = document.createElement("div");
+                tmp.innerHTML = card.exFull;
+                return tmp.textContent || tmp.innerText || "";
+            }
+            return card.ex.replace('_______', card.word);
+        }
+
+        // HÀM XỬ LÝ CHUYỂN CẢNH GIỮA CÁC CÂU HỎI TRONG STEP 2
+        function transitionStep(hideId, showId, focusId) {
+            const hideEl = document.getElementById(hideId);
+            const showEl = document.getElementById(showId);
+            if (!hideEl || !showEl) return;
+
+            // Bắt đầu fade out
+            hideEl.classList.remove('opacity-100', 'scale-100');
+            hideEl.classList.add('opacity-0', 'scale-95');
+            
+            setTimeout(() => {
+                // Ẩn hoàn toàn thẻ cũ
+                hideEl.classList.add('hidden');
+                hideEl.classList.remove('flex');
+                
+                // Hiển thị thẻ mới
+                showEl.classList.remove('hidden');
+                showEl.classList.add('flex');
+                
+                // Kích hoạt reflow để CSS transition hoạt động
+                void showEl.offsetWidth;
+                
+                // Fade in thẻ mới
+                showEl.classList.remove('opacity-0', 'scale-95');
+                showEl.classList.add('opacity-100', 'scale-100');
+                
+                if(focusId) {
+                    // Đợi transition chạy xong mới focus để không bị giật màn hình
+                    setTimeout(() => document.getElementById(focusId).focus(), 300);
+                }
+            }, 300); // 300ms khớp với duration-300
+        }
+
+        // HÀM XỬ LÝ LOGIC KIỂM TRA CÂU HỎI CUỐI CÙNG TRÊN CÂY
+        function setupFinalQuestion() {
+            const w1 = document.getElementById('mem-word-1');
+            const w2 = document.getElementById('mem-word-2');
+
+            if (!w1 || !w2) return;
+
+            const checkWinCondition = () => {
+                const val1 = w1.value.trim().toLowerCase();
+                const val2 = w2.value.trim().toLowerCase();
+                // Lấy danh sách từ vựng hợp lệ (chỉ tính các từ gốc, không tính review)
+                const validList = flashcards.slice(0, originalFlashcardsCount).map(c => c.word.toLowerCase());
+
+                // Nếu cả 2 ô đều điền, đều nằm trong danh sách và không trùng nhau
+                if (val1 && val2 && validList.includes(val1) && validList.includes(val2) && val1 !== val2) {
+                    // Khóa ô nhập liệu
+                    w1.readOnly = true;
+                    w2.readOnly = true;
+                    w1.classList.add('opacity-50', 'pointer-events-none');
+                    w2.classList.add('opacity-50', 'pointer-events-none');
+                    w1.classList.remove('input-error');
+                    w2.classList.remove('input-error');
+
+                    playSuccessSound();
+
+                    // Chuyển sang STEP 2 (Chuyển sang Q2)
+                    setTimeout(() => {
+                        initStep2(val1, val2);
+                        
+                        // Mở bộ khung chứa Step 2
+                        document.getElementById('step-2-container').classList.remove('hidden');
+                        document.getElementById('step-2-container').classList.add('flex');
+
+                        transitionStep('step-2-q1', 'step-2-q2', null);
+                    }, 500);
+                }
+            };
+
+            const validateBlur = (inputEl) => {
+                const val = inputEl.value.trim().toLowerCase();
+                const validList = flashcards.slice(0, originalFlashcardsCount).map(c => c.word.toLowerCase());
+                
+                if (val === '') {
+                    inputEl.classList.remove('input-error');
+                    return;
+                }
+                
+                // Nếu từ không có trong danh sách
+                if (!validList.includes(val)) {
+                    inputEl.classList.add('input-error');
+                    playErrorSound();
+                } else {
+                    inputEl.classList.remove('input-error');
+                    // Kiểm tra xem có trùng với ô kia không
+                    const otherVal = inputEl === w1 ? w2.value.trim().toLowerCase() : w1.value.trim().toLowerCase();
+                    if (val === otherVal && val !== '') {
+                        inputEl.classList.add('input-error');
+                        playErrorSound();
+                    }
+                }
+            };
+
+            // Khi đang gõ thì tự động xóa màu đỏ báo lỗi và kiểm tra điều kiện thắng
+            w1.addEventListener('input', () => {
+                w1.classList.remove('input-error');
+                checkWinCondition();
+            });
+            w2.addEventListener('input', () => {
+                w2.classList.remove('input-error');
+                checkWinCondition();
+            });
+
+            // Khi click ra khỏi ô nhập liệu thì kiểm tra xem từ có hợp lệ không
+            w1.addEventListener('blur', () => validateBlur(w1));
+            w2.addEventListener('blur', () => validateBlur(w2));
+
+            // Hỗ trợ bấm Enter để chuyển ô
+            w1.addEventListener('keypress', (e) => { if (e.key === 'Enter') w2.focus(); });
+            w2.addEventListener('keypress', (e) => { if (e.key === 'Enter') w2.blur(); });
+
+            // --- LOGIC CHO STEP 2 (Màn hình mở rộng) ---
+            const btnYes = document.getElementById('btn-yes');
+            const btnNo = document.getElementById('btn-no');
+            
+            // Q2: Yes/No
+            const proceedToWhere = () => {
+                setTimeout(() => {
+                    transitionStep('step-2-q2', 'step-2-q3', 'where-input');
+                }, 400); // Đợi 400ms để người dùng thấy nút sáng lên
+            };
+
+            btnYes.onclick = () => {
+                if (btnYes.disabled || (btnNo.disabled && step2YesNo === 'no')) return;
+                playTransitionSound(); // Phát âm thanh khi click
+                step2YesNo = 'yes';
+                btnYes.classList.add('bg-fuchsia-600', 'border-fuchsia-400');
+                btnYes.classList.remove('bg-white/10', 'border-white/20', 'hover:bg-white/20');
+                
+                // Khóa nút No
+                btnNo.disabled = true;
+                btnNo.classList.add('opacity-50', 'cursor-not-allowed');
+                
+                proceedToWhere();
+            };
+            
+            btnNo.onclick = () => {
+                if (btnNo.disabled || (btnYes.disabled && step2YesNo === 'yes')) return;
+                playTransitionSound(); // Phát âm thanh khi click
+                step2YesNo = 'no';
+                btnNo.classList.add('bg-fuchsia-600', 'border-fuchsia-400');
+                btnNo.classList.remove('bg-white/10', 'border-white/20', 'hover:bg-white/20');
+                
+                // Khóa nút Yes
+                btnYes.disabled = true;
+                btnYes.classList.add('opacity-50', 'cursor-not-allowed');
+                
+                proceedToWhere();
+            };
+
+            // Q3: Where
+            const whereInput = document.getElementById('where-input');
+            const btnNextQ3 = document.getElementById('btn-next-q3');
+
+            whereInput.addEventListener('input', () => {
+                if (whereInput.value.trim().length > 0) {
+                    btnNextQ3.classList.remove('opacity-50', 'pointer-events-none');
+                } else {
+                    btnNextQ3.classList.add('opacity-50', 'pointer-events-none');
+                }
+            });
+
+            const proceedToSent1 = () => {
+                if (whereInput.value.trim().length > 0) {
+                    transitionStep('step-2-q3', 'step-2-q4', 'sent-input-1');
+                }
+            };
+
+            btnNextQ3.onclick = proceedToSent1;
+            whereInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') proceedToSent1(); });
+
+            // Q4 & Q5: Dịch câu
+            const sentInp1 = document.getElementById('sent-input-1');
+            const sentInp2 = document.getElementById('sent-input-2');
+            const submitBtn = document.getElementById('final-submit-btn');
+
+            let q4Passed = false;
+
+            const handleSentenceInput = (inputEl, feedbackEl, boxEl, targetNormStr, isQ4) => {
+                const val = normalizeString(inputEl.value);
+                if (inputEl.value.trim() === '') {
+                    feedbackEl.classList.add('hidden');
+                    inputEl.classList.remove('border-green-400', 'bg-green-900/40', 'border-rose-400', 'bg-rose-900/40');
+                    boxEl.classList.remove('border-green-500/50', 'border-rose-500/50');
+                } else {
+                    feedbackEl.classList.remove('hidden');
+                    if (val === targetNormStr) {
+                        inputEl.classList.add('border-green-400', 'bg-green-900/40');
+                        inputEl.classList.remove('border-rose-400', 'bg-rose-900/40');
+                        boxEl.classList.add('border-green-500/50');
+                        boxEl.classList.remove('border-rose-500/50');
+                        feedbackEl.className = 'text-xs sm:text-sm text-green-300 mt-1.5 block font-semibold';
+                        feedbackEl.textContent = '✅ Perfect match!';
+
+                        if (isQ4 && !q4Passed) {
+                            q4Passed = true; // Chống nháy lặp lại nhiều lần
+                            playSuccessSound();
+                            // Đợi xem tick xanh 1 xíu rồi nhảy qua câu sau
+                            setTimeout(() => {
+                                // Kiểm tra lại lần nữa lỡ user xoá nhanh quá
+                                if (normalizeString(inputEl.value) === targetNormStr) {
+                                    transitionStep('step-2-q4', 'step-2-q5', 'sent-input-2');
+                                } else {
+                                    q4Passed = false;
+                                }
+                            }, 800);
+                        } else if (!isQ4) {
+                            submitBtn.classList.remove('opacity-50', 'pointer-events-none');
+                        }
+
+                    } else {
+                        inputEl.classList.add('border-rose-400', 'bg-rose-900/40');
+                        inputEl.classList.remove('border-green-400', 'bg-green-900/40');
+                        boxEl.classList.add('border-rose-500/50');
+                        boxEl.classList.remove('border-green-500/50');
+                        feedbackEl.className = 'text-xs sm:text-sm text-rose-300 mt-1.5 block font-semibold';
+                        feedbackEl.textContent = '❌ Keep trying...';
+                        
+                        if (!isQ4) {
+                            submitBtn.classList.add('opacity-50', 'pointer-events-none');
+                        }
+                    }
+                }
+            };
+
+            sentInp1.addEventListener('input', () => handleSentenceInput(sentInp1, document.getElementById('feedback-1'), document.getElementById('sent-box-1'), origNorm1, true));
+            sentInp2.addEventListener('input', () => handleSentenceInput(sentInp2, document.getElementById('feedback-2'), document.getElementById('sent-box-2'), origNorm2, false));
+
+            submitBtn.onclick = () => {
+                // Hoàn thành: Ẩn hộp thoại, hiện Completed Badge và nút Restart
+                const questionBox = document.getElementById('final-question-box');
+                questionBox.classList.remove('opacity-100', 'scale-100');
+                questionBox.classList.add('opacity-0', 'scale-0');
+
+                setTimeout(() => {
+                    const completedBadge = document.getElementById('completed-badge');
+                    completedBadge.classList.remove('opacity-0', 'scale-0');
+                    completedBadge.classList.add('opacity-100', 'scale-100');
+                    playSuccessSound();
+
+                    const restartBtn = document.getElementById('restart-btn');
+                    restartBtn.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
+                }, 800);
+            };
+        }
+
+        // Khởi tạo dữ liệu cho Step 2 (Dịch câu)
+        function initStep2(w1, w2) {
+            currentWord1 = w1;
+            currentWord2 = w2;
+
+            const card1 = flashcards.find(c => c.word.toLowerCase() === w1);
+            const card2 = flashcards.find(c => c.word.toLowerCase() === w2);
+
+            document.getElementById('label-word-1').textContent = `Sentence with "${w1}":`;
+            document.getElementById('label-word-2').textContent = `Sentence with "${w2}":`;
+
+            document.getElementById('vi-ex-1').textContent = card1 ? card1.exVi : "";
+            document.getElementById('vi-ex-2').textContent = card2 ? card2.exVi : "";
+
+            const sent1 = getPlainSentence(w1);
+            const sent2 = getPlainSentence(w2);
+
+            origNorm1 = normalizeString(sent1);
+            origNorm2 = normalizeString(sent2);
+        }
 
         function initStartScreenButterfly() {
             const butterfly = document.getElementById('big-butterfly');
@@ -3260,6 +3424,343 @@
             });
 
             container.appendChild(asteroid);
+        }
+
+        function renderCard() {
+            const card = flashcards[currentIndex];
+
+            const reviewBtn = document.getElementById('review-btn');
+
+            if (currentIndex >= originalFlashcardsCount) {
+                document.getElementById('main-topic-title').textContent = `REVIEW`;
+                reviewBtn.classList.add('hidden');
+                reviewBtn.classList.remove('flex');
+            } else {
+                document.getElementById('main-topic-title').textContent = `BOOK 1`;
+
+                if (card.marked) {
+                    reviewBtn.className = "hidden text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-purple-500 text-white hover:bg-purple-600 font-medium rounded-full transition-colors items-center gap-1 shadow-sm border border-purple-300";
+                } else {
+                    reviewBtn.className = "hidden text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-purple-900/50 text-purple-200 hover:bg-purple-800 font-medium rounded-full transition-colors items-center gap-1 shadow-sm border border-purple-500/30";
+                }
+            }
+
+            document.getElementById('word-type-container').innerHTML = getShapeHTML(card.type);
+            
+            // Xử lý nội dung tiếng Việt ở mặt trước
+            const wordMeanEl = document.getElementById('word-mean');
+            wordMeanEl.textContent = card.mean;
+            
+            // Lấy Wrapper chứa cả từ tiếng Việt và loại từ để cùng bay lên
+            const frontContainer = document.getElementById('front-magic-container');
+            
+            // Khởi động lại animation bay ma thuật
+            frontContainer.style.animation = 'none';
+            frontContainer.style.opacity = '0'; 
+            void frontContainer.offsetWidth; 
+            
+            // Bay lên nhanh hơn và sớm hơn
+            setTimeout(() => {
+                frontContainer.style.animation = 'magic-fly-up 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+            }, 50);
+
+            // CÀI ĐẶT LẠI HIỆU ỨNG LÀM MỜ CHO CÂU VÍ DỤ MẶT TRƯỚC
+            const exViEl = document.getElementById('word-exVi');
+            exViEl.textContent = card.exVi;
+            exViEl.classList.add('blur-[5px]', 'opacity-40', 'select-none', 'hover:opacity-60');
+
+            const blankedEx = card.ex.replace('_______', `<span class="text-fuchsia-300 border-b-2 border-fuchsia-300 inline-block w-16 sm:w-20 md:w-24"></span>`);
+            document.getElementById('word-ex').innerHTML = blankedEx;
+
+            inputsContainer.innerHTML = '';
+            const words = card.word.split(' ');
+
+            words.forEach((w, wordIndex) => {
+                const wordGroup = document.createElement('div');
+                wordGroup.className = 'flex gap-1.5 sm:gap-2 md:gap-2.5'; 
+
+                for (let i = 0; i < w.length; i++) {
+                    if (w[i] === '-' || w[i] === '/' || w[i] === "'") {
+                        const symbol = document.createElement('span');
+                        symbol.textContent = w[i];
+                        symbol.className = 'text-base sm:text-xl font-bold text-gray-400 self-center px-0.5 sm:px-1';
+                        wordGroup.appendChild(symbol);
+                        continue;
+                    }
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.maxLength = 1;
+
+                    const baseInputClasses = 'char-input text-center font-bold rounded-lg w-7 h-9 sm:w-9 sm:h-11 md:w-11 md:h-12 lg:w-14 lg:h-16 text-base sm:text-lg md:text-xl lg:text-3xl glass-input-base';
+
+                    if (i === 0) {
+                        input.value = w[i].toLowerCase();
+                        input.dataset.correctChar = w[i].toLowerCase();
+                        input.readOnly = true;
+                        input.className = `${baseInputClasses} hint-input glass-input-hint cursor-not-allowed select-none`;
+                    } else {
+                        input.placeholder = '';
+                        input.dataset.correctChar = w[i].toLowerCase();
+                        input.className = `${baseInputClasses} editable-input glass-input-editable placeholder-white/30`;
+
+                        input.addEventListener('input', function () {
+                            this.value = this.value.toLowerCase();
+                            this.classList.remove('input-error');
+
+                            if (this.value) {
+                                createFlyingNote(this);
+                            }
+
+                            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
+                            const currentIdx = editableInputs.indexOf(this);
+                            if (this.value && currentIdx < editableInputs.length - 1) {
+                                editableInputs[currentIdx + 1].focus();
+                            }
+                        });
+
+                        input.addEventListener('keydown', function (e) {
+                            if (e.shiftKey && e.key === 'F12') {
+                                e.preventDefault(); e.stopPropagation(); giveHint(); return;
+                            }
+                            if (e.shiftKey && e.key.toLowerCase() === 'r') {
+                                e.preventDefault(); e.stopPropagation();
+                                const reviewBtn = document.getElementById('review-btn');
+                                if (reviewBtn && !reviewBtn.classList.contains('hidden')) markForReview();
+                                return;
+                            }
+                            if ((e.shiftKey && e.key === 'Enter') || (e.ctrlKey && e.code === 'Space')) {
+                                e.preventDefault(); e.stopPropagation(); speakCurrentWord(); return;
+                            }
+
+                            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
+                            const currentIdx = editableInputs.indexOf(this);
+
+                            if (e.key === 'Backspace' && !this.value && currentIdx > 0) {
+                                editableInputs[currentIdx - 1].focus();
+                            } else if (e.key === 'Enter') {
+                                if (!e.shiftKey) { e.preventDefault(); e.stopPropagation(); checkAnswer(); }
+                            } else if (e.key === 'ArrowLeft' && currentIdx > 0) {
+                                editableInputs[currentIdx - 1].focus(); e.preventDefault();
+                            } else if (e.key === 'ArrowRight' && currentIdx < editableInputs.length - 1) {
+                                editableInputs[currentIdx + 1].focus(); e.preventDefault();
+                            }
+                        });
+                    }
+                    wordGroup.appendChild(input);
+                }
+                inputsContainer.appendChild(wordGroup);
+
+                if (wordIndex < words.length - 1) {
+                    const space = document.createElement('div');
+                    space.className = 'w-4 sm:w-6 md:w-8'; 
+                    inputsContainer.appendChild(space);
+                }
+            });
+
+            setTimeout(() => {
+                const startScreen = document.getElementById('start-screen');
+                if (startScreen && startScreen.classList.contains('hidden')) {
+                    const firstEditableInput = document.querySelector('.editable-input');
+                    if (firstEditableInput) firstEditableInput.focus();
+                }
+            }, 100);
+
+            document.getElementById('progress-text').textContent = `${currentIndex + 1} / ${totalCards}`;
+
+            updateFireProgress();
+
+            const nextBtn = document.getElementById('next-btn');
+            const baseBtnClass = "btn-crystal w-[100px] sm:w-[110px] md:w-[130px] lg:w-[150px] py-2 sm:py-2.5 lg:py-3 font-semibold rounded-full text-xs sm:text-sm md:text-base lg:text-lg cursor-pointer";
+
+            if (currentIndex === totalCards - 1) {
+                nextBtn.textContent = "Finish";
+                nextBtn.className = baseBtnClass;
+            } else {
+                nextBtn.textContent = "Next";
+                nextBtn.className = baseBtnClass;
+            }
+
+            buildHintSequence();
+        }
+
+        function buildHintSequence() {
+            const allInputs = Array.from(document.querySelectorAll('.char-input'));
+            const editableInputs = Array.from(document.querySelectorAll('.editable-input'));
+            const totalChars = allInputs.length;
+
+            hintSequence = [];
+            currentHintStep = 0;
+
+            const hintBtn = document.getElementById('hint-btn');
+            if (hintBtn) {
+                hintBtn.disabled = false;
+                hintBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            let maxHints = totalChars >= 6 ? 3 : 2;
+            maxHints = Math.min(maxHints, editableInputs.length);
+
+            if (editableInputs.length > 0) {
+                if (editableInputs.length >= 1) hintSequence.push(() => revealInput(editableInputs[0]));
+                if (editableInputs.length > 1) hintSequence.push(() => revealInput(editableInputs[editableInputs.length - 1]));
+                let midInputs = [];
+                if (editableInputs.length > 2) {
+                    midInputs = editableInputs.slice(1, editableInputs.length - 1);
+                    midInputs.sort(() => Math.random() - 0.5);
+                }
+                if (midInputs.length > 0) hintSequence.push(() => revealInput(midInputs.pop()));
+            }
+
+            hintSequence = hintSequence.slice(0, maxHints);
+
+            if (currentIndex >= originalFlashcardsCount) {
+                hintSequence.push(() => {
+                    const editableInputs = document.querySelectorAll('.editable-input');
+                    editableInputs.forEach(input => {
+                        if (!input.readOnly) {
+                            input.value = '';
+                            input.placeholder = input.dataset.correctChar;
+                            input.classList.remove('input-error');
+                        }
+                    });
+
+                    const firstEmpty = Array.from(editableInputs).find(i => !i.readOnly);
+                    if (firstEmpty) firstEmpty.focus();
+                });
+            }
+
+            if (hintSequence.length === 0 && currentIndex < originalFlashcardsCount) {
+                const reviewBtn = document.getElementById('review-btn');
+                reviewBtn.classList.remove('hidden');
+                reviewBtn.classList.add('flex');
+            }
+        }
+
+        function revealInput(input) {
+            if (!input || input.readOnly) return;
+            input.value = input.dataset.correctChar;
+            input.readOnly = true;
+            input.classList.remove('input-error', 'glass-input-editable', 'editable-input', 'placeholder-white/30');
+            input.classList.add('glass-input-hint');
+
+            const remainingEditable = Array.from(document.querySelectorAll('.editable-input'));
+            const nextEmpty = remainingEditable.find(i => i.value === '');
+            if (nextEmpty) nextEmpty.focus();
+            else if (remainingEditable.length > 0) remainingEditable[remainingEditable.length - 1].focus();
+        }
+
+        function giveHint() {
+            if (currentHintStep < hintSequence.length) {
+                hintSequence[currentHintStep]();
+                currentHintStep++;
+            }
+
+            if (currentHintStep >= hintSequence.length) {
+                const hintBtn = document.getElementById('hint-btn');
+                if (hintBtn) {
+                    hintBtn.disabled = true;
+                    hintBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+
+                if (currentIndex < originalFlashcardsCount) {
+                    const reviewBtn = document.getElementById('review-btn');
+                    reviewBtn.classList.remove('hidden');
+                    reviewBtn.classList.add('flex');
+                }
+            }
+        }
+
+        function createFlyingNote(inputElement) {
+            spawnDirectionalNote(inputElement, -1);
+            spawnDirectionalNote(inputElement, 1);
+        }
+
+        function spawnDirectionalNote(inputElement, directionMultiplier) {
+            const notes = ['♪', '♫', '♩', '♬', '♭', '♮', '♯', '✨', '💎'];
+            const noteChar = notes[Math.floor(Math.random() * notes.length)];
+
+            const container = document.createElement('div');
+            container.style.position = 'fixed';
+            container.style.pointerEvents = 'none';
+            container.style.zIndex = '9999';
+            container.style.display = 'flex';
+            container.style.justifyContent = 'center';
+            container.style.alignItems = 'center';
+
+            const rect = inputElement.getBoundingClientRect();
+            const startX = rect.left + rect.width / 2;
+            const startY = rect.top + rect.height / 2;
+
+            container.style.left = `${startX}px`;
+            container.style.top = `${startY}px`;
+
+            const noteEl = document.createElement('span');
+            noteEl.textContent = noteChar;
+            noteEl.style.fontSize = '1.8rem';
+            noteEl.style.fontWeight = '900';
+            
+            const gradients = [
+                'linear-gradient(135deg, #ffffff 0%, #e879f9 40%, #ffffff 60%, #c084fc 100%)',
+                'linear-gradient(135deg, #ffffff 0%, #a78bfa 40%, #ffffff 60%, #818cf8 100%)',
+                'linear-gradient(135deg, #ffffff 0%, #38bdf8 40%, #ffffff 60%, #67e8f9 100%)',
+                'linear-gradient(135deg, #ffffff 0%, #fbcfe8 40%, #ffffff 60%, #f472b6 100%)'
+            ];
+            noteEl.style.background = gradients[Math.floor(Math.random() * gradients.length)];
+            noteEl.style.backgroundSize = '200% auto';
+            noteEl.style.webkitBackgroundClip = 'text';
+            noteEl.style.webkitTextFillColor = 'transparent';
+            
+            noteEl.style.filter = 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 15px rgba(232, 121, 249, 0.8)) drop-shadow(0 0 25px rgba(192, 132, 252, 0.6))';
+            
+            noteEl.animate([
+                { backgroundPosition: '0% center' },
+                { backgroundPosition: '200% center' }
+            ], {
+                duration: 1000,
+                iterations: Infinity
+            });
+
+            container.appendChild(noteEl);
+
+            const numSparkles = 2 + Math.floor(Math.random() * 3);
+            for(let i = 0; i < numSparkles; i++) {
+                const sparkle = document.createElement('span');
+                sparkle.textContent = '✦';
+                sparkle.style.position = 'absolute';
+                sparkle.style.color = '#ffffff';
+                sparkle.style.fontSize = `${0.4 + Math.random() * 0.6}rem`;
+                sparkle.style.textShadow = '0 0 5px #ffffff, 0 0 10px #c084fc';
+                sparkle.style.left = `${(Math.random() - 0.5) * 45}px`;
+                sparkle.style.top = `${(Math.random() - 0.5) * 45}px`;
+
+                sparkle.animate([
+                    { transform: 'scale(0) rotate(0deg)', opacity: 0 },
+                    { transform: 'scale(1.5) rotate(90deg)', opacity: 1, offset: 0.5 },
+                    { transform: 'scale(0) rotate(180deg)', opacity: 0 }
+                ], {
+                    duration: 400 + Math.random() * 500,
+                    iterations: Infinity
+                });
+
+                container.appendChild(sparkle);
+            }
+
+            document.body.appendChild(container);
+
+            const flyX = (Math.random() - 0.5) * 120; 
+            const flyY = directionMultiplier * (Math.random() * 80 + 180); 
+
+            const animation = container.animate([
+                { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 1 },
+                { transform: `translate(calc(-50% + ${flyX}px), calc(-50% + ${flyY}px)) scale(1.6) rotate(${(Math.random() - 0.5) * 40}deg)`, opacity: 0 }
+            ], {
+                duration: 1300 + Math.random() * 500, 
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                fill: 'forwards'
+            });
+
+            animation.onfinish = () => container.remove();
         }
 
     </script>
