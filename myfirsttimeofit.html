@@ -4332,18 +4332,72 @@
                    ringColor:'rgba(249,168,212,.7)', ringColor2:'rgba(251,207,232,.4)', pColor:'#f9a8d4', soundFreq:207 },
         };
 
+        // 50 quotes - shuffle order tracked to avoid repeats
         const quotesPool = [
+            // ── Tình yêu (Love) ──
             { en: '"The best thing to hold onto in life is each other."', vi: '"Điều tốt nhất để nắm giữ trong cuộc đời là nhau."', author:'— Audrey Hepburn' },
-            { en: '"In the middle of every difficulty lies opportunity."', vi: '"Trong mỗi khó khăn ẩn chứa một cơ hội."', author:'— Albert Einstein' },
-            { en: '"You are never too old to set another goal or to dream a new dream."', vi: '"Bạn không bao giờ quá già để đặt ra mục tiêu mới hay mơ một giấc mơ mới."', author:'— C.S. Lewis' },
-            { en: '"The only way to do great work is to love what you do."', vi: '"Cách duy nhất để làm ra điều tuyệt vời là yêu những gì bạn làm."', author:'— Steve Jobs' },
+            { en: '"To love and be loved is to feel the sun from both sides."', vi: '"Yêu và được yêu là cảm nhận ánh mặt trời từ cả hai phía."', author:'— David Viscott' },
+            { en: '"Love is composed of a single soul inhabiting two bodies."', vi: '"Tình yêu là một tâm hồn cư trú trong hai thân xác."', author:'— Aristotle' },
+            { en: '"Keep love in your heart. A life without it is like a sunless garden."', vi: '"Giữ tình yêu trong tim. Cuộc đời không có nó như khu vườn thiếu ánh nắng."', author:'— Oscar Wilde' },
+            { en: '"The best love is the kind that awakens the soul and makes us reach for more."', vi: '"Tình yêu đẹp nhất là thứ đánh thức linh hồn và khiến ta vươn tới nhiều hơn."', author:'— Nicholas Sparks' },
+            { en: '"In all the world, there is no heart for me like yours."', vi: '"Trên khắp thế gian, không trái tim nào dành cho tôi như trái tim bạn."', author:'— Maya Angelou' },
+            { en: '"Love does not consist of gazing at each other, but in looking outward together."', vi: '"Tình yêu không phải nhìn nhau, mà là cùng nhìn về một hướng."', author:'— Antoine de Saint-Exupéry' },
+            { en: '"Where there is love there is life."', vi: '"Nơi nào có tình yêu, nơi đó có sự sống."', author:'— Mahatma Gandhi' },
+            { en: '"You know you\'re in love when you can\'t fall asleep because reality is finally better than your dreams."', vi: '"Bạn biết mình đang yêu khi bạn không ngủ được vì thực tại đã đẹp hơn giấc mơ."', author:'— Dr. Seuss' },
+            { en: '"The greatest happiness of life is the conviction that we are loved."', vi: '"Hạnh phúc lớn nhất của cuộc đời là niềm tin rằng ta được yêu thương."', author:'— Victor Hugo' },
+            // ── Cuộc sống (Life) ──
             { en: '"Life is what happens when you\'re busy making other plans."', vi: '"Cuộc đời xảy ra khi bạn đang bận lên kế hoạch cho những điều khác."', author:'— John Lennon' },
-            { en: '"Spread love everywhere you go. Let no one ever come to you without leaving happier."', vi: '"Lan tỏa tình yêu đến mọi nơi bạn đến. Đừng để ai rời xa bạn mà không hạnh phúc hơn."', author:'— Mother Teresa' },
-            { en: '"Keep your face always toward the sunshine, and shadows will fall behind you."', vi: '"Luôn hướng mặt về phía ánh nắng, bóng tối sẽ tự rơi lại phía sau."', author:'— Walt Whitman' },
-            { en: '"The most wasted day of all is one in which we have not laughed."', vi: '"Ngày vô nghĩa nhất là ngày mà ta chưa cười lần nào."', author:'— Nicolas de Chamfort' },
+            { en: '"In the middle of every difficulty lies opportunity."', vi: '"Trong mỗi khó khăn ẩn chứa một cơ hội."', author:'— Albert Einstein' },
             { en: '"You only live once, but if you do it right, once is enough."', vi: '"Bạn chỉ sống một lần, nhưng nếu sống đúng cách, một lần là đủ."', author:'— Mae West' },
             { en: '"Be yourself; everyone else is already taken."', vi: '"Hãy là chính mình; người khác đã có chủ rồi."', author:'— Oscar Wilde' },
+            { en: '"Keep your face always toward the sunshine, and shadows will fall behind you."', vi: '"Luôn hướng mặt về phía ánh nắng, bóng tối sẽ tự rơi lại phía sau."', author:'— Walt Whitman' },
+            { en: '"The most wasted day of all is one in which we have not laughed."', vi: '"Ngày vô nghĩa nhất là ngày mà ta chưa cười lần nào."', author:'— Nicolas de Chamfort' },
+            { en: '"You are never too old to set another goal or to dream a new dream."', vi: '"Bạn không bao giờ quá già để đặt mục tiêu mới hay mơ giấc mơ mới."', author:'— C.S. Lewis' },
+            { en: '"Spread love everywhere you go. Let no one come to you without leaving happier."', vi: '"Lan tỏa tình yêu đến mọi nơi. Đừng để ai rời xa bạn mà không hạnh phúc hơn."', author:'— Mother Teresa' },
+            { en: '"It does not matter how slowly you go as long as you do not stop."', vi: '"Không quan trọng bạn đi chậm đến đâu, miễn là đừng dừng lại."', author:'— Confucius' },
+            { en: '"Life is short, and it is up to you to make it sweet."', vi: '"Cuộc đời ngắn ngủi, và tùy bạn làm cho nó ngọt ngào."', author:'— Sarah Louise Delany' },
+            { en: '"The purpose of our lives is to be happy."', vi: '"Mục đích của cuộc đời chúng ta là hạnh phúc."', author:'— Dalai Lama' },
+            { en: '"Get busy living or get busy dying."', vi: '"Hãy bận rộn sống hoặc bận rộn chết."', author:'— Stephen King' },
+            { en: '"Many of life\'s failures are people who did not realize how close they were to success when they gave up."', vi: '"Nhiều người thất bại vì không biết mình đã gần đến thành công đến thế nào khi họ bỏ cuộc."', author:'— Thomas A. Edison' },
+            { en: '"If life were predictable it would cease to be life, and be without flavor."', vi: '"Nếu cuộc đời có thể đoán trước, nó sẽ không còn là cuộc đời nữa."', author:'— Eleanor Roosevelt' },
+            { en: '"Live in the sunshine, swim the sea, drink the wild air."', vi: '"Sống dưới ánh nắng, bơi cùng biển cả, uống gió trời tự do."', author:'— Ralph Waldo Emerson' },
+            // ── Gia đình (Family) ──
+            { en: '"Family is not an important thing. It\'s everything."', vi: '"Gia đình không chỉ là điều quan trọng — đó là tất cả."', author:'— Michael J. Fox' },
+            { en: '"In family life, love is the oil that eases friction, the cement that binds closer together."', vi: '"Trong gia đình, tình yêu là dầu làm dịu ma sát, xi măng gắn kết mọi người lại."', author:'— Friedrich Nietzsche' },
+            { en: '"The bond that links your true family is not one of blood, but of respect and joy in each other\'s life."', vi: '"Sợi dây gắn kết gia đình thực sự không phải máu mủ, mà là sự tôn trọng và niềm vui trong cuộc sống của nhau."', author:'— Richard Bach' },
+            { en: '"Home is where the heart is."', vi: '"Nhà là nơi trái tim thuộc về."', author:'— Pliny the Elder' },
+            { en: '"A happy family is but an earlier heaven."', vi: '"Một gia đình hạnh phúc là thiên đường sớm hơn."', author:'— George Bernard Shaw' },
+            { en: '"Family is the compass that guides us."', vi: '"Gia đình là la bàn định hướng cho chúng ta."', author:'— Brad Henry' },
+            { en: '"Other things may change us, but we start and end with the family."', vi: '"Nhiều thứ có thể thay đổi chúng ta, nhưng ta bắt đầu và kết thúc với gia đình."', author:'— Anthony Brandt' },
+            { en: '"The memories we make with our family is everything."', vi: '"Những ký ức ta tạo ra với gia đình là tất cả."', author:'— Candace Cameron Bure' },
+            { en: '"Family means no one gets left behind or forgotten."', vi: '"Gia đình nghĩa là không ai bị bỏ lại hay bị lãng quên."', author:'— David Ogden Stiers' },
+            { en: '"In every conceivable manner, the family is link to our past, bridge to our future."', vi: '"Theo mọi cách có thể, gia đình là sợi dây nối với quá khứ, cây cầu đến tương lai."', author:'— Alex Haley' },
+            // ── Sự nghiệp (Career) ──
+            { en: '"The only way to do great work is to love what you do."', vi: '"Cách duy nhất để làm điều tuyệt vời là yêu những gì bạn làm."', author:'— Steve Jobs' },
+            { en: '"Choose a job you love, and you will never have to work a day in your life."', vi: '"Chọn công việc bạn yêu, và bạn sẽ không phải làm việc một ngày nào trong đời."', author:'— Confucius' },
+            { en: '"Success is not final; failure is not fatal: It is the courage to continue that counts."', vi: '"Thành công không phải là đích cuối; thất bại không phải là tử thần — điều quan trọng là dũng khí tiếp tục."', author:'— Winston Churchill' },
+            { en: '"The secret of getting ahead is getting started."', vi: '"Bí quyết để tiến về phía trước là bắt đầu."', author:'— Mark Twain' },
+            { en: '"Hard work beats talent when talent doesn\'t work hard."', vi: '"Chăm chỉ đánh bại tài năng khi tài năng không chịu chăm chỉ."', author:'— Tim Notke' },
+            { en: '"Don\'t watch the clock; do what it does. Keep going."', vi: '"Đừng nhìn đồng hồ; hãy làm như nó — tiếp tục tiến bước."', author:'— Sam Levenson' },
+            { en: '"Success usually comes to those who are too busy to be looking for it."', vi: '"Thành công thường đến với những người quá bận rộn để tìm kiếm nó."', author:'— Henry David Thoreau' },
+            { en: '"I find that the harder I work, the more luck I seem to have."', vi: '"Tôi thấy rằng càng làm việc chăm chỉ, tôi càng có vẻ may mắn hơn."', author:'— Thomas Jefferson' },
+            { en: '"Opportunities don\'t happen; you create them."', vi: '"Cơ hội không tự đến — bạn phải tạo ra chúng."', author:'— Chris Grosser' },
+            { en: '"Don\'t be afraid to give up the good to go for the great."', vi: '"Đừng sợ từ bỏ điều tốt để theo đuổi điều vĩ đại."', author:'— John D. Rockefeller' },
+            { en: '"The road to success and the road to failure are almost exactly the same."', vi: '"Con đường đến thành công và thất bại gần như giống nhau."', author:'— Colin R. Davis' },
+            { en: '"Success is walking from failure to failure with no loss of enthusiasm."', vi: '"Thành công là bước từ thất bại này sang thất bại khác mà không mất đi nhiệt huyết."', author:'— Winston Churchill' },
+            { en: '"If you genuinely want something, don\'t wait for it — teach yourself to be impatient."', vi: '"Nếu bạn thực sự muốn điều gì, đừng chờ đợi — hãy dạy bản thân sự nóng lòng."', author:'— Gurbaksh Chahal' },
+            { en: '"The only limit to our realization of tomorrow will be our doubts of today."', vi: '"Giới hạn duy nhất cho sự thực hiện ngày mai chính là những nghi ngờ của hôm nay."', author:'— Franklin D. Roosevelt' },
         ];
+        let quoteShuffleOrder = [];
+        let quoteShuffleIdx = 0;
+        function getNextQuote() {
+            if (quoteShuffleIdx >= quoteShuffleOrder.length) {
+                // Reshuffle when exhausted
+                quoteShuffleOrder = [...Array(quotesPool.length).keys()].sort(() => Math.random() - .5);
+                quoteShuffleIdx = 0;
+            }
+            return quotesPool[quoteShuffleOrder[quoteShuffleIdx++]];
+        }
 
         function playMagicSound(type) {
             try {
@@ -4451,7 +4505,7 @@
                 </div>`;
 
             // Card 1 – Quote
-            const q = quotesPool[Math.floor(Math.random() * quotesPool.length)];
+            const q = getNextQuote();
             document.getElementById('card-front-1').innerHTML = `
                 <div style="width:100%;height:100%;background:linear-gradient(160deg,#0f172a,#1e1b4b,#0f172a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;box-sizing:border-box;position:relative;overflow:hidden;">
                     <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.25) 0%,transparent 70%);pointer-events:none;"></div>
@@ -4464,16 +4518,16 @@
 
             // Card 2 – Secret Code
             document.getElementById('card-front-2').innerHTML = `
-                <div style="width:100%;height:100%;background:linear-gradient(160deg,#0a0014,#1a1a2e,#030712);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;box-sizing:border-box;position:relative;overflow:hidden;">
-                    <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(34,197,94,.04) 0,rgba(34,197,94,.04) 1px,transparent 1px,transparent 18px);pointer-events:none;"></div>
-                    <p style="font-size:.55rem;font-weight:900;letter-spacing:.2em;color:rgba(74,222,128,.6);text-transform:uppercase;margin:0;">Mật mã bí ẩn</p>
-                    <p style="font-size:1.1rem;margin:0;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">🗝️</p>
-                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(0,0,0,.5);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:10px 14px;">
-                        <p style="font-size:.5rem;color:rgba(74,222,128,.6);margin:0;letter-spacing:.15em;">MẬT MÃ MỞ UNIT 2</p>
-                        <p class="secret-code shimmer-text" style="font-size:2rem;font-weight:900;margin:0;letter-spacing:.15em;filter:none;">509</p>
-                        <p style="font-size:.45rem;color:rgba(74,222,128,.5);margin:0;letter-spacing:.1em;">▓▒░ CLASSIFIED ░▒▓</p>
+                <div style="width:100%;height:100%;background:linear-gradient(160deg,#0a0014,#1a1a2e,#030712);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;box-sizing:border-box;position:relative;overflow:hidden;">
+                    <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(34,197,94,.03) 0,rgba(34,197,94,.03) 1px,transparent 1px,transparent 16px);pointer-events:none;"></div>
+                    <p style="font-size:.48rem;font-weight:900;letter-spacing:.18em;color:rgba(74,222,128,.55);text-transform:uppercase;margin:0;">Mật mã bí ẩn</p>
+                    <p style="font-size:.9rem;margin:0;line-height:1;">🗝️</p>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(0,0,0,.55);border:1px solid rgba(74,222,128,.25);border-radius:8px;padding:7px 10px;width:calc(100% - 8px);box-sizing:border-box;">
+                        <p style="font-size:.42rem;color:rgba(74,222,128,.6);margin:0;letter-spacing:.12em;white-space:nowrap;">MẬT MÃ MỞ UNIT 2</p>
+                        <p class="secret-code shimmer-text" style="font-size:1.6rem;font-weight:900;margin:0;letter-spacing:.1em;filter:none;line-height:1.1;">509</p>
+                        <p style="font-size:.38rem;color:rgba(74,222,128,.45);margin:0;letter-spacing:.08em;white-space:nowrap;">▓▒░ CLASSIFIED ░▒▓</p>
                     </div>
-                    <p style="font-size:.5rem;color:rgba(74,222,128,.5);text-align:center;margin:0;line-height:1.4;">Ghi nhớ mật mã này<br>để mở khóa bài học tiếp theo</p>
+                    <p style="font-size:.42rem;color:rgba(74,222,128,.45);text-align:center;margin:0;line-height:1.45;">Ghi nhớ để mở<br>bài học tiếp theo 🔓</p>
                 </div>`;
         }
 
