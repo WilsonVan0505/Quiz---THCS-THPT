@@ -2358,28 +2358,28 @@
             return `<span class="inline-block px-2 sm:px-3 py-0.5 sm:py-1 bg-white text-gray-700 rounded-full font-black text-[0.65rem] sm:text-sm uppercase shadow-lg border-2 border-gray-300">${type}</span>`;
         }
 
-        function triggerMeteorShower(container) {
-            const textElement = container.querySelector('#word-exVi');
-            if (!textElement || !textElement.classList.contains('blur-[5px]')) return;
-            textElement.style.transition = 'all 1s ease';
-            textElement.classList.remove('blur-[5px]', 'opacity-40', 'select-none', 'hover:opacity-60');
-
-            const numMeteors = 260 + Math.floor(Math.random() * 40);
+        function triggerMeteorShower() {
+            // Trigger 150 long meteors as requested
+            const numMeteors = 150;
             for (let i = 0; i < numMeteors; i++) {
                 const meteor = document.createElement('div');
                 meteor.className = 'meteor';
+                
+                // Spread meteors across the entire screen
                 const startX = (Math.random() * window.innerWidth * 2.5) - (window.innerWidth * 0.5);
-                const startY = -100 - Math.random() * 1200;
+                const startY = -100 - Math.random() * 1000;
                 meteor.style.left = `${startX}px`;
                 meteor.style.top = `${startY}px`;
-                meteor.style.height = `${100 + Math.random() * 150}px`;
+                meteor.style.height = `${200 + Math.random() * 200}px`; // Make them longer
+
                 document.body.appendChild(meteor);
 
-                const angle = -40 - Math.random() * 10;
-                const distance = window.innerHeight + 1200 + Math.random() * 800;
+                // Varied angles, distances, and speeds for a dynamic effect
+                const angle = -35 - Math.random() * 20;
+                const distance = window.innerHeight + 1500 + Math.random() * 1000;
                 const delay = Math.random() * 1500;
-                const duration = 400 + Math.random() * 600;
-                const scale = 0.3 + Math.random() * 1;
+                const duration = 500 + Math.random() * 600;
+                const scale = 0.5 + Math.random() * 1.5;
 
                 const anim = meteor.animate([
                     { transform: `rotate(${angle}deg) translateY(0) scale(${scale})`, opacity: 0, offset: 0 },
@@ -2387,6 +2387,7 @@
                     { opacity: 1, offset: 0.8 },
                     { transform: `rotate(${angle}deg) translateY(${distance}px) scale(${scale * 0.5})`, opacity: 0, offset: 1 }
                 ], { duration: duration, delay: delay, easing: 'linear', fill: 'forwards' });
+                
                 anim.onfinish = () => meteor.remove();
             }
         }
