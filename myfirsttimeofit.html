@@ -2359,8 +2359,8 @@
         }
 
         function triggerMeteorShower() {
-            // Trigger 150 long meteors as requested
-            const numMeteors = 150;
+            // Trigger 150 long meteors and 50 short meteors as requested
+            const numMeteors = 200;
             for (let i = 0; i < numMeteors; i++) {
                 const meteor = document.createElement('div');
                 meteor.className = 'meteor';
@@ -2370,7 +2370,12 @@
                 const startY = -100 - Math.random() * 1000;
                 meteor.style.left = `${startX}px`;
                 meteor.style.top = `${startY}px`;
-                meteor.style.height = `${200 + Math.random() * 200}px`; // Make them longer
+                
+                if (i < 150) {
+                    meteor.style.height = `${200 + Math.random() * 200}px`; // Long meteors
+                } else {
+                    meteor.style.height = `${30 + Math.random() * 50}px`;   // Short meteors
+                }
 
                 document.body.appendChild(meteor);
 
