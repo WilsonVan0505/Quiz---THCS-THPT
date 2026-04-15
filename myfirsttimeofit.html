@@ -946,6 +946,60 @@
         .score-anim {
             animation: float-score 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
+        .zodiac-btn {
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.4) 0%, rgba(46, 16, 101, 0.6) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-top: 1px solid rgba(216, 180, 254, 0.6);
+            border-left: 1px solid rgba(192, 132, 252, 0.5);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(168, 85, 247, 0.3), inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0.5rem;
+        }
+
+        .zodiac-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: linear-gradient(135deg, rgba(107, 33, 168, 0.6) 0%, rgba(76, 29, 149, 0.8) 100%);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(168, 85, 247, 0.4), inset 0 2px 6px rgba(216, 180, 254, 0.5), inset 0 -4px 10px rgba(0, 0, 0, 0.4);
+            border-color: rgba(216, 180, 254, 0.6);
+        }
+
+        .zodiac-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.5s ease;
+        }
+
+        .zodiac-btn:hover::after {
+            left: 200%;
+        }
+
+        .zodiac-emoji {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        @media (min-width: 640px) {
+            .zodiac-emoji {
+                font-size: 3rem;
+            }
+        }
     </style>
 </head>
 
@@ -1019,7 +1073,7 @@
                             BOOK 1</h1>
                         <div
                             class="relative bg-black/30 px-2 sm:px-3 py-0.5 rounded-full border border-white/20 flex items-center gap-1.5 shadow-inner">
-                            <span class="text-yellow-400 text-xs sm:text-sm drop-shadow-md">⭐</span>
+                            <span id="score-icon" class="text-yellow-400 text-xs sm:text-sm drop-shadow-md">⭐</span>
                             <span id="total-score-display"
                                 class="text-white font-bold font-mono text-sm sm:text-base">0</span>
                             <div id="floating-score-container"
@@ -1069,7 +1123,7 @@
 
         <div id="start-screen"
             class="card-crystal screen-transition screen-active relative w-full h-[65vh] min-h-[480px] max-h-[600px] cursor-pointer overflow-hidden group"
-            onclick="startLearning()">
+            onclick="startZodiacSelection()">
             <div id="big-butterfly" class="absolute z-10"
                 style="left: 50%; top: 40%; transform: translate(-50%, -50%) rotate(0deg);">
                 <div style="animation: hover-butterfly-float 3.5s ease-in-out infinite;">
@@ -1085,6 +1139,78 @@
                 <p
                     class="text-sky-200 font-bold text-xl md:text-2xl tracking-widest uppercase animate-pulse drop-shadow-[0_0_15px_rgba(56,189,248,0.9)]">
                     Click to Start</p>
+            </div>
+        </div>
+
+        <div id="zodiac-screen"
+            class="card-crystal screen-transition screen-hidden hidden relative w-full h-[65vh] min-h-[480px] max-h-[600px] p-4 sm:p-6 md:p-8 overflow-y-auto no-scrollbar">
+            <div class="w-full flex flex-col items-center select-none pt-2 sm:pt-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-300 to-purple-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-wider text-center mb-6 sm:mb-8 animate-pulse">
+                    Select Your Zodiac Sign
+                </h2>
+                
+                <div class="grid grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 w-full max-w-3xl mx-auto pb-4">
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♈')">
+                        <span class="zodiac-emoji">♈</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Aries</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Mar 21 - Apr 19</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♉')">
+                        <span class="zodiac-emoji">♉</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Taurus</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Apr 20 - May 20</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♊')">
+                        <span class="zodiac-emoji">♊</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Gemini</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">May 21 - Jun 20</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♋')">
+                        <span class="zodiac-emoji">♋</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Cancer</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Jun 21 - Jul 22</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♌')">
+                        <span class="zodiac-emoji">♌</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Leo</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Jul 23 - Aug 22</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♍')">
+                        <span class="zodiac-emoji">♍</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Virgo</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Aug 23 - Sep 22</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♎')">
+                        <span class="zodiac-emoji">♎</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Libra</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Sep 23 - Oct 22</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♏')">
+                        <span class="zodiac-emoji">♏</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Scorpio</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Oct 23 - Nov 21</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♐')">
+                        <span class="zodiac-emoji">♐</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Sagittarius</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Nov 22 - Dec 21</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♑')">
+                        <span class="zodiac-emoji">♑</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Capricorn</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Dec 22 - Jan 19</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♒')">
+                        <span class="zodiac-emoji">♒</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Aquarius</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Jan 20 - Feb 18</span>
+                    </button>
+                    <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♓')">
+                        <span class="zodiac-emoji">♓</span>
+                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Pisces</span>
+                        <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Feb 19 - Mar 20</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1798,6 +1924,46 @@
                 anim.onfinish = fly;
             }
             setTimeout(fly, 500);
+        }
+
+        function startZodiacSelection() {
+            playTransitionSound();
+            const startScreen = document.getElementById('start-screen');
+            const zodiacScreen = document.getElementById('zodiac-screen');
+            startScreen.classList.remove('screen-active');
+            startScreen.classList.add('screen-hidden');
+
+            setTimeout(() => {
+                startScreen.classList.add('hidden');
+                zodiacScreen.classList.remove('hidden');
+                void zodiacScreen.offsetWidth;
+                zodiacScreen.classList.remove('screen-hidden');
+                zodiacScreen.classList.add('screen-active');
+            }, 800);
+        }
+
+        function selectZodiac(emoji) {
+            playTransitionSound();
+            document.getElementById('score-icon').textContent = emoji;
+            
+            const zodiacScreen = document.getElementById('zodiac-screen');
+            const flashcardEl = document.getElementById('flashcard');
+            
+            zodiacScreen.classList.remove('screen-active');
+            zodiacScreen.classList.add('screen-hidden');
+
+            setTimeout(() => {
+                zodiacScreen.classList.add('hidden');
+                flashcardEl.classList.remove('hidden');
+                void flashcardEl.offsetWidth;
+                flashcardEl.classList.remove('screen-hidden');
+                flashcardEl.classList.add('screen-active');
+
+                renderCard();
+                startTimer();
+                const firstEditableInput = document.querySelector('.editable-input');
+                if (firstEditableInput) firstEditableInput.focus();
+            }, 800);
         }
 
         function startLearning() {
