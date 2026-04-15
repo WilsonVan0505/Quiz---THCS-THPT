@@ -1377,7 +1377,7 @@
                             id="word-ex"></p>
 
                         <!-- Các ô input nhập chữ -->
-                        <div class="w-full flex justify-center shrink-0 min-h-[40px] sm:min-h-[50px]">
+                        <div class="w-full flex justify-center shrink-0 min-h-[40px] sm:min-h-[50px] mt-2 sm:mt-3">
                             <div id="letter-inputs-container"
                                 class="flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 gap-y-2 sm:gap-y-3 lg:gap-y-4">
                             </div>
@@ -1385,7 +1385,7 @@
 
                         <!-- Nhóm nút (Nghe, Hint, Review) -->
                         <div
-                            class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
+                            class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 lg:gap-4 shrink-0 mt-3 sm:mt-5 mb-1">
                             <button onclick="speakCurrentWord()"
                                 class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 lg:w-11 lg:h-11 bg-violet-900/50 hover:bg-violet-800 text-violet-200 border border-violet-500/30 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-violet-400 shadow-sm"
                                 title="Nghe phát âm">
@@ -1467,13 +1467,10 @@
                                         id="back-ex"></p>
                                 </div>
                                 <!-- Back Face: Vietnamese Example with old effects -->
-                                <div class="absolute inset-0 w-full flex items-center justify-center min-h-[60px] sm:min-h-[80px]" style="backface-visibility: hidden; transform: rotateX(180deg);" onclick="event.stopPropagation(); triggerMeteorShower(this); toggleExampleFlip();">
-                                    <p class="text-purple-300 italic text-xs sm:text-sm md:text-base lg:text-xl transition-all duration-700 blur-[5px] opacity-40 hover:opacity-60 select-none px-4 py-1.5 m-0"
+                                <div class="absolute inset-0 w-full flex items-center justify-center min-h-[60px] sm:min-h-[80px]" style="backface-visibility: hidden; transform: rotateX(180deg);">
+                                    <p class="text-purple-300 italic text-base sm:text-lg md:text-xl lg:text-3xl transition-all duration-700 blur-[5px] opacity-40 hover:opacity-60 select-none px-4 py-1.5 m-0"
                                         id="back-exVi"></p>
                                 </div>
-                            </div>
-                            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                                <p class="text-[0.55rem] text-white/50 whitespace-nowrap uppercase tracking-widest font-bold m-0 pt-0.5">Tap to flip</p>
                             </div>
                         </div>
                         <div
@@ -2536,7 +2533,7 @@
                 inner.style.transform = 'rotateX(180deg)';
                 const exViP = document.getElementById('back-exVi');
                 if (exViP) {
-                    // Small delay to let it flip before unblurring
+                    setTimeout(() => triggerMeteorShower(inner.parentElement), 50);
                     setTimeout(() => {
                         exViP.classList.remove('blur-[5px]', 'opacity-40');
                         exViP.classList.add('blur-none', 'opacity-100');
