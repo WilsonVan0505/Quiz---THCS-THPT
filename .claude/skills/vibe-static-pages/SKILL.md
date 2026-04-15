@@ -21,8 +21,8 @@ This skill enforces a clean, modular architecture for HTML static sites to ensur
    - The HTML file acts as the anchor piece combining these specialized assets (via `<link rel="stylesheet">` and `<script src="...">`).
 
 4. **Directory Rules**:
-   - `root/[filename].html`
-   - `root/css/[filename].css`
-   - `root/js/[filename].js`
-   - `root/json/[filename].json`
-   - `root/image/[image_name].extension`
+   - `[filename].html`
+   - `css/[filename].css`
+   - `js/[filename].js`
+   - `json/[filename].json`
+   - `image/[image_name].extension`
