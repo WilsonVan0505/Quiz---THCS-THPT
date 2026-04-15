@@ -1399,14 +1399,20 @@
                                 class="flex flex-col items-center gap-6 w-full transition-all duration-500 transform opacity-100 translate-x-0">
                                 <p
                                     class="text-base sm:text-xl md:text-2xl font-bold text-fuchsia-200 text-center drop-shadow-md">
-                                    Which 2 words do you remember best?</p>
-                                <div class="flex gap-3 sm:gap-5 w-full justify-center">
+                                    Which 4 words do you remember best?</p>
+                                <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3 lg:gap-4 w-full justify-center">
                                     <input type="text" id="mem-word-1"
-                                        class="glass-input-editable w-32 sm:w-40 md:w-48 px-3 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-base sm:text-lg md:text-xl placeholder-white/30 transition-colors"
+                                        class="glass-input-editable w-full sm:w-32 md:w-40 px-2 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-sm sm:text-base md:text-lg placeholder-white/30 transition-colors"
                                         placeholder="Word 1" autocomplete="off" spellcheck="false">
                                     <input type="text" id="mem-word-2"
-                                        class="glass-input-editable w-32 sm:w-40 md:w-48 px-3 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-base sm:text-lg md:text-xl placeholder-white/30 transition-colors"
+                                        class="glass-input-editable w-full sm:w-32 md:w-40 px-2 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-sm sm:text-base md:text-lg placeholder-white/30 transition-colors"
                                         placeholder="Word 2" autocomplete="off" spellcheck="false">
+                                    <input type="text" id="mem-word-3"
+                                        class="glass-input-editable w-full sm:w-32 md:w-40 px-2 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-sm sm:text-base md:text-lg placeholder-white/30 transition-colors"
+                                        placeholder="Word 3" autocomplete="off" spellcheck="false">
+                                    <input type="text" id="mem-word-4"
+                                        class="glass-input-editable w-full sm:w-32 md:w-40 px-2 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-sm sm:text-base md:text-lg placeholder-white/30 transition-colors"
+                                        placeholder="Word 4" autocomplete="off" spellcheck="false">
                                 </div>
                             </div>
                             <div id="step2-part-1"
@@ -1461,7 +1467,7 @@
                                 class="hidden flex-col items-center gap-4 sm:gap-6 w-full transition-all duration-500 transform opacity-0 translate-x-12">
                                 <p
                                     class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">
-                                    One more to go! Translate this:</p>
+                                    Translate this:</p>
                                 <div class="w-full bg-black/20 p-4 sm:p-5 rounded-2xl border border-white/10 relative transition-all duration-300"
                                     id="sent-box-2">
                                     <button id="hint-btn-2" onclick="useTranslationHint(2)"
@@ -1477,6 +1483,50 @@
                                         placeholder="Type the English sentence..." autocomplete="off"
                                         spellcheck="false">
                                     <p id="feedback-2" class="text-xs sm:text-sm mt-1.5 hidden"></p>
+                                </div>
+                            </div>
+                            <div id="step2-part-5"
+                                class="hidden flex-col items-center gap-4 sm:gap-6 w-full transition-all duration-500 transform opacity-0 translate-x-12">
+                                <p
+                                    class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">
+                                    Translate this:</p>
+                                <div class="w-full bg-black/20 p-4 sm:p-5 rounded-2xl border border-white/10 relative transition-all duration-300"
+                                    id="sent-box-3">
+                                    <button id="hint-btn-3" onclick="useTranslationHint(3)"
+                                        class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/30 backdrop-blur-md rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 text-sm sm:text-base font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:scale-105 transition-all text-white flex gap-1 items-center z-10 opacity-0 pointer-events-none">
+                                        <span class="hint-emoji drop-shadow-md"></span> <span class="text-[0.65rem] sm:text-xs text-white/80 mx-0.5">x</span><span class="hint-count-text text-yellow-300">0</span>
+                                    </button>
+                                    <p id="label-word-3"
+                                        class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5 mt-4 sm:mt-0 pr-16 sm:pr-20">
+                                        Sentence with Word 3:</p>
+                                    <p id="vi-ex-3" class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16"></p>
+                                    <input type="text" id="sent-input-3"
+                                        class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent"
+                                        placeholder="Type the English sentence..." autocomplete="off"
+                                        spellcheck="false">
+                                    <p id="feedback-3" class="text-xs sm:text-sm mt-1.5 hidden"></p>
+                                </div>
+                            </div>
+                            <div id="step2-part-6"
+                                class="hidden flex-col items-center gap-4 sm:gap-6 w-full transition-all duration-500 transform opacity-0 translate-x-12">
+                                <p
+                                    class="text-base sm:text-lg md:text-xl font-bold text-fuchsia-200 text-center drop-shadow-md">
+                                    One more to go! Translate this:</p>
+                                <div class="w-full bg-black/20 p-4 sm:p-5 rounded-2xl border border-white/10 relative transition-all duration-300"
+                                    id="sent-box-4">
+                                    <button id="hint-btn-4" onclick="useTranslationHint(4)"
+                                        class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/30 backdrop-blur-md rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 text-sm sm:text-base font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:scale-105 transition-all text-white flex gap-1 items-center z-10 opacity-0 pointer-events-none">
+                                        <span class="hint-emoji drop-shadow-md"></span> <span class="text-[0.65rem] sm:text-xs text-white/80 mx-0.5">x</span><span class="hint-count-text text-yellow-300">0</span>
+                                    </button>
+                                    <p id="label-word-4"
+                                        class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5 mt-4 sm:mt-0 pr-16 sm:pr-20">
+                                        Sentence with Word 4:</p>
+                                    <p id="vi-ex-4" class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16"></p>
+                                    <input type="text" id="sent-input-4"
+                                        class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent"
+                                        placeholder="Type the English sentence..." autocomplete="off"
+                                        spellcheck="false">
+                                    <p id="feedback-4" class="text-xs sm:text-sm mt-1.5 hidden"></p>
                                 </div>
                             </div>
                         </div>
