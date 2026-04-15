@@ -2649,9 +2649,6 @@
             playSuccessSound();
             document.getElementById('review-transition-screen').classList.add('hidden');
             document.getElementById('review-transition-screen').classList.remove('flex');
-            flashcardEl.classList.remove('hidden');
-            currentIndex++;
-            renderCard();
 
             setTimeout(() => {
                 flowerContainer.style.opacity = '0.15';
@@ -2667,6 +2664,11 @@
             setTimeout(() => {
                 flowerScreen.classList.remove('opacity-100');
                 flowerScreen.classList.add('opacity-0', 'pointer-events-none');
+                
+                flashcardEl.classList.remove('hidden');
+                currentIndex++;
+                renderCard();
+
                 setTimeout(() => {
                     flowerScreen.classList.add('hidden');
                     flowerText.classList.add('opacity-0', 'translate-y-4', 'scale-90');
@@ -2961,9 +2963,14 @@
                     pointColorClass = 'text-orange-300 drop-shadow-[0_0_8px_rgba(253,186,116,0.8)]';
                 }
 
-                if (!usedHintForCurrentWord && currentIndex < originalFlashcardsCount) {
-                    totalScore += points;
-                    document.getElementById('total-score-display').textContent = totalScore;
+                if (currentIndex < originalFlashcardsCount) {
+                    if (!usedHintForCurrentWord) {
+                        totalScore += points;
+                        document.getElementById('total-score-display').textContent = totalScore;
+                    } else {
+                        points = 0;
+                        pointColorClass = 'text-gray-400 drop-shadow-[0_0_8px_rgba(156,163,175,0.8)]';
+                    }
 
                     const floatContainer = document.getElementById('floating-score-container');
                     if (floatContainer) {
