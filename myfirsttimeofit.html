@@ -1573,36 +1573,48 @@
                     <span
                         class="text-[0.65rem] sm:text-xs md:text-sm font-bold uppercase tracking-widest block mb-1 text-sky-300 transition-transform group-hover:scale-110 relative z-20">Nouns</span>
                     <span
-                        class="text-3xl sm:text-4xl md:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
+                        class="text-5xl sm:text-6xl md:text-7xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
                 </button>
                 <button id="basket-v" onclick="harvest('v', this)"
                     class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none">
                     <span
                         class="text-[0.65rem] sm:text-xs md:text-sm font-bold uppercase tracking-widest block mb-1 text-rose-300 transition-transform group-hover:scale-110 relative z-20">Verbs</span>
                     <span
-                        class="text-3xl sm:text-4xl md:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
+                        class="text-5xl sm:text-6xl md:text-7xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
                 </button>
                 <button id="basket-adj" onclick="harvest('adj', this)"
                     class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none">
                     <span
                         class="text-[0.65rem] sm:text-xs md:text-sm font-bold uppercase tracking-widest block mb-1 text-yellow-300 transition-transform group-hover:scale-110 relative z-20">Adjectives</span>
                     <span
-                        class="text-3xl sm:text-4xl md:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
+                        class="text-5xl sm:text-6xl md:text-7xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
                 </button>
                 <button id="basket-adv" onclick="harvest('adv', this)"
                     class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none">
                     <span
                         class="text-[0.65rem] sm:text-xs md:text-sm font-bold uppercase tracking-widest block mb-1 text-orange-300 transition-transform group-hover:scale-110 relative z-20">Adverbs</span>
                     <span
-                        class="text-3xl sm:text-4xl md:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
+                        class="text-5xl sm:text-6xl md:text-7xl drop-shadow-md group-hover:drop-shadow-xl transition-all relative z-10">🧺</span>
                 </button>
             </div>
 
             <div class="w-full flex flex-col items-center mt-8 shrink-0">
                 <button id="restart-btn" onclick="resetQuiz()"
                     class="hidden btn-crystal px-8 sm:px-10 py-3 sm:py-3.5 md:px-12 md:py-4 font-bold rounded-full items-center justify-center gap-2 text-base sm:text-lg md:text-xl mx-auto w-fit opacity-0 scale-90 pointer-events-none transition-all duration-700">Restart</button>
+                <!-- Lớp cỏ xanh -->
+                <div class="w-full relative mt-6 sm:mt-8 -mb-2 overflow-hidden" style="height: 48px; pointer-events:none;">
+                    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width:100%; height:100%; display:block;">
+                        <!-- Ground fill -->
+                        <rect x="0" y="44" width="1200" height="36" fill="#14532d"/>
+                        <!-- Grass blades (many offset zigzag shapes) -->
+                        <path d="M0,44 Q10,18 20,44 Q30,18 40,44 Q50,18 60,44 Q70,18 80,44 Q90,18 100,44 Q110,18 120,44 Q130,18 140,44 Q150,18 160,44 Q170,18 180,44 Q190,18 200,44 Q210,18 220,44 Q230,18 240,44 Q250,18 260,44 Q270,18 280,44 Q290,18 300,44 Q310,18 320,44 Q330,18 340,44 Q350,18 360,44 Q370,18 380,44 Q390,18 400,44 Q410,18 420,44 Q430,18 440,44 Q450,18 460,44 Q470,18 480,44 Q490,18 500,44 Q510,18 520,44 Q530,18 540,44 Q550,18 560,44 Q570,18 580,44 Q590,18 600,44 Q610,18 620,44 Q630,18 640,44 Q650,18 660,44 Q670,18 680,44 Q690,18 700,44 Q710,18 720,44 Q730,18 740,44 Q750,18 760,44 Q770,18 780,44 Q790,18 800,44 Q810,18 820,44 Q830,18 840,44 Q850,18 860,44 Q870,18 880,44 Q890,18 900,44 Q910,18 920,44 Q930,18 940,44 Q950,18 960,44 Q970,18 980,44 Q990,18 1000,44 Q1010,18 1020,44 Q1030,18 1040,44 Q1050,18 1060,44 Q1070,18 1080,44 Q1090,18 1100,44 Q1110,18 1120,44 Q1130,18 1140,44 Q1150,18 1160,44 Q1170,18 1180,44 Q1190,18 1200,44 L1200,80 L0,80 Z" fill="#16a34a" opacity="0.9"/>
+                        <!-- Second shorter layer for depth -->
+                        <path d="M0,50 Q15,30 30,50 Q45,28 60,50 Q75,30 90,50 Q105,28 120,50 Q135,30 150,50 Q165,28 180,50 Q195,30 210,50 Q225,28 240,50 Q255,30 270,50 Q285,28 300,50 Q315,30 330,50 Q345,28 360,50 Q375,30 390,50 Q405,28 420,50 Q435,30 450,50 Q465,28 480,50 Q495,30 510,50 Q525,28 540,50 Q555,30 570,50 Q585,28 600,50 Q615,30 630,50 Q645,28 660,50 Q675,30 690,50 Q705,28 720,50 Q735,30 750,50 Q765,28 780,50 Q795,30 810,50 Q825,28 840,50 Q855,30 870,50 Q885,28 900,50 Q915,30 930,50 Q945,28 960,50 Q975,30 990,50 Q1005,28 1020,50 Q1035,30 1050,50 Q1065,28 1080,50 Q1095,30 1110,50 Q1125,28 1140,50 Q1155,30 1170,50 Q1185,28 1200,50 L1200,80 L0,80 Z" fill="#15803d" opacity="0.7"/>
+                    </svg>
+                </div>
                 <p
-                    class="text-[0.65rem] sm:text-xs text-center text-purple-300/70 italic mt-6 sm:mt-8 -mb-1 sm:-mb-3 md:-mb-5">
+                    class="text-[0.65rem] sm:text-xs text-center text-purple-300/70 italic pt-2 pb-3 bg-[#14532d] w-full">
                     &copy; Copyright by Hoang Truong English</p>
             </div>
         </div>
@@ -2927,6 +2939,17 @@
                     const dx = (btnRect.left + btnRect.width / 2) - (appleRect.left + appleRect.width / 2);
                     const dy = (btnRect.top + btnRect.height / 2) - (appleRect.top + appleRect.height / 2);
 
+                    // Show happy emoji burst
+                    const burst = document.createElement('div');
+                    burst.textContent = '😊';
+                    burst.style.cssText = `position:absolute; left:${parseFloat(apple.style.left)}px; top:${parseFloat(apple.style.top)}px; transform:translate(-50%,-50%) scale(0); font-size:3rem; z-index:100; pointer-events:none; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease 0.4s;`;
+                    document.getElementById('final-screen').appendChild(burst);
+                    requestAnimationFrame(() => { requestAnimationFrame(() => {
+                        burst.style.transform = 'translate(-50%,-50%) scale(2)';
+                        burst.style.opacity = '1';
+                    }); });
+                    setTimeout(() => { burst.style.opacity = '0'; setTimeout(() => burst.remove(), 500); }, 600);
+
                     apple.animate([
                         { transform: apple.style.transform, opacity: 1 },
                         { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.2) rotate(180deg)`, opacity: 0 }
@@ -2946,6 +2969,23 @@
                     }, 500);
                 } else {
                     playErrorSound();
+
+                    // Show sad emoji burst at apple position
+                    const appleRect2 = apple.getBoundingClientRect();
+                    const finalScreenEl = document.getElementById('final-screen');
+                    const screenRect2 = finalScreenEl.getBoundingClientRect();
+                    const bx = appleRect2.left - screenRect2.left + appleRect2.width / 2;
+                    const by = appleRect2.top - screenRect2.top + appleRect2.height / 2;
+
+                    const sadBurst = document.createElement('div');
+                    sadBurst.textContent = '😢';
+                    sadBurst.style.cssText = `position:absolute; left:${bx}px; top:${by}px; transform:translate(-50%,-50%) scale(0); font-size:3rem; z-index:100; pointer-events:none; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease 0.5s; opacity:1;`;
+                    finalScreenEl.appendChild(sadBurst);
+                    requestAnimationFrame(() => { requestAnimationFrame(() => {
+                        sadBurst.style.transform = 'translate(-50%,-50%) scale(2)';
+                    }); });
+                    setTimeout(() => { sadBurst.style.opacity = '0'; setTimeout(() => sadBurst.remove(), 500); }, 800);
+
                     createWaterSplash(apple);
                     apple.style.opacity = '0';
 
