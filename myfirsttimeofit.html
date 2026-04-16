@@ -5484,9 +5484,10 @@
             document.getElementById('card-back-2').innerHTML = `
                 <div class="mystery-card-ordinal">1</div>
                 <div style="display:flex;flex-direction:column;align-items:center;gap:15px;width:100%;z-index:10;">
-                    <div style="font-size:2.8rem; filter:drop-shadow(0 0 20px rgba(74,222,128,0.5));">🔐</div>
-                    <div style="transform:translateY(10px); background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.3); padding:8px 20px; border-radius:30px; backdrop-filter:blur(10px);">
-                       <span style="font-size:0.7rem;font-weight:900;color:#4ade80;text-transform:uppercase;letter-spacing:0.2em;">Decrypt Code</span>
+                    <div style="font-size:2.8rem; filter:drop-shadow(0 0 20px rgba(74,222,128,0.5));">🕵️</div>
+                    <div style="width:85%;display:flex;flex-direction:column;align-items:center; gap:8px;">
+                        <input type="text" id="code-name-input" class="mystical-input w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="IDENTITY" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkCodeUnlock(event); }" onclick="event.stopPropagation()">
+                        <p class="input-subnote" style="color:rgba(74,222,128,0.5)">Verify Identity to Access Ritual</p>
                     </div>
                 </div>`;
 
@@ -5516,11 +5517,10 @@
             document.getElementById('card-back-1').innerHTML = `
                 <div class="mystery-card-ordinal">2</div>
                 <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;z-index:10;">
-                    <div style="font-size:2.8rem;filter:drop-shadow(0 0 20px rgba(251,191,36,0.5))">👤</div>
+                    <div style="font-size:2.8rem;filter:drop-shadow(0 0 20px rgba(251,191,36,0.5))">🔐</div>
                     <div style="width:85%;display:flex;flex-direction:column;align-items:center; gap:8px;">
-                        <input type="text" id="quote-name-input" class="mystical-input w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="IDENTITY" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
                         <input type="number" id="quote-code-input" class="mystical-input no-spinners w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="SECRET CODE" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
-                        <p class="input-subnote" style="color:rgba(251,191,36,0.5)">Verify Identity & Ritual Code</p>
+                        <p class="input-subnote" style="color:rgba(251,191,36,0.5)">Enter Ritual Code to Decrypt</p>
                     </div>
                 </div>`;
 
@@ -5630,44 +5630,49 @@
             }, 3000);
         }
 
-        let isQuoteUnlocked = false;
-        function checkQuoteUnlock(event) {
+        let isCodeUnlocked = false;
+        function checkCodeUnlock(event) {
             if (event) event.stopPropagation();
-            const inpName = document.getElementById('quote-name-input');
-            const inpCode = document.getElementById('quote-code-input');
-            if (!inpName || !inpCode) return;
-
-            const enteredName = inpName.value.trim().toLowerCase();
-            const enteredCode = parseInt(inpCode.value.trim());
-
+            const inp = document.getElementById('code-name-input');
+            if (!inp) return;
+            const enteredName = inp.value.trim().toLowerCase();
+            
             const nameInput = document.getElementById('user-name-input');
             let actualName = nameInput ? nameInput.value.trim().toLowerCase() : "";
             if (actualName === "") actualName = "explorer";
 
-            let success = true;
-            if (enteredName !== actualName) {
-                inpName.classList.add('animate-shake');
-                inpName.style.borderColor = "#ef4444";
-                success = false;
+            if (enteredName === actualName) {
+                isCodeUnlocked = true;
+                inp.style.borderColor = "#4ade80";
+                setTimeout(() => revealCard(2), 400);
             } else {
-                inpName.style.borderColor = "#4ade80";
+                inp.classList.add('animate-shake');
+                inp.style.borderColor = "#ef4444";
+                setTimeout(() => {
+                    inp.classList.remove('animate-shake');
+                    inp.style.borderColor = "";
+                }, 500);
             }
+        }
 
-            if (enteredCode !== globalMysteryCode) {
-                inpCode.classList.add('animate-shake');
-                inpCode.style.borderColor = "#ef4444";
-                success = false;
-            } else {
-                inpCode.style.borderColor = "#4ade80";
-            }
+        let isQuoteUnlocked = false;
+        function checkQuoteUnlock(event) {
+            if (event) event.stopPropagation();
+            const inpCode = document.getElementById('quote-code-input');
+            if (!inpCode) return;
 
-            if (success) {
+            const enteredCode = parseInt(inpCode.value.trim());
+
+            if (enteredCode === globalMysteryCode) {
                 isQuoteUnlocked = true;
+                inpCode.style.borderColor = "#4ade80";
                 setTimeout(() => revealCard(1), 500);
             } else {
+                inpCode.classList.add('animate-shake');
+                inpCode.style.borderColor = "#ef4444";
                 setTimeout(() => {
-                    inpName.classList.remove('animate-shake');
                     inpCode.classList.remove('animate-shake');
+                    inpCode.style.borderColor = "";
                 }, 500);
             }
         }
@@ -5700,6 +5705,18 @@
             if (!inner || inner.classList.contains('flipped')) return;
 
             // Ritual Logic: Code (2) -> Quote (1) -> Orb (0)
+            if (idx === 2) {
+                if (!isCodeUnlocked) {
+                    const inp = document.getElementById('code-name-input');
+                    if (inp) {
+                        inp.focus();
+                        const wrapper = inner.closest('.mystery-card-wrapper');
+                        wrapper.classList.add('animate-shake');
+                        setTimeout(() => wrapper.classList.remove('animate-shake'), 500);
+                    }
+                    return;
+                }
+            }
             if (idx === 1) {
                 if (!document.getElementById('card-inner-2').classList.contains('flipped')) {
                     const codeCard = document.getElementById('card-inner-2').closest('.mystery-card-wrapper');
@@ -5708,7 +5725,7 @@
                     return;
                 }
                 if (!isQuoteUnlocked) {
-                    const inp = document.getElementById('quote-name-input');
+                    const inp = document.getElementById('quote-code-input');
                     if (inp) {
                         inp.focus();
                         const wrapper = inner.closest('.mystery-card-wrapper');
@@ -5726,9 +5743,9 @@
                     return;
                 }
                 if (!isOrbUnlocked) {
-                    const inpCode = document.getElementById('orb-code-input');
-                    if (inpCode) {
-                        inpCode.focus();
+                    const inpLogos = document.getElementById('orb-logos-input');
+                    if (inpLogos) {
+                        inpLogos.focus();
                         const wrapper = inner.closest('.mystery-card-wrapper');
                         wrapper.classList.add('animate-shake');
                         setTimeout(() => wrapper.classList.remove('animate-shake'), 500);
