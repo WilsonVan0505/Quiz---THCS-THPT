@@ -1663,18 +1663,6 @@
             100% { transform: translateY(0) scale(1); opacity: 1; }
         }
 
-        @keyframes tree-glow-pulse {
-
-            0%,
-            100% {
-                text-shadow: 0 0 10px rgba(196, 181, 253, 0.8), 0 0 20px rgba(167, 139, 250, 0.4);
-            }
-
-            50% {
-                text-shadow: 0 0 20px rgba(196, 181, 253, 1), 0 0 35px rgba(167, 139, 250, 0.6);
-            }
-        }
-
         .header-faded {
             opacity: 0.55;
             transition: opacity 0.3s ease;
@@ -5417,6 +5405,7 @@
         let globalQuoteWordCount = 0;
         let globalDynamicCode = 0;
         let isOrbUnlocked = false;
+        let hintToastTimeout = null;
 
         function prepareMysteryCards() {
             const userNameInput = document.getElementById('user-name-input');
@@ -5557,6 +5546,9 @@
             const portal = document.getElementById('hint-pill-portal');
             if (!portal) return;
 
+            // Clear any existing timeout for hint toast
+            if (hintToastTimeout) clearTimeout(hintToastTimeout);
+
             // Immediately update UI for the buttons
             updateHintButtonsUI();
 
@@ -5570,10 +5562,11 @@
             portal.classList.remove('opacity-0');
             portal.classList.add('opacity-100');
 
-            setTimeout(() => {
+            hintToastTimeout = setTimeout(() => {
                 portal.classList.remove('opacity-100');
                 portal.classList.add('opacity-0');
                 setTimeout(() => { portal.innerHTML = ''; }, 500);
+                hintToastTimeout = null;
             }, 3000);
         }
 
@@ -5859,7 +5852,7 @@
         }
 
         function showOrbShowcase() {
-            const magic = zodiacMagicMap[selectedZodiacEmoji] || zodiacMagicMap['♯'];
+            const magic = zodiacMagicMap[selectedZodiacEmoji] || zodiacMagicMap['♏'];
             playAlertSound();
 
             // Build fullscreen overlay
