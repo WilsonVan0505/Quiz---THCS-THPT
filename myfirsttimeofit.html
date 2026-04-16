@@ -5508,11 +5508,12 @@
 
             document.getElementById('card-back-1').innerHTML = `
                 <div class="mystery-card-ordinal">2</div>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:15px;width:100%;z-index:10;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;z-index:10;">
                     <div style="font-size:2.8rem;filter:drop-shadow(0 0 20px rgba(251,191,36,0.5))">👤</div>
                     <div style="width:85%;display:flex;flex-direction:column;align-items:center; gap:8px;">
-                        <input type="text" id="quote-name-input" class="mystical-input w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="IDENTITY REQUIRED" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
-                        <p class="input-subnote" style="color:rgba(251,191,36,0.5)">Verify your Explorer Identity</p>
+                        <input type="text" id="quote-name-input" class="mystical-input w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="IDENTITY" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
+                        <input type="number" id="quote-code-input" class="mystical-input no-spinners w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="SECRET CODE" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
+                        <p class="input-subnote" style="color:rgba(251,191,36,0.5)">Verify Identity & Ritual Code</p>
                     </div>
                 </div>`;
 
@@ -5626,29 +5627,41 @@
         let isQuoteUnlocked = false;
         function checkQuoteUnlock(event) {
             if (event) event.stopPropagation();
-            const inp = document.getElementById('quote-name-input');
-            if (!inp) return;
-            const enteredName = inp.value.trim().toLowerCase();
-            
+            const inpName = document.getElementById('quote-name-input');
+            const inpCode = document.getElementById('quote-code-input');
+            if (!inpName || !inpCode) return;
+
+            const enteredName = inpName.value.trim().toLowerCase();
+            const enteredCode = parseInt(inpCode.value.trim());
+
             const nameInput = document.getElementById('user-name-input');
             let actualName = nameInput ? nameInput.value.trim().toLowerCase() : "";
-            
-            // Fallback to "explorer" if the header name was left blank
             if (actualName === "") actualName = "explorer";
 
-            if (enteredName === actualName) {
-                isQuoteUnlocked = true;
-                inp.style.borderColor = "#4ade80";
-                inp.style.boxShadow = "0 0 15px rgba(74, 222, 128, 0.5)";
-                setTimeout(() => revealCard(1), 400);
+            let success = true;
+            if (enteredName !== actualName) {
+                inpName.classList.add('animate-shake');
+                inpName.style.borderColor = "#ef4444";
+                success = false;
             } else {
-                inp.classList.add('animate-shake');
-                inp.style.borderColor = "#ef4444";
-                inp.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.3)";
+                inpName.style.borderColor = "#4ade80";
+            }
+
+            if (enteredCode !== globalMysteryCode) {
+                inpCode.classList.add('animate-shake');
+                inpCode.style.borderColor = "#ef4444";
+                success = false;
+            } else {
+                inpCode.style.borderColor = "#4ade80";
+            }
+
+            if (success) {
+                isQuoteUnlocked = true;
+                setTimeout(() => revealCard(1), 500);
+            } else {
                 setTimeout(() => {
-                    inp.classList.remove('animate-shake');
-                    inp.style.borderColor = "";
-                    inp.style.boxShadow = "";
+                    inpName.classList.remove('animate-shake');
+                    inpCode.classList.remove('animate-shake');
                 }, 500);
             }
         }
