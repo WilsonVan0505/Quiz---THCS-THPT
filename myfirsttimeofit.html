@@ -1878,11 +1878,21 @@
                         <div id="mystery-card-tray" class="hidden items-center justify-center gap-4 sm:gap-6 w-full max-w-xl pointer-events-auto">
                             <div class="mystery-card-wrapper" style="--deal-delay:.1s;--card-rot:-6deg;height:290px;width:140px;flex-shrink:0;" onclick="revealCard(0)">
                                 <div class="mystery-card-inner" id="card-inner-0">
-                                    <div class="mystery-card-face mystery-card-back">
+                                    <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3">
                                         <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);"></div>
-                                        <div class="flex flex-col items-center gap-3">
-                                            <span style="font-size:3rem;filter:drop-shadow(0 0 12px rgba(196,181,253,1))">🔮</span>
-                                            <p class="text-[0.65rem] font-bold tracking-widest uppercase" style="color:rgba(196,181,253,.7)">Tap to reveal</p>
+                                        <div class="flex flex-col items-center gap-2 w-full z-10">
+                                            <span style="font-size:2.2rem;filter:drop-shadow(0 0 12px rgba(196,181,253,1))" id="orb-card-icon">🔮</span>
+                                            <div id="orb-unlock-container" class="flex flex-col items-center gap-2 w-full mt-1">
+                                                <input type="text" id="orb-code-input" 
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-1 py-1 text-center text-white text-base font-black tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 shadow-inner" 
+                                                    placeholder="CODE?" autocomplete="off"
+                                                    onclick="event.stopPropagation()">
+                                                <button onclick="checkOrbUnlock(event)" 
+                                                    class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[0.55rem] font-black tracking-widest uppercase px-3 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all hover:scale-105 active:scale-95">
+                                                    Unlock
+                                                </button>
+                                            </div>
+                                            <p id="orb-hint-text" class="text-[0.45rem] font-bold tracking-widest uppercase mt-1" style="color:rgba(196,181,253,.5)">Magical Protection</p>
                                         </div>
                                     </div>
                                     <div class="mystery-card-face mystery-card-front" id="card-front-0"></div>
@@ -2044,6 +2054,8 @@
         let selectedZodiacEmoji = '';
         let remainingHints = 0;
         let mysteryBoxOpened = false;
+        let globalMysteryCode = 0;
+        let isOrbUnlocked = false;
 
         let appleGameStarted = false;
         let isAppleSortingPhase = false;
@@ -4822,6 +4834,7 @@
             const nameLen = userName.length;
             const wordsLen = (currentWord1.length + currentWord2.length + currentWord3.length + currentWord4.length);
             const mysteryCode = (nameLen + totalScore + wordsLen) * 5;
+            globalMysteryCode = mysteryCode;
 
             // Card 0 – Magical Orb
             const magic = zodiacMagicMap[selectedZodiacEmoji] || zodiacMagicMap['♏'];
@@ -4922,10 +4935,52 @@
             }
         }
 
+        function checkOrbUnlock(event) {
+            if (event) event.stopPropagation();
+            const inp = document.getElementById('orb-code-input');
+            const code = inp.value.trim();
+            if (parseInt(code) === globalMysteryCode) {
+                isOrbUnlocked = true;
+                // Success visual on input
+                inp.style.borderColor = "#4ade80";
+                inp.style.boxShadow = "0 0 15px #4ade80";
+                setTimeout(() => revealCard(0), 400);
+            } else {
+                inp.classList.add('animate-shake');
+                inp.style.borderColor = "#ef4444";
+                setTimeout(() => {
+                    inp.classList.remove('animate-shake');
+                    inp.style.borderColor = "";
+                }, 500);
+            }
+        }
+
         let cardsFlippedCount = 0;
         function revealCard(idx) {
             const inner = document.getElementById(`card-inner-${idx}`);
             if (!inner || inner.classList.contains('flipped')) return;
+
+            // Ritual Logic: Code (2) -> Quote (1) -> Orb (0)
+            if (idx === 1 && !document.getElementById('card-inner-2').classList.contains('flipped')) {
+                const codeCard = document.getElementById('card-inner-2').closest('.mystery-card-wrapper');
+                codeCard.classList.add('animate-shake');
+                setTimeout(() => codeCard.classList.remove('animate-shake'), 500);
+                return;
+            }
+            if (idx === 0) {
+                if (!document.getElementById('card-inner-1').classList.contains('flipped')) {
+                    const quoteCard = document.getElementById('card-inner-1').closest('.mystery-card-wrapper');
+                    quoteCard.classList.add('animate-shake');
+                    setTimeout(() => quoteCard.classList.remove('animate-shake'), 500);
+                    return;
+                }
+                if (!isOrbUnlocked) {
+                    const inp = document.getElementById('orb-code-input');
+                    if (inp) inp.focus();
+                    return;
+                }
+            }
+
             inner.classList.add('flipped');
             cardsFlippedCount++;
 
