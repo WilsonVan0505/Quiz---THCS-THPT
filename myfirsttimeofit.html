@@ -5518,8 +5518,9 @@
                 <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;z-index:10;">
                     <div style="font-size:2.8rem;filter:drop-shadow(0 0 20px rgba(251,191,36,0.5))">👤</div>
                     <div style="width:85%;display:flex;flex-direction:column;align-items:center; gap:8px;">
+                        <input type="text" id="quote-name-input" class="mystical-input w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="IDENTITY" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
                         <input type="number" id="quote-code-input" class="mystical-input no-spinners w-full px-5 py-3 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="SECRET CODE" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkQuoteUnlock(event); }" onclick="event.stopPropagation()">
-                        <p class="input-subnote" style="color:rgba(251,191,36,0.5)">Verify Ritual Code to Unlock</p>
+                        <p class="input-subnote" style="color:rgba(251,191,36,0.5)">Verify Identity & Ritual Code</p>
                     </div>
                 </div>`;
 
@@ -5548,8 +5549,9 @@
                 <div style="display:flex;flex-direction:column;align-items:center;gap:15px;width:100%;z-index:10;">
                     <div style="font-size:2.8rem;filter:drop-shadow(0 0 20px rgba(167,139,250,0.5))">🔮</div>
                     <div style="display:flex;flex-direction:column;gap:12px;width:85%;align-items:center;">
-                        <input type="number" id="orb-logos-input" class="mystical-input no-spinners w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="LOGOS PASS" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }" onclick="event.stopPropagation()">
-                        <p class="input-subnote">Enter Logos Pass to Finalize</p>
+                        <input type="number" id="orb-code-input" class="mystical-input no-spinners w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="QUANTUM CODE" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }" onclick="event.stopPropagation()">
+                        <input type="number" id="orb-word-count-input" class="mystical-input no-spinners w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="LOGOS COUNT" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }" onclick="event.stopPropagation()">
+                        <p class="input-subnote">Fuse Code & Logos Count</p>
                     </div>
                 </div>`;
         }
@@ -5632,43 +5634,77 @@
         let isQuoteUnlocked = false;
         function checkQuoteUnlock(event) {
             if (event) event.stopPropagation();
-            const inp = document.getElementById('quote-code-input');
-            if (!inp) return;
+            const inpName = document.getElementById('quote-name-input');
+            const inpCode = document.getElementById('quote-code-input');
+            if (!inpName || !inpCode) return;
 
-            const enteredCode = parseInt(inp.value.trim());
+            const enteredName = inpName.value.trim().toLowerCase();
+            const enteredCode = parseInt(inpCode.value.trim());
 
-            if (enteredCode === globalMysteryCode) {
+            const nameInput = document.getElementById('user-name-input');
+            let actualName = nameInput ? nameInput.value.trim().toLowerCase() : "";
+            if (actualName === "") actualName = "explorer";
+
+            let success = true;
+            if (enteredName !== actualName) {
+                inpName.classList.add('animate-shake');
+                inpName.style.borderColor = "#ef4444";
+                success = false;
+            } else {
+                inpName.style.borderColor = "#4ade80";
+            }
+
+            if (enteredCode !== globalMysteryCode) {
+                inpCode.classList.add('animate-shake');
+                inpCode.style.borderColor = "#ef4444";
+                success = false;
+            } else {
+                inpCode.style.borderColor = "#4ade80";
+            }
+
+            if (success) {
                 isQuoteUnlocked = true;
-                inp.style.borderColor = "#4ade80";
                 setTimeout(() => revealCard(1), 500);
             } else {
-                inp.classList.add('animate-shake');
-                inp.style.borderColor = "#ef4444";
                 setTimeout(() => {
-                    inp.classList.remove('animate-shake');
-                    inp.style.borderColor = "";
+                    inpName.classList.remove('animate-shake');
+                    inpCode.classList.remove('animate-shake');
                 }, 500);
             }
         }
 
-        let isOrbUnlocked = false;
         function checkOrbUnlock(event) {
             if (event) event.stopPropagation();
-            const inp = document.getElementById('orb-logos-input');
-            if (!inp) return;
+            const inpCode = document.getElementById('orb-code-input');
+            const inpCount = document.getElementById('orb-word-count-input');
 
-            const enteredPass = parseInt(inp.value.trim());
+            const enteredCode = parseInt(inpCode.value.trim());
+            const enteredCount = parseInt(inpCount.value.trim());
 
-            if (enteredPass === globalQuoteWordCount) {
+            let success = true;
+            if (enteredCode !== globalMysteryCode) {
+                inpCode.classList.add('animate-shake');
+                inpCode.style.borderColor = "#ef4444";
+                success = false;
+            } else {
+                inpCode.style.borderColor = "#4ade80";
+            }
+
+            if (enteredCount !== globalQuoteWordCount) {
+                inpCount.classList.add('animate-shake');
+                inpCount.style.borderColor = "#ef4444";
+                success = false;
+            } else {
+                inpCount.style.borderColor = "#4ade80";
+            }
+
+            if (success) {
                 isOrbUnlocked = true;
-                inp.style.borderColor = "#4ade80";
                 setTimeout(() => revealCard(0), 400);
             } else {
-                inp.classList.add('animate-shake');
-                inp.style.borderColor = "#ef4444";
                 setTimeout(() => {
-                    inp.classList.remove('animate-shake');
-                    inp.style.borderColor = "";
+                    inpCode.classList.remove('animate-shake');
+                    inpCount.classList.remove('animate-shake');
                 }, 500);
             }
         }
