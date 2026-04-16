@@ -2707,9 +2707,12 @@
     <div id="summary-overlay">
         <div class="summary-nebula"></div>
         <div class="summary-card">
-            <p id="summary-date" style="font-size: 0.75rem; color: rgba(196, 181, 253, 0.6); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 20px; font-weight: 700;"></p>
-            <h1 style="font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.5));">Ritual Summary</h1>
-            <div style="width: 40px; height: 3px; background: #a78bfa; margin: 0 auto 30px auto; border-radius: 2px;"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+                <p id="summary-date" style="font-size: 0.7rem; color: rgba(196, 181, 253, 0.8); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin:0;"></p>
+                <p id="summary-user" style="font-size: 0.7rem; color: #fff; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; margin:0; background:rgba(167,139,250,0.2); padding:2px 8px; border-radius:4px;"></p>
+            </div>
+            
+            <h1 style="font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 0.05em; filter: drop-shadow(0 0 10px rgba(167,139,250,0.5));">Summary</h1>
             
             <div id="summary-orb-container" style="margin-bottom: 25px;"></div>
             
@@ -2720,6 +2723,12 @@
                     <span>Correct Words (First try)</span>
                     <span id="stat-correct" class="stat-value">0</span>
                 </div>
+                
+                <div style="margin: 15px 0; padding: 15px; background:rgba(0,0,0,0.2); border-radius:1rem; border:1px solid rgba(255,255,255,0.05);">
+                    <p style="font-size: 0.65rem; color: rgba(196, 181, 253, 0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; font-weight: 900;">Words for Review</p>
+                    <div id="summary-review-list" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px;"></div>
+                </div>
+
                 <div class="stat-item">
                     <span>Total Time</span>
                     <span id="stat-time" class="stat-value">0m 0s</span>
@@ -2728,13 +2737,9 @@
                     <span>Total Score</span>
                     <span id="stat-score" class="stat-value">0</span>
                 </div>
-                <div style="margin-top: 20px;">
-                    <p style="font-size: 0.7rem; color: rgba(196, 181, 253, 0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 900;">Words for Review</p>
-                    <div id="summary-review-list" style="display: flex; flex-wrap: wrap; justify-content: center;"></div>
-                </div>
             </div>
             
-            <button onclick="window.location.reload()" class="btn-restart-final">Restart Ritual</button>
+            <button onclick="window.location.reload()" class="btn-restart-final">Restart Session</button>
         </div>
     </div>
 
@@ -6001,8 +6006,8 @@
             if (cardsFlippedCount >= 3) {
                 const rBtn = document.getElementById('restart-btn');
                 if (rBtn) {
-                    rBtn.innerHTML = `<span style="margin-right:8px;">🔮</span><span>View Ritual Summary</span>`;
-                    rBtn.onclick = () => showRitualSummary();
+                    rBtn.innerHTML = `<span style="margin-right:8px;">🔮</span><span>View Summary</span>`;
+                    rBtn.onclick = () => showSummary();
                     rBtn.style.background = "linear-gradient(135deg, #7c3aed, #4f46e5)";
                     rBtn.style.boxShadow = "0 0 30px rgba(139, 92, 246, 0.6)";
                     rBtn.classList.add('animate-bounce');
@@ -6014,17 +6019,23 @@
             }
         }
 
-        function showRitualSummary() {
+        function showSummary() {
             ritualEndTime = Date.now();
             const totalMs = ritualEndTime - ritualStartTime;
             const totalSec = Math.floor(totalMs / 1000);
             const m = Math.floor(totalSec / 60);
             const s = totalSec % 60;
 
-            // Date in format: Ngày 17 tháng 04 năm 2026
+            // Date & Time: Ngày 17/04/2026 | 04:21:45
             const now = new Date();
-            const dateStr = `Ngày ${now.getDate().toString().padStart(2, '0')} tháng ${(now.getMonth() + 1).toString().padStart(2, '0')} năm ${now.getFullYear()}`;
-            document.getElementById('summary-date').textContent = dateStr;
+            const dStr = `Ngày ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+            const tStr = now.toLocaleTimeString('vi-VN', { hour12: false });
+            document.getElementById('summary-date').textContent = `${dStr} | ${tStr}`;
+
+            // User Name
+            const nameInput = document.getElementById('user-name-input');
+            const userName = nameInput ? nameInput.value.trim().toUpperCase() : "EXPLORER";
+            document.getElementById('summary-user').textContent = userName;
 
             // Stats
             document.getElementById('stat-correct').textContent = solvedFirstTryCount;
@@ -6059,12 +6070,12 @@
             badge.textContent = label;
             badge.style.cssText = colors;
 
-            // Orb Display
+            // Orb Display (Using 🔮 as the Magical Orb icon)
             const magic = zodiacMagicMap[selectedZodiacEmoji] || zodiacMagicMap['♏'];
             document.getElementById('summary-orb-container').innerHTML = `
                 <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
-                    <div style="font-size:3.5rem; filter:drop-shadow(0 0 20px ${magic.orbGlow});">${selectedZodiacEmoji || '🔮'}</div>
-                    <p style="font-size:1.1rem; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:0.1em; margin:0;">${magic.skill}</p>
+                    <div style="font-size:4.5rem; filter:drop-shadow(0 0 25px ${magic.orbGlow});">🔮</div>
+                    <p style="font-size:1.1rem; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:0.15em; margin:0;">${magic.skill}</p>
                 </div>
             `;
 

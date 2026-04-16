@@ -1,0 +1,9 @@
+    <div id="summary-overlay">
+        <div class="summary-nebula"></div>
+        <div class="summary-card">
+            <p id="summary-date" style="font-size: 0.75rem; color: rgba(196, 181, 253, 0.6); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 20px; font-weight: 700;"></p>
+            <h1 style="font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.5));">Ritual Summary</h1>
+            <div style="width: 40px; height: 3px; background: #a78bfa; margin: 0 auto 30px auto; border-radius: 2px;"></div>
+            
+            <div id="summary-orb-container" style="margin-bottom: 25px;"></div>
+            
