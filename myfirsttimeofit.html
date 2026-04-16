@@ -2385,16 +2385,11 @@
                                                 id="orb-card-icon">🔮</span>
                                             <div id="orb-unlock-container"
                                                 class="flex flex-col items-center gap-1.5 w-full mt-0.5">
-                                                <input type="text" id="orb-code-input"
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
-                                                    placeholder="SECRET CODE" autocomplete="off"
+                                                <input type="number" id="orb-final-input"
+                                                    class="mystical-input no-spinners w-full p-2.5 rounded-xl text-center font-bold text-white text-sm"
+                                                    placeholder="" autocomplete="off"
                                                     onclick="event.stopPropagation()"
-                                                    onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
-                                                <input type="text" id="orb-word-count-input"
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
-                                                    placeholder="WORD COUNT?" autocomplete="off"
-                                                    onclick="event.stopPropagation()"
-                                                    onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
+                                                    onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }">
                                             </div>
                                             <p id="orb-hint-text"
                                                 class="text-[0.4rem] font-bold tracking-widest uppercase mt-0.5"
@@ -5385,6 +5380,14 @@
             } catch (e) { }
         }
 
+        // Global Ritual State
+        let globalMysteryCode = 0;
+        let firstRitualCode = 0;
+        let globalQuoteWordCount = 0;
+        let isQuoteUnlocked = false;
+        let isOrbUnlocked = false;
+        let cardsFlippedCount = 0;
+
         function showMysteryBox() {
             playSuccessSound();
             const wrapper = document.getElementById('mystery-box-wrapper');
@@ -5413,7 +5416,7 @@
             const userNameInput = document.getElementById('user-name-input');
             const userName = userNameInput ? userNameInput.value.trim() : "";
             const nameLen = userName.length;
-            const wordsLen = (currentWord1.length + currentWord2.length + currentWord3.length + currentWord4.length);
+            const wordsLen = ((currentWord1||"").length + (currentWord2||"").length + (currentWord3||"").length + (currentWord4||"").length);
             const mysteryCode = (nameLen + totalScore + wordsLen) * 5;
             globalMysteryCode = mysteryCode;
             firstRitualCode = mysteryCode;
@@ -5590,14 +5593,13 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        let isQuoteUnlocked = false;
-        let isOrbUnlocked = false;
+
 
         function checkQuoteUnlock(event) {
             if (event) event.stopPropagation();
             const inp = document.getElementById('quote-cipher-input');
             if (!inp) return;
-            const entered = parseInt(inp.value.trim());
+            const entered = parseInt(inp.value.trim()) || 0;
             
             if (entered === firstRitualCode) {
                 isQuoteUnlocked = true;
@@ -5620,7 +5622,7 @@
             if (event) event.stopPropagation();
             const inp = document.getElementById('orb-final-input');
             if (!inp) return;
-            const entered = parseInt(inp.value.trim());
+            const entered = parseInt(inp.value.trim()) || 0;
 
             if (entered === globalMysteryCode) {
                 isOrbUnlocked = true;
@@ -5639,7 +5641,6 @@
             }
         }
 
-        let cardsFlippedCount = 0;
         function revealCard(idx) {
             const inner = document.getElementById(`card-inner-${idx}`);
             if (!inner || inner.classList.contains('flipped')) return;
