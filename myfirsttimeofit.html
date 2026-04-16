@@ -555,7 +555,7 @@
         .crystal-circle-score {
             aspect-ratio: 1/1;
             background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent),
-                        linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(99, 102, 241, 0.4));
+                linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(99, 102, 241, 0.4));
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -571,8 +571,17 @@
         }
 
         @keyframes orb-pulse {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.03); filter: brightness(1.15); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+                filter: brightness(1.15);
+            }
         }
 
         .firefly-particle {
@@ -589,10 +598,25 @@
         }
 
         @keyframes firefly-float {
-            0%, 100% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-            20% { opacity: 0.8; }
-            50% { transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 1; }
-            80% { opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: translate(var(--dx), var(--dy)) scale(1.2);
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 0.8;
+            }
         }
 
         .star-particle {
@@ -609,14 +633,23 @@
         }
 
         @keyframes star-twinkle {
-            0%, 100% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 0.9; }
+
+            0%,
+            100% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.9;
+            }
         }
 
         .review-mode-active #flashcard {
             transform: scale(1.12);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.4);
-            border: 2px solid rgba(168,85,247,0.4);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(168, 85, 247, 0.4);
+            border: 2px solid rgba(168, 85, 247, 0.4);
             z-index: 100;
         }
 
@@ -625,7 +658,7 @@
         }
 
         .crystal-crescent {
-            background: linear-gradient(135deg, rgba(168,85,247,0.5) 0%, rgba(56, 189, 248, 0.6) 100%);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.5) 0%, rgba(56, 189, 248, 0.6) 100%);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 2px solid rgba(255, 255, 255, 0.6);
@@ -673,13 +706,30 @@
         }
 
         @keyframes header-pulse {
-            0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.2)); }
-            100% { transform: translate(-50%, -50%) scale(1.05); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6)); }
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.2));
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.05);
+                filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+            }
         }
 
         @keyframes input-flicker-red {
-            0%, 100% { transform: translate(-50%, -50%) scale(1.05); border-color: transparent; }
-            50% { transform: translate(-50%, -50%) scale(1.15); border-color: #ef4444; box-shadow: 0 0 20px #ef4444; }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1.05);
+                border-color: transparent;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.15);
+                border-color: #ef4444;
+                box-shadow: 0 0 20px #ef4444;
+            }
         }
 
         /* Enhanced Letter Glow */
@@ -704,8 +754,17 @@
         }
 
         @keyframes magic-fade {
-            0% { transform: scale(1) rotate(0); opacity: 1; filter: blur(0); }
-            100% { transform: scale(0) rotate(180deg); opacity: 0; filter: blur(2px); }
+            0% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+                filter: blur(0);
+            }
+
+            100% {
+                transform: scale(0) rotate(180deg);
+                opacity: 0;
+                filter: blur(2px);
+            }
         }
 
         @media (max-width: 768px) {
@@ -1030,91 +1089,211 @@
         }
 
         @keyframes stem-grow {
-            from { stroke-dashoffset: 2000; }
-            to   { stroke-dashoffset: 0; }
+            from {
+                stroke-dashoffset: 2000;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
         }
 
         /* ───────── MYSTERY BOX ───────── */
         @keyframes box-float {
-            0%,100% { transform: translateY(0) rotate(-1deg); }
-            50%      { transform: translateY(-12px) rotate(1deg); }
-        }
-        @keyframes box-glow-pulse {
-            0%,100% { box-shadow: 0 0 30px rgba(139,92,246,.7), 0 0 60px rgba(59,130,246,.3), inset 0 0 20px rgba(255,255,255,.05); }
-            50%      { box-shadow: 0 0 50px rgba(167,139,250,1), 0 0 100px rgba(99,102,241,.6), inset 0 0 30px rgba(255,255,255,.1); }
-        }
-        @keyframes star-twinkle {
-            0%,100% { opacity:.3; transform:scale(.8); }
-            50%      { opacity:1; transform:scale(1.2); }
-        }
-        @keyframes orbit-particle {
-            from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
-            to   { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
-        }
-        @keyframes lid-fly {
-            0%   { transform: rotateX(0deg) translateY(0); opacity:1; }
-            60%  { transform: rotateX(-110deg) translateY(-30px); opacity:1; }
-            100% { transform: rotateX(-130deg) translateY(-60px) scale(.8); opacity:0; }
-        }
-        @keyframes card-deal {
-            from { opacity:0; transform: translateY(60px) scale(.7) rotate(var(--card-rot)); }
-            to   { opacity:1; transform: translateY(0) scale(1) rotate(0deg); }
-        }
-        @keyframes card-flip {
-            0%   { transform: rotateY(0deg); }
-            100% { transform: rotateY(180deg); }
-        }
-        @keyframes orb-spin {
-            from { transform: rotateY(0deg) rotateX(15deg); }
-            to   { transform: rotateY(360deg) rotateX(15deg); }
-        }
-        @keyframes orb-ring-spin {
-            from { transform: rotateX(80deg) rotateZ(0deg) translateZ(0); }
-            to   { transform: rotateX(80deg) rotateZ(360deg) translateZ(0); }
-        }
-        @keyframes orb-ring-spin2 {
-            from { transform: rotateX(50deg) rotateZ(0deg) rotateY(30deg); }
-            to   { transform: rotateX(50deg) rotateZ(360deg) rotateY(30deg); }
-        }
-        @keyframes magic-burst {
-            0%   { opacity:1; transform:scale(0) translateY(0); }
-            60%  { opacity:.8; }
-            100% { opacity:0; transform:scale(2.5) translateY(-40px); }
-        }
-        @keyframes code-reveal {
-            0%   { letter-spacing:.5em; opacity:0; filter:blur(8px); }
-            100% { letter-spacing:.15em; opacity:1; filter:blur(0); }
-        }
-        @keyframes shimmer-scan {
-            0%   { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(1deg);
+            }
         }
 
-        #mystery-box-wrapper { perspective: 1200px; }
+        @keyframes box-glow-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(139, 92, 246, .7), 0 0 60px rgba(59, 130, 246, .3), inset 0 0 20px rgba(255, 255, 255, .05);
+            }
+
+            50% {
+                box-shadow: 0 0 50px rgba(167, 139, 250, 1), 0 0 100px rgba(99, 102, 241, .6), inset 0 0 30px rgba(255, 255, 255, .1);
+            }
+        }
+
+        @keyframes star-twinkle {
+
+            0%,
+            100% {
+                opacity: .3;
+                transform: scale(.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes orbit-particle {
+            from {
+                transform: rotate(0deg) translateX(var(--r)) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translateX(var(--r)) rotate(-360deg);
+            }
+        }
+
+        @keyframes lid-fly {
+            0% {
+                transform: rotateX(0deg) translateY(0);
+                opacity: 1;
+            }
+
+            60% {
+                transform: rotateX(-110deg) translateY(-30px);
+                opacity: 1;
+            }
+
+            100% {
+                transform: rotateX(-130deg) translateY(-60px) scale(.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes card-deal {
+            from {
+                opacity: 0;
+                transform: translateY(60px) scale(.7) rotate(var(--card-rot));
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes card-flip {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(180deg);
+            }
+        }
+
+        @keyframes orb-spin {
+            from {
+                transform: rotateY(0deg) rotateX(15deg);
+            }
+
+            to {
+                transform: rotateY(360deg) rotateX(15deg);
+            }
+        }
+
+        @keyframes orb-ring-spin {
+            from {
+                transform: rotateX(80deg) rotateZ(0deg) translateZ(0);
+            }
+
+            to {
+                transform: rotateX(80deg) rotateZ(360deg) translateZ(0);
+            }
+        }
+
+        @keyframes orb-ring-spin2 {
+            from {
+                transform: rotateX(50deg) rotateZ(0deg) rotateY(30deg);
+            }
+
+            to {
+                transform: rotateX(50deg) rotateZ(360deg) rotateY(30deg);
+            }
+        }
+
+        @keyframes magic-burst {
+            0% {
+                opacity: 1;
+                transform: scale(0) translateY(0);
+            }
+
+            60% {
+                opacity: .8;
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(2.5) translateY(-40px);
+            }
+        }
+
+        @keyframes code-reveal {
+            0% {
+                letter-spacing: .5em;
+                opacity: 0;
+                filter: blur(8px);
+            }
+
+            100% {
+                letter-spacing: .15em;
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        @keyframes shimmer-scan {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        #mystery-box-wrapper {
+            perspective: 1200px;
+        }
 
         #mystery-box {
             animation: box-float 3s ease-in-out infinite, box-glow-pulse 2s ease-in-out infinite;
             transform-style: preserve-3d;
             cursor: pointer;
         }
-        #mystery-box:hover { filter: brightness(1.15); }
+
+        #mystery-box:hover {
+            filter: brightness(1.15);
+        }
 
         .mystery-star {
-            position:absolute; border-radius:50%; background:#fff;
-            animation: star-twinkle var(--dur,2s) ease-in-out infinite var(--del,0s);
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            animation: star-twinkle var(--dur, 2s) ease-in-out infinite var(--del, 0s);
         }
 
         .mystery-card-wrapper {
             perspective: 800px;
-            animation: card-deal .6s cubic-bezier(.34,1.56,.64,1) var(--deal-delay,.1s) both;
+            animation: card-deal .6s cubic-bezier(.34, 1.56, .64, 1) var(--deal-delay, .1s) both;
         }
+
         .mystery-card-inner {
-            width:100%; height:100%;
+            width: 100%;
+            height: 100%;
             transform-style: preserve-3d;
-            transition: transform .8s cubic-bezier(.34,1.2,.64,1);
-            position:relative;
+            transition: transform .8s cubic-bezier(.34, 1.2, .64, 1);
+            position: relative;
         }
-        .mystery-card-inner.flipped { transform: rotateY(180deg); }
+
+        .mystery-card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
         .mystery-card-ordinal {
             position: absolute;
             inset: 0;
@@ -1123,37 +1302,56 @@
             justify-content: center;
             font-size: 5rem;
             font-weight: 900;
-            color: rgba(255, 255, 255, 0.08); /* Faint mysterious numbering */
+            color: rgba(255, 255, 255, 0.08);
+            /* Faint mysterious numbering */
             user-select: none;
             pointer-events: none;
             z-index: 1;
         }
+
         .magic-sparkle {
             position: fixed;
-            width: 4px; height: 4px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             pointer-events: none;
             z-index: 10000;
             will-change: transform, opacity;
             animation: magic-sparkle-fly 0.8s ease-out forwards;
         }
+
         @keyframes magic-sparkle-fly {
-            0% { transform: translate(0,0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--dx), var(--dy)) scale(0);
+                opacity: 0;
+            }
         }
+
         .mystery-card-face {
-            position:absolute; inset:0; backface-visibility:hidden;
-            border-radius:1.25rem; overflow:hidden;
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 1.25rem;
+            overflow: hidden;
             transform-style: preserve-3d;
         }
+
         .mystery-card-back {
             background: linear-gradient(135deg, rgba(30, 27, 75, 0.45) 0%, rgba(49, 46, 129, 0.6) 40%, rgba(30, 58, 95, 0.45) 100%);
             backdrop-filter: blur(12px);
             border: 1.5px solid rgba(167, 139, 250, 0.4);
-            display:flex; align-items:center; justify-content:center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 2;
             box-shadow: inset 0 0 20px rgba(167, 139, 250, 0.2), 0 10px 30px rgba(0, 0, 0, 0.4);
         }
+
         .mystery-card-ordinal {
             position: absolute;
             inset: 0;
@@ -1167,32 +1365,38 @@
             pointer-events: none;
             z-index: -1;
         }
+
         .mystical-input {
             background: rgba(0, 0, 0, 0.3) !important;
             border: 1px solid rgba(167, 139, 250, 0.3) !important;
             box-shadow: 0 0 10px rgba(139, 92, 246, 0.1) !important;
             transition: all 0.4s ease !important;
         }
+
         .mystical-input:focus {
             border-color: rgba(167, 139, 250, 0.8) !important;
             box-shadow: 0 0 15px rgba(139, 92, 246, 0.4) !important;
             background: rgba(0, 0, 0, 0.5) !important;
         }
+
         .mystical-input::placeholder {
             color: rgba(255, 255, 255, 0.15) !important;
             font-style: italic;
             transition: opacity 0.4s ease;
         }
+
         .mystical-input:focus::placeholder {
             opacity: 0.4;
         }
-        .mystery-card-front { 
-            transform: rotateY(180deg); 
+
+        .mystery-card-front {
+            transform: rotateY(180deg);
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease;
             z-index: 1;
         }
+
         .mystery-card-inner.flipped .mystery-card-front {
             opacity: 1;
             visibility: visible;
@@ -1208,49 +1412,72 @@
 
         /* Orb 3D */
         .magic-orb-scene {
-            width:98px; height:98px; margin:0 auto;
-            perspective:600px;
+            width: 98px;
+            height: 98px;
+            margin: 0 auto;
+            perspective: 600px;
         }
+
         .magic-orb {
-            width:100%; height:100%;
+            width: 100%;
+            height: 100%;
             transform-style: preserve-3d;
             animation: orb-spin 5s linear infinite;
-            position:relative;
+            position: relative;
         }
+
         .orb-ball {
-            position:absolute; inset:10px; border-radius:50%;
-            background: radial-gradient(circle at 35% 35%, var(--orb-light,#e0c3ff) 0%, var(--orb-mid,#7c3aed) 50%, var(--orb-dark,#1e1b4b) 100%);
-            box-shadow: 0 0 30px var(--orb-glow,rgba(139,92,246,.8)), inset -8px -8px 20px rgba(0,0,0,.4), inset 8px 8px 20px rgba(255,255,255,.15);
+            position: absolute;
+            inset: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, var(--orb-light, #e0c3ff) 0%, var(--orb-mid, #7c3aed) 50%, var(--orb-dark, #1e1b4b) 100%);
+            box-shadow: 0 0 30px var(--orb-glow, rgba(139, 92, 246, .8)), inset -8px -8px 20px rgba(0, 0, 0, .4), inset 8px 8px 20px rgba(255, 255, 255, .15);
         }
+
         .orb-ring {
-            position:absolute; inset:0; border-radius:50%;
-            border: 2.5px solid var(--ring-color,rgba(167,139,250,.6));
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2.5px solid var(--ring-color, rgba(167, 139, 250, .6));
             animation: orb-ring-spin 4s linear infinite;
         }
-        .orb-ring:nth-child(2) { animation: orb-ring-spin2 3s linear infinite; inset:-8px; border-color: var(--ring-color2,rgba(99,102,241,.5)); }
+
+        .orb-ring:nth-child(2) {
+            animation: orb-ring-spin2 3s linear infinite;
+            inset: -8px;
+            border-color: var(--ring-color2, rgba(99, 102, 241, .5));
+        }
+
         .orb-particle {
-            position:absolute; top:50%; left:50%;
-            width:6px; height:6px; border-radius:50%;
-            background: var(--p-color,#c4b5fd);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--p-color, #c4b5fd);
             --r: 55px;
             transform-origin: center;
-            animation: orbit-particle var(--orb-dur,3s) linear infinite var(--orb-del,0s);
-            box-shadow: 0 0 6px var(--p-color,#c4b5fd);
+            animation: orbit-particle var(--orb-dur, 3s) linear infinite var(--orb-del, 0s);
+            box-shadow: 0 0 6px var(--p-color, #c4b5fd);
         }
 
         /* Shimmer background on quote card */
         .quote-shimmer-bg {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
         }
+
         /* Secret code font */
         .secret-code {
             font-family: 'Courier New', monospace;
             animation: code-reveal .8s ease forwards;
         }
+
         .shimmer-text {
             background: linear-gradient(90deg, #818cf8, #c4b5fd, #f0abfc, #818cf8);
             background-size: 200% auto;
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shimmer-scan 2s linear infinite;
         }
@@ -1299,6 +1526,7 @@
         .score-anim {
             animation: float-score 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
+
         .zodiac-btn {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
             backdrop-filter: blur(12px);
@@ -1353,6 +1581,7 @@
                 font-size: 3rem;
             }
         }
+
         .crystal-pill {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -1364,32 +1593,63 @@
             display: inline-block;
             transition: all 0.3s ease;
         }
+
         .crystal-pill:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
+
         .tree-title-glow {
             text-shadow: 0 0 10px rgba(196, 181, 253, 0.8), 0 0 20px rgba(167, 139, 250, 0.4);
             animation: tree-glow-pulse 3s ease-in-out infinite;
         }
+
         @keyframes tree-glow-pulse {
-            0%, 100% { text-shadow: 0 0 10px rgba(196, 181, 253, 0.8), 0 0 20px rgba(167, 139, 250, 0.4); }
-            50% { text-shadow: 0 0 20px rgba(196, 181, 253, 1), 0 0 35px rgba(167, 139, 250, 0.6); }
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(196, 181, 253, 0.8), 0 0 20px rgba(167, 139, 250, 0.4);
+            }
+
+            50% {
+                text-shadow: 0 0 20px rgba(196, 181, 253, 1), 0 0 35px rgba(167, 139, 250, 0.6);
+            }
         }
+
         .header-faded {
             opacity: 0.55;
             transition: opacity 0.3s ease;
         }
+
         .header-faded:hover {
             opacity: 0.9;
         }
+
         @keyframes heart-arrow-up {
-            0% { transform: translate(-50%, 0) scale(0.8); opacity: 0; bottom: -50px; }
-            15% { opacity: 1; transform: translate(-50%, 0) scale(1.1); }
-            85% { opacity: 1; transform: translate(-50%, 0) scale(1.1); }
-            100% { transform: translate(-50%, -100px) scale(0.8); opacity: 0; bottom: 110vh; }
+            0% {
+                transform: translate(-50%, 0) scale(0.8);
+                opacity: 0;
+                bottom: -50px;
+            }
+
+            15% {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1.1);
+            }
+
+            85% {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-50%, -100px) scale(0.8);
+                opacity: 0;
+                bottom: 110vh;
+            }
         }
+
         .heart-arrow-container {
             position: fixed;
             pointer-events: none;
@@ -1466,12 +1726,15 @@
                     <span
                         class="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-none drop-shadow-md">1</span>
                 </div>
-                <div id="header-name-container" class="absolute left-[58%] top-[48%] -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center z-30 pointer-events-auto">
-                    <div class="glass-panel px-3 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/30 flex items-center gap-3 backdrop-blur-md shadow-2xl transition-all hover:scale-105">
-                        <span class="text-[0.55rem] sm:text-[0.65rem] font-black text-purple-200/70 tracking-[0.3em] uppercase drop-shadow-sm mt-0.5">Explorer</span>
-                        <input type="text" id="user-name-input" 
-                               class="bg-transparent border-none text-sm sm:text-base md:text-lg font-black text-white focus:outline-none w-24 sm:w-32 md:w-48 text-center placeholder-white/20 tracking-wider drop-shadow-md"
-                               placeholder="Enter Name..." value="" autocomplete="off" spellcheck="false">
+                <div id="header-name-container"
+                    class="absolute left-[58%] top-[48%] -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center z-30 pointer-events-auto">
+                    <div
+                        class="glass-panel px-3 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/30 flex items-center gap-3 backdrop-blur-md shadow-2xl transition-all hover:scale-105">
+                        <span
+                            class="text-[0.55rem] sm:text-[0.65rem] font-black text-purple-200/70 tracking-[0.3em] uppercase drop-shadow-sm mt-0.5">Explorer</span>
+                        <input type="text" id="user-name-input"
+                            class="bg-transparent border-none text-sm sm:text-base md:text-lg font-black text-white focus:outline-none w-24 sm:w-32 md:w-48 text-center placeholder-white/20 tracking-wider drop-shadow-md"
+                            placeholder="Enter Name..." value="" autocomplete="off" spellcheck="false">
                     </div>
                 </div>
                 <div class="flex items-center mb-2 md:mb-3">
@@ -1481,10 +1744,15 @@
                             BOOK 1</h1>
                     </div>
                     <!-- Score/Zodiac Circle next to banner (separated) -->
-                    <div class="crystal-circle-score w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full ml-1.5 sm:ml-3 z-20">
-                        <span id="score-icon" class="text-xl sm:text-2xl md:text-3xl drop-shadow-md leading-none"></span>
-                        <span id="total-score-display" class="text-white font-black font-mono text-xs sm:text-sm md:text-base leading-none mt-1">0</span>
-                        <div id="floating-score-container" class="absolute -top-10 left-1/2 transform -translate-x-1/2 pointer-events-none z-50 whitespace-nowrap"></div>
+                    <div
+                        class="crystal-circle-score w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full ml-1.5 sm:ml-3 z-20">
+                        <span id="score-icon"
+                            class="text-xl sm:text-2xl md:text-3xl drop-shadow-md leading-none"></span>
+                        <span id="total-score-display"
+                            class="text-white font-black font-mono text-xs sm:text-sm md:text-base leading-none mt-1">0</span>
+                        <div id="floating-score-container"
+                            class="absolute -top-10 left-1/2 transform -translate-x-1/2 pointer-events-none z-50 whitespace-nowrap">
+                        </div>
                     </div>
                 </div>
                 <div class="ml-1 md:ml-0">
@@ -1549,10 +1817,11 @@
         <div id="zodiac-screen"
             class="card-crystal screen-transition screen-hidden hidden relative w-full h-[65vh] min-h-[480px] max-h-[600px] p-4 sm:p-6 md:p-8 overflow-y-auto no-scrollbar">
             <div class="w-full flex flex-col items-center select-none pt-2 sm:pt-4">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-300 to-purple-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-wider text-center mb-6 sm:mb-8 animate-pulse">
+                <h2
+                    class="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-300 to-purple-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-wider text-center mb-6 sm:mb-8 animate-pulse">
                     Select Your Zodiac Sign
                 </h2>
-                
+
                 <div class="grid grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 w-full max-w-3xl mx-auto pb-4">
                     <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♈')">
                         <span class="zodiac-emoji">♈</span>
@@ -1596,17 +1865,20 @@
                     </button>
                     <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♐')">
                         <span class="zodiac-emoji">♐</span>
-                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Sagittarius</span>
+                        <span
+                            class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Sagittarius</span>
                         <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Nov 22 - Dec 21</span>
                     </button>
                     <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♑')">
                         <span class="zodiac-emoji">♑</span>
-                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Capricorn</span>
+                        <span
+                            class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Capricorn</span>
                         <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Dec 22 - Jan 19</span>
                     </button>
                     <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♒')">
                         <span class="zodiac-emoji">♒</span>
-                        <span class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Aquarius</span>
+                        <span
+                            class="font-bold text-purple-100 text-sm sm:text-base mb-0.5 tracking-wide">Aquarius</span>
                         <span class="text-[0.65rem] sm:text-xs text-purple-300/80 font-medium">Jan 20 - Feb 18</span>
                     </button>
                     <button class="zodiac-btn cursor-pointer" onclick="selectZodiac('♓')">
@@ -1623,7 +1895,7 @@
                 <div class="flip-card-front card-crystal p-4 sm:p-6 md:p-8">
                     <div
                         class="flex-grow flex flex-col justify-evenly items-center text-center overflow-y-auto no-scrollbar w-full min-h-0 py-2 sm:py-4 gap-2 sm:gap-4">
-                        
+
                         <!-- Nghĩa Tiếng Việt -->
                         <div id="front-magic-container"
                             class="flex items-center justify-center relative w-full opacity-0 shrink-0">
@@ -1652,7 +1924,8 @@
                             <div class="crystal-pill mx-auto">
                                 <p class="text-base sm:text-lg md:text-xl lg:text-3xl font-medium leading-snug sm:leading-relaxed m-0 shrink-0 px-2 ex-glow-en"
                                     id="word-ex"></p>
-                                <div id="firefly-container" class="absolute inset-0 pointer-events-none overflow-visible"></div>
+                                <div id="firefly-container"
+                                    class="absolute inset-0 pointer-events-none overflow-visible"></div>
                             </div>
                         </div>
 
@@ -1673,9 +1946,8 @@
                                 class="text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-fuchsia-900/50 text-fuchsia-200 hover:bg-fuchsia-800 font-medium rounded-full transition-colors flex items-center gap-1 shadow-sm border border-fuchsia-500/30">Hint</button>
                             <button id="review-btn" onclick="markForReview()" title="Học lại ở cuối bài"
                                 class="hidden text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-purple-900/50 text-purple-200 hover:bg-purple-800 font-medium rounded-full transition-colors items-center gap-1 shadow-sm border border-purple-500/30">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3.5 w-3.5 sm:h-4 sm:w-4 lg:h-5 lg:w-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 sm:h-4 sm:w-4 lg:h-5 lg:w-5"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg> Review
@@ -1683,8 +1955,7 @@
                         </div>
 
                         <!-- Check Answer Button -->
-                        <div
-                            class="w-full flex justify-center shrink-0">
+                        <div class="w-full flex justify-center shrink-0">
                             <button onclick="checkAnswer()"
                                 class="btn-crystal w-[75%] sm:w-[50%] md:w-[40%] max-w-[200px] py-2 sm:py-2.5 lg:py-3 text-sm sm:text-base lg:text-lg font-semibold rounded-full flex items-center justify-center gap-2 cursor-pointer">Check
                                 Answer</button>
@@ -1731,16 +2002,20 @@
                             <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-white font-bold drop-shadow-md m-0 text-center"
                                 id="back-mean"></p>
                         </div>
-                        <div
-                            class="bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-3 sm:p-4 md:p-5 w-full max-w-[95%] sm:max-w-lg lg:max-w-3xl mt-1 sm:mt-2 md:mt-3 shrink-0 z-10 relative cursor-pointer group" style="perspective: 1500px;" onclick="toggleExampleFlip()" title="Chạm để xem dịch nghĩa gốc">
-                            <div id="example-inner" class="relative w-full transition-transform duration-700" style="transform-style: preserve-3d; transform: rotateX(0deg);">
+                        <div class="bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-3 sm:p-4 md:p-5 w-full max-w-[95%] sm:max-w-lg lg:max-w-3xl mt-1 sm:mt-2 md:mt-3 shrink-0 z-10 relative cursor-pointer group"
+                            style="perspective: 1500px;" onclick="toggleExampleFlip()"
+                            title="Chạm để xem dịch nghĩa gốc">
+                            <div id="example-inner" class="relative w-full transition-transform duration-700"
+                                style="transform-style: preserve-3d; transform: rotateX(0deg);">
                                 <!-- Front Face: English Example -->
-                                <div class="w-full flex items-center justify-center min-h-[60px] sm:min-h-[80px]" style="backface-visibility: hidden;">
+                                <div class="w-full flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
+                                    style="backface-visibility: hidden;">
                                     <p class="text-white drop-shadow-sm text-sm sm:text-base md:text-xl lg:text-3xl font-medium leading-snug sm:leading-relaxed text-center m-0"
                                         id="back-ex"></p>
                                 </div>
                                 <!-- Back Face: Vietnamese Example with old effects -->
-                                <div class="absolute inset-0 w-full flex items-center justify-center min-h-[60px] sm:min-h-[80px]" style="backface-visibility: hidden; transform: rotateX(180deg);">
+                                <div class="absolute inset-0 w-full flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
+                                    style="backface-visibility: hidden; transform: rotateX(180deg);">
                                     <p class="text-purple-300 italic text-base sm:text-lg md:text-xl lg:text-3xl transition-all duration-700 blur-[5px] opacity-40 hover:opacity-60 select-none px-4 py-1.5 m-0"
                                         id="back-exVi"></p>
                                 </div>
@@ -1796,8 +2071,10 @@
             class="hidden card-crystal p-4 sm:p-6 md:p-10 w-full max-w-[98%] sm:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto mt-3 md:mt-4 flex-col items-center relative overflow-hidden">
             <div id="tree-title-container" class="relative w-full flex justify-center items-center mb-4 sm:mb-6">
                 <!-- Portal for background hint notifications -->
-                <div id="hint-behind-portal" class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-500"></div>
-                
+                <div id="hint-behind-portal"
+                    class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-500">
+                </div>
+
                 <h2 id="tree-title" onclick="triggerFallingFires(this)" title="Click me to reveal the magic!"
                     class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center uppercase tracking-wider cursor-pointer hover:scale-105 transition-transform select-none z-30 flex justify-center gap-2 sm:gap-3 tree-title-glow relative">
                     <span class="wave-word" style="animation-delay: 0s;">Your</span>
@@ -1829,7 +2106,8 @@
                                 <p
                                     class="text-base sm:text-xl md:text-2xl font-bold text-fuchsia-200 text-center drop-shadow-md">
                                     Which 4 words do you remember best?</p>
-                                <div class="grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 w-full max-w-xs sm:max-w-sm md:max-w-md justify-center mx-auto">
+                                <div
+                                    class="grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 w-full max-w-xs sm:max-w-sm md:max-w-md justify-center mx-auto">
                                     <input type="text" id="mem-word-1"
                                         class="glass-input-editable w-full px-2 py-2 sm:py-3 rounded-xl text-center font-bold outline-none text-white text-sm sm:text-base md:text-lg placeholder-white/30 transition-colors"
                                         placeholder="Word 1" autocomplete="off" spellcheck="false">
@@ -1879,12 +2157,15 @@
                                     id="sent-box-1">
                                     <button id="hint-btn-1" onclick="useTranslationHint(1)"
                                         class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/30 backdrop-blur-md rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 text-sm sm:text-base font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:scale-105 transition-all text-white flex gap-1 items-center z-10 opacity-0 pointer-events-none">
-                                        <span class="hint-emoji drop-shadow-md"></span> <span class="hint-count-text text-yellow-300 ml-1">0</span>
+                                        <span class="hint-emoji drop-shadow-md"></span> <span
+                                            class="hint-count-text text-yellow-300 ml-1">0</span>
                                     </button>
                                     <p id="label-word-1"
                                         class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5 mt-4 sm:mt-0 pr-16 sm:pr-20">
                                         Sentence with Word 1:</p>
-                                    <p id="vi-ex-1" class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16"></p>
+                                    <p id="vi-ex-1"
+                                        class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16">
+                                    </p>
                                     <input type="text" id="sent-input-1"
                                         class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent"
                                         placeholder="Type the English sentence..." autocomplete="off"
@@ -1901,12 +2182,15 @@
                                     id="sent-box-2">
                                     <button id="hint-btn-2" onclick="useTranslationHint(2)"
                                         class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/30 backdrop-blur-md rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 text-sm sm:text-base font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:scale-105 transition-all text-white flex gap-1 items-center z-10 opacity-0 pointer-events-none">
-                                        <span class="hint-emoji drop-shadow-md"></span> <span class="hint-count-text text-yellow-300 ml-1">0</span>
+                                        <span class="hint-emoji drop-shadow-md"></span> <span
+                                            class="hint-count-text text-yellow-300 ml-1">0</span>
                                     </button>
                                     <p id="label-word-2"
                                         class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5 mt-4 sm:mt-0 pr-16 sm:pr-20">
                                         Sentence with Word 2:</p>
-                                    <p id="vi-ex-2" class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16"></p>
+                                    <p id="vi-ex-2"
+                                        class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16">
+                                    </p>
                                     <input type="text" id="sent-input-2"
                                         class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent"
                                         placeholder="Type the English sentence..." autocomplete="off"
@@ -1923,12 +2207,15 @@
                                     id="sent-box-3">
                                     <button id="hint-btn-3" onclick="useTranslationHint(3)"
                                         class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/30 backdrop-blur-md rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 text-sm sm:text-base font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:scale-105 transition-all text-white flex gap-1 items-center z-10 opacity-0 pointer-events-none">
-                                        <span class="hint-emoji drop-shadow-md"></span> <span class="hint-count-text text-yellow-300 ml-1">0</span>
+                                        <span class="hint-emoji drop-shadow-md"></span> <span
+                                            class="hint-count-text text-yellow-300 ml-1">0</span>
                                     </button>
                                     <p id="label-word-3"
                                         class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5 mt-4 sm:mt-0 pr-16 sm:pr-20">
                                         Sentence with Word 3:</p>
-                                    <p id="vi-ex-3" class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16"></p>
+                                    <p id="vi-ex-3"
+                                        class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16">
+                                    </p>
                                     <input type="text" id="sent-input-3"
                                         class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent"
                                         placeholder="Type the English sentence..." autocomplete="off"
@@ -1945,12 +2232,15 @@
                                     id="sent-box-4">
                                     <button id="hint-btn-4" onclick="useTranslationHint(4)"
                                         class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-white/10 to-white/5 border border-white/30 backdrop-blur-md rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 text-sm sm:text-base font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:bg-white/20 hover:scale-105 transition-all text-white flex gap-1 items-center z-10 opacity-0 pointer-events-none">
-                                        <span class="hint-emoji drop-shadow-md"></span> <span class="hint-count-text text-yellow-300 ml-1">0</span>
+                                        <span class="hint-emoji drop-shadow-md"></span> <span
+                                            class="hint-count-text text-yellow-300 ml-1">0</span>
                                     </button>
                                     <p id="label-word-4"
                                         class="text-[0.8rem] sm:text-sm md:text-base font-semibold text-purple-300 mb-1.5 mt-4 sm:mt-0 pr-16 sm:pr-20">
                                         Sentence with Word 4:</p>
-                                    <p id="vi-ex-4" class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16"></p>
+                                    <p id="vi-ex-4"
+                                        class="text-base sm:text-lg md:text-xl text-white italic mb-3 pr-10 sm:pr-16">
+                                    </p>
                                     <input type="text" id="sent-input-4"
                                         class="glass-input-editable w-full px-4 py-2.5 md:py-3 rounded-xl text-base sm:text-lg outline-none placeholder-white/20 transition-all border border-transparent"
                                         placeholder="Type the English sentence..." autocomplete="off"
@@ -1970,96 +2260,144 @@
                         <div class="absolute inset-0 overflow-hidden pointer-events-none" id="mystery-stars-bg"></div>
 
                         <!-- The Mystery Box (larger, more 3D) -->
-                        <div id="mystery-box" onclick="openMysteryBox()" class="relative pointer-events-auto select-none"
+                        <div id="mystery-box" onclick="openMysteryBox()"
+                            class="relative pointer-events-auto select-none"
                             style="transform-style:preserve-3d; width:240px;">
                             <!-- Lid -->
                             <div id="mystery-lid" class="relative z-10"
                                 style="transform-style:preserve-3d; transform-origin: top center;">
                                 <div class="w-full h-14 rounded-t-2xl flex items-center justify-center relative overflow-hidden"
                                     style="background:linear-gradient(135deg,#5b21b6,#1e3a8a,#3730a3); border:3px solid rgba(167,139,250,.8); border-bottom:none; box-shadow:0 -6px 30px rgba(139,92,246,.8),0 0 60px rgba(139,92,246,.3);">
-                                    <div class="absolute inset-0" style="background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);"></div>
+                                    <div class="absolute inset-0"
+                                        style="background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);">
+                                    </div>
                                     <span class="text-3xl" style="filter:drop-shadow(0 0 12px #c4b5fd)">✨</span>
-                                    <div class="absolute bottom-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(196,181,253,1),transparent);"></div>
+                                    <div class="absolute bottom-0 left-0 right-0 h-px"
+                                        style="background:linear-gradient(90deg,transparent,rgba(196,181,253,1),transparent);">
+                                    </div>
                                     <!-- Lid 3D side (right) -->
-                                    <div class="absolute right-0 top-0 bottom-0 w-3" style="background:linear-gradient(90deg,transparent,rgba(0,0,0,.35));border-radius:0 0.5rem 0 0;"></div>
+                                    <div class="absolute right-0 top-0 bottom-0 w-3"
+                                        style="background:linear-gradient(90deg,transparent,rgba(0,0,0,.35));border-radius:0 0.5rem 0 0;">
+                                    </div>
                                 </div>
                             </div>
                             <!-- Body -->
                             <div class="relative rounded-b-2xl rounded-t-none flex flex-col items-center justify-center gap-3 py-7 overflow-hidden"
                                 style="background:linear-gradient(160deg,#1e1b4b 0%,#1e3a8a 50%,#0f172a 100%); border:3px solid rgba(99,102,241,.7); border-top:none; width:240px; min-height:190px; box-shadow:0 20px 60px rgba(30,27,75,1),0 8px 30px rgba(99,102,241,.4),inset 0 0 40px rgba(139,92,246,.15);">
                                 <!-- 3D right-side-face illusion -->
-                                <div class="absolute right-0 top-0 bottom-0 w-4 rounded-br-2xl" style="background:linear-gradient(90deg,transparent,rgba(0,0,0,.4));"></div>
+                                <div class="absolute right-0 top-0 bottom-0 w-4 rounded-br-2xl"
+                                    style="background:linear-gradient(90deg,transparent,rgba(0,0,0,.4));"></div>
                                 <!-- 3D bottom-face illusion -->
-                                <div class="absolute bottom-0 left-3 right-3 h-3 rounded-b-xl" style="background:linear-gradient(180deg,transparent,rgba(0,0,0,.5));"></div>
+                                <div class="absolute bottom-0 left-3 right-3 h-3 rounded-b-xl"
+                                    style="background:linear-gradient(180deg,transparent,rgba(0,0,0,.5));"></div>
                                 <!-- Grid runes overlay -->
-                                <div class="absolute inset-0 opacity-15" style="background-image:repeating-linear-gradient(0deg,rgba(167,139,250,.5) 0,rgba(167,139,250,.5) 1px,transparent 1px,transparent 22px),repeating-linear-gradient(90deg,rgba(167,139,250,.5) 0,rgba(167,139,250,.5) 1px,transparent 1px,transparent 22px);"></div>
+                                <div class="absolute inset-0 opacity-15"
+                                    style="background-image:repeating-linear-gradient(0deg,rgba(167,139,250,.5) 0,rgba(167,139,250,.5) 1px,transparent 1px,transparent 22px),repeating-linear-gradient(90deg,rgba(167,139,250,.5) 0,rgba(167,139,250,.5) 1px,transparent 1px,transparent 22px);">
+                                </div>
                                 <!-- Cosmic symbols -->
-                                <div class="flex gap-4 text-3xl" style="filter:drop-shadow(0 0 8px rgba(196,181,253,1))">
+                                <div class="flex gap-4 text-3xl"
+                                    style="filter:drop-shadow(0 0 8px rgba(196,181,253,1))">
                                     <span>🌌</span><span>⭐</span><span>🌌</span>
                                 </div>
-                                <p class="text-sm font-black tracking-widest uppercase text-center px-3" style="color:rgba(220,204,255,1); letter-spacing:.22em; line-height:1.5; text-shadow:0 0 12px rgba(196,181,253,.8);">Tap to<br>reveal</p>
+                                <p class="text-sm font-black tracking-widest uppercase text-center px-3"
+                                    style="color:rgba(220,204,255,1); letter-spacing:.22em; line-height:1.5; text-shadow:0 0 12px rgba(196,181,253,.8);">
+                                    Tap to<br>reveal</p>
                                 <!-- Orbiting particles on box -->
                                 <div class="absolute" style="top:50%;left:50%;width:0;height:0;">
-                                    <div style="position:absolute;width:6px;height:6px;background:#c4b5fd;border-radius:50%;box-shadow:0 0 10px #c4b5fd;--r:90px;--dur:3s;--del:0s;animation:orbit-particle 3s linear infinite;transform-origin:center;"></div>
-                                    <div style="position:absolute;width:5px;height:5px;background:#818cf8;border-radius:50%;box-shadow:0 0 8px #818cf8;--r:90px;--dur:4s;--del:.7s;animation:orbit-particle 4s linear infinite .7s;transform-origin:center;"></div>
-                                    <div style="position:absolute;width:5px;height:5px;background:#f0abfc;border-radius:50%;box-shadow:0 0 8px #f0abfc;--r:90px;--dur:2.5s;--del:1.4s;animation:orbit-particle 2.5s linear infinite 1.4s;transform-origin:center;"></div>
-                                    <div style="position:absolute;width:4px;height:4px;background:#38bdf8;border-radius:50%;box-shadow:0 0 8px #38bdf8;--r:90px;--dur:5s;--del:2s;animation:orbit-particle 5s linear infinite 2s;transform-origin:center;"></div>
+                                    <div
+                                        style="position:absolute;width:6px;height:6px;background:#c4b5fd;border-radius:50%;box-shadow:0 0 10px #c4b5fd;--r:90px;--dur:3s;--del:0s;animation:orbit-particle 3s linear infinite;transform-origin:center;">
+                                    </div>
+                                    <div
+                                        style="position:absolute;width:5px;height:5px;background:#818cf8;border-radius:50%;box-shadow:0 0 8px #818cf8;--r:90px;--dur:4s;--del:.7s;animation:orbit-particle 4s linear infinite .7s;transform-origin:center;">
+                                    </div>
+                                    <div
+                                        style="position:absolute;width:5px;height:5px;background:#f0abfc;border-radius:50%;box-shadow:0 0 8px #f0abfc;--r:90px;--dur:2.5s;--del:1.4s;animation:orbit-particle 2.5s linear infinite 1.4s;transform-origin:center;">
+                                    </div>
+                                    <div
+                                        style="position:absolute;width:4px;height:4px;background:#38bdf8;border-radius:50%;box-shadow:0 0 8px #38bdf8;--r:90px;--dur:5s;--del:2s;animation:orbit-particle 5s linear infinite 2s;transform-origin:center;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Card Tray (3 cards, hidden until box opens) -->
-                        <div id="mystery-card-tray" class="hidden items-center justify-center gap-4 sm:gap-6 w-full max-w-xl pointer-events-auto">
-                            <div class="mystery-card-wrapper" style="--deal-delay:.1s;--card-rot:-6deg;height:290px;width:140px;flex-shrink:0;" onclick="revealCard(0)">
+                        <div id="mystery-card-tray"
+                            class="hidden items-center justify-center gap-4 sm:gap-6 w-full max-w-xl pointer-events-auto">
+                            <div class="mystery-card-wrapper"
+                                style="--deal-delay:.1s;--card-rot:-6deg;height:290px;width:140px;flex-shrink:0;"
+                                onclick="revealCard(0)">
                                 <div class="mystery-card-inner" id="card-inner-0">
-                                    <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3" id="card-back-0">
-                                        <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);"></div>
+                                    <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3"
+                                        id="card-back-0">
+                                        <div class="absolute inset-0 opacity-20"
+                                            style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);">
+                                        </div>
                                         <div class="flex flex-col items-center gap-2 w-full z-10">
-                                            <span style="font-size:1.8rem;filter:drop-shadow(0 0 12px rgba(196,181,253,1))" id="orb-card-icon">🔮</span>
-                                            <div id="orb-unlock-container" class="flex flex-col items-center gap-1.5 w-full mt-0.5">
-                                                <input type="text" id="orb-code-input" 
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50" 
+                                            <span
+                                                style="font-size:1.8rem;filter:drop-shadow(0 0 12px rgba(196,181,253,1))"
+                                                id="orb-card-icon">🔮</span>
+                                            <div id="orb-unlock-container"
+                                                class="flex flex-col items-center gap-1.5 w-full mt-0.5">
+                                                <input type="text" id="orb-code-input"
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
                                                     placeholder="SECRET CODE" autocomplete="off"
                                                     onclick="event.stopPropagation()"
                                                     onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
-                                                <input type="text" id="orb-word-count-input" 
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50" 
+                                                <input type="text" id="orb-word-count-input"
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
                                                     placeholder="WORD COUNT?" autocomplete="off"
                                                     onclick="event.stopPropagation()"
                                                     onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
                                             </div>
-                                            <p id="orb-hint-text" class="text-[0.4rem] font-bold tracking-widest uppercase mt-0.5" style="color:rgba(196,181,253,.5)">Dual Authentication Required</p>
+                                            <p id="orb-hint-text"
+                                                class="text-[0.4rem] font-bold tracking-widest uppercase mt-0.5"
+                                                style="color:rgba(196,181,253,.5)">Dual Authentication Required</p>
                                         </div>
                                     </div>
                                     <div class="mystery-card-face mystery-card-front" id="card-front-0"></div>
                                 </div>
                             </div>
-                            <div class="mystery-card-wrapper" style="--deal-delay:.3s;--card-rot:0deg;height:290px;width:140px;flex-shrink:0;" onclick="revealCard(1)">
+                            <div class="mystery-card-wrapper"
+                                style="--deal-delay:.3s;--card-rot:0deg;height:290px;width:140px;flex-shrink:0;"
+                                onclick="revealCard(1)">
                                 <div class="mystery-card-inner" id="card-inner-1">
-                                    <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3" id="card-back-1">
-                                        <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);"></div>
+                                    <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3"
+                                        id="card-back-1">
+                                        <div class="absolute inset-0 opacity-20"
+                                            style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);">
+                                        </div>
                                         <div class="flex flex-col items-center gap-2 w-full z-10">
-                                            <span style="font-size:2.5rem;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">💬</span>
-                                            <div id="quote-unlock-container" class="flex flex-col items-center gap-2 w-full mt-1">
-                                                <input type="text" id="quote-name-input" 
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1.5 text-center text-white text-[0.8rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50" 
+                                            <span
+                                                style="font-size:2.5rem;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">💬</span>
+                                            <div id="quote-unlock-container"
+                                                class="flex flex-col items-center gap-2 w-full mt-1">
+                                                <input type="text" id="quote-name-input"
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1.5 text-center text-white text-[0.8rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
                                                     placeholder="YOUR NAME?" autocomplete="off"
                                                     onclick="event.stopPropagation()"
                                                     onkeydown="if(event.key==='Enter') checkQuoteUnlock(event)">
                                             </div>
-                                            <p id="quote-hint-text" class="text-[0.45rem] font-bold tracking-widest uppercase mt-1" style="color:rgba(196,181,253,.5)">Identity Verification</p>
+                                            <p id="quote-hint-text"
+                                                class="text-[0.45rem] font-bold tracking-widest uppercase mt-1"
+                                                style="color:rgba(196,181,253,.5)">Identity Verification</p>
                                         </div>
                                     </div>
                                     <div class="mystery-card-face mystery-card-front" id="card-front-1"></div>
                                 </div>
                             </div>
-                            <div class="mystery-card-wrapper" style="--deal-delay:.5s;--card-rot:6deg;height:290px;width:140px;flex-shrink:0;" onclick="revealCard(2)">
+                            <div class="mystery-card-wrapper"
+                                style="--deal-delay:.5s;--card-rot:6deg;height:290px;width:140px;flex-shrink:0;"
+                                onclick="revealCard(2)">
                                 <div class="mystery-card-inner" id="card-inner-2">
                                     <div class="mystery-card-face mystery-card-back" id="card-back-2">
-                                        <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);"></div>
+                                        <div class="absolute inset-0 opacity-20"
+                                            style="background:radial-gradient(circle at 50% 50%,rgba(196,181,253,.6) 0%,transparent 70%);">
+                                        </div>
                                         <div class="flex flex-col items-center gap-3">
-                                            <span style="font-size:3rem;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">🗝️</span>
-                                            <p class="text-[0.65rem] font-bold tracking-widest uppercase" style="color:rgba(196,181,253,.7)">Tap to reveal</p>
+                                            <span
+                                                style="font-size:3rem;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">🗝️</span>
+                                            <p class="text-[0.65rem] font-bold tracking-widest uppercase"
+                                                style="color:rgba(196,181,253,.7)">Tap to reveal</p>
                                         </div>
                                     </div>
                                     <div class="mystery-card-face mystery-card-front" id="card-front-2"></div>
@@ -2069,7 +2407,7 @@
                     </div>
                 </div>
 
-                </div>
+            </div>
 
 
             <!-- Baskets flanking the trunk -->
@@ -2078,41 +2416,61 @@
                 <div class="flex gap-2 sm:gap-4 items-end pb-3 sm:pb-5">
                     <button id="basket-n" onclick="harvest('n', this)" data-basket
                         class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none opacity-50 pointer-events-none grayscale">
-                        <span class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-sky-300 drop-shadow" style="text-shadow:0 0 8px rgba(56,189,248,0.9);">Nouns</span>
-                        <span class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
+                        <span
+                            class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-sky-300 drop-shadow"
+                            style="text-shadow:0 0 8px rgba(56,189,248,0.9);">Nouns</span>
+                        <span
+                            class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
                     </button>
                     <button id="basket-v" onclick="harvest('v', this)" data-basket
                         class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none opacity-50 pointer-events-none grayscale">
-                        <span class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-rose-300 drop-shadow" style="text-shadow:0 0 8px rgba(251,113,133,0.9);">Verbs</span>
-                        <span class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
+                        <span
+                            class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-rose-300 drop-shadow"
+                            style="text-shadow:0 0 8px rgba(251,113,133,0.9);">Verbs</span>
+                        <span
+                            class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
                     </button>
                 </div>
                 <!-- Tree trunk -->
                 <div class="relative flex-shrink-0 flex flex-col items-center -mt-8 sm:-mt-12">
                     <div class="relative w-12 sm:w-16 md:w-20 lg:w-24 h-24 sm:h-32 md:h-40 bg-gradient-to-b from-amber-800 to-amber-950"
-                        style="clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);"><div class="absolute inset-0 opacity-30"
+                        style="clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);">
+                        <div class="absolute inset-0 opacity-30"
                             style="background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,0,0,0.5) 4px, rgba(0,0,0,0.5) 8px);">
                         </div>
                     </div>
-                    <div class="w-32 sm:w-44 md:w-56 h-5 sm:h-7 bg-amber-900/80 rounded-full blur-[2px] -mt-3 sm:-mt-4 shadow-md"></div>
-                    <div class="mt-3 sm:mt-4 flex items-center justify-center gap-1.5 sm:gap-2 info-crystal px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-md z-10 border border-white/50 w-fit">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <div
+                        class="w-32 sm:w-44 md:w-56 h-5 sm:h-7 bg-amber-900/80 rounded-full blur-[2px] -mt-3 sm:-mt-4 shadow-md">
+                    </div>
+                    <div
+                        class="mt-3 sm:mt-4 flex items-center justify-center gap-1.5 sm:gap-2 info-crystal px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-md z-10 border border-white/50 w-fit">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white drop-shadow-sm" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="tree-time" class="text-xs sm:text-sm md:text-base font-bold font-timer tracking-wider text-white drop-shadow-sm leading-none mt-0.5">00:00</span>
+                        <span id="tree-time"
+                            class="text-xs sm:text-sm md:text-base font-bold font-timer tracking-wider text-white drop-shadow-sm leading-none mt-0.5">00:00</span>
                     </div>
                 </div>
                 <!-- Right: Adj + Adv -->
                 <div class="flex gap-2 sm:gap-4 items-end pb-3 sm:pb-5">
                     <button id="basket-adj" onclick="harvest('adj', this)" data-basket
                         class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none opacity-50 pointer-events-none grayscale">
-                        <span class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-yellow-300 drop-shadow" style="text-shadow:0 0 8px rgba(253,224,71,0.9);">Adj.</span>
-                        <span class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
+                        <span
+                            class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-yellow-300 drop-shadow"
+                            style="text-shadow:0 0 8px rgba(253,224,71,0.9);">Adj.</span>
+                        <span
+                            class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
                     </button>
                     <button id="basket-adv" onclick="harvest('adv', this)" data-basket
                         class="relative flex flex-col items-center group transition-transform hover:-translate-y-2 cursor-pointer bg-transparent border-none focus:outline-none opacity-50 pointer-events-none grayscale">
-                        <span class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-orange-300 drop-shadow" style="text-shadow:0 0 8px rgba(251,146,60,0.9);">Adv.</span>
-                        <span class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
+                        <span
+                            class="text-[0.75rem] sm:text-sm font-black uppercase tracking-widest block mb-1 text-orange-300 drop-shadow"
+                            style="text-shadow:0 0 8px rgba(251,146,60,0.9);">Adv.</span>
+                        <span
+                            class="text-4xl sm:text-5xl drop-shadow-md group-hover:drop-shadow-xl transition-all">🧺</span>
                     </button>
                 </div>
             </div>
@@ -2555,10 +2913,10 @@
             playTransitionSound();
             selectedZodiacEmoji = emoji;
             document.getElementById('score-icon').textContent = emoji;
-            
+
             const zodiacScreen = document.getElementById('zodiac-screen');
             const flashcardEl = document.getElementById('flashcard');
-            
+
             zodiacScreen.classList.remove('screen-active');
             zodiacScreen.classList.add('screen-hidden');
 
@@ -2710,13 +3068,13 @@
             for (let i = 0; i < numMeteors; i++) {
                 const meteor = document.createElement('div');
                 meteor.className = 'meteor';
-                
+
                 // Spread meteors across the entire screen
                 const startX = (Math.random() * window.innerWidth * 2.5) - (window.innerWidth * 0.5);
                 const startY = -100 - Math.random() * 1000;
                 meteor.style.left = `${startX}px`;
                 meteor.style.top = `${startY}px`;
-                
+
                 if (i < 150) {
                     meteor.style.height = `${200 + Math.random() * 200}px`; // Long meteors
                 } else {
@@ -2738,7 +3096,7 @@
                     { opacity: 1, offset: 0.8 },
                     { transform: `rotate(${angle}deg) translateY(${distance}px) scale(${scale * 0.5})`, opacity: 0, offset: 1 }
                 ], { duration: duration, delay: delay, easing: 'linear', fill: 'forwards' });
-                
+
                 anim.onfinish = () => meteor.remove();
             }
         }
@@ -2898,7 +3256,7 @@
             // This now creates heart-piercing arrows instead of fireworks
             const rect = element.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
-            
+
             // Multiple arrows for a more festive feel
             for (let i = 0; i < 3; i++) {
                 setTimeout(() => {
@@ -2907,7 +3265,7 @@
                     // Randomize horizontal position around the element slightly
                     const offsetX = (Math.random() - 0.5) * 60;
                     arrowWrap.style.left = `${x + offsetX}px`;
-                    
+
                     // The Arrow and Heart
                     arrowWrap.innerHTML = `
                         <div style="font-size: 2.2rem; filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.4)); transform: rotate(-45deg); position: relative;">
@@ -3195,23 +3553,23 @@
         function createMagicSparkle(x, y) {
             // Optimization: Limit total sparkles to prevent lag
             if (document.querySelectorAll('.magic-sparkle').length > 15) return;
-            
+
             const sparkle = document.createElement('div');
             sparkle.className = 'magic-sparkle';
             sparkle.style.left = x + 'px';
             sparkle.style.top = y + 'px';
-            
+
             // Random varied directions
             const rx = (Math.random() - 0.5) * 80;
             const ry = (Math.random() - 0.5) * 80;
             sparkle.style.setProperty('--dx', rx + 'px');
             sparkle.style.setProperty('--dy', ry + 'px');
-            
+
             const colors = ['#f5d0fe', '#f0abfc', '#e879f9', '#ffffff', '#c084fc'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             sparkle.style.backgroundColor = color;
             sparkle.style.boxShadow = `0 0 10px ${color}`;
-            
+
             document.body.appendChild(sparkle);
             setTimeout(() => sparkle.remove(), 800);
         }
@@ -3295,7 +3653,7 @@
                             leafSlot.classList.remove('opacity-0', 'scale-50');
                             leafSlot.classList.add('opacity-100', 'scale-100');
                             const burstCount = 8;
-                            for(let b=0; b<burstCount; b++) {
+                            for (let b = 0; b < burstCount; b++) {
                                 createMagicSparkle(endX + 16, endY + 16);
                             }
                         };
@@ -3548,7 +3906,7 @@
             setTimeout(() => {
                 flowerScreen.classList.remove('opacity-100');
                 flowerScreen.classList.add('opacity-0', 'pointer-events-none');
-                
+
                 flashcardEl.classList.remove('hidden');
                 currentIndex++;
                 updateHeaderState('flashcard');
@@ -3584,10 +3942,12 @@
                     burst.textContent = '😊';
                     burst.style.cssText = `position:absolute; left:${parseFloat(apple.style.left)}px; top:${parseFloat(apple.style.top)}px; transform:translate(-50%,-50%) scale(0); font-size:3rem; z-index:100; pointer-events:none; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease 0.4s;`;
                     document.getElementById('final-screen').appendChild(burst);
-                    requestAnimationFrame(() => { requestAnimationFrame(() => {
-                        burst.style.transform = 'translate(-50%,-50%) scale(2)';
-                        burst.style.opacity = '1';
-                    }); });
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            burst.style.transform = 'translate(-50%,-50%) scale(2)';
+                            burst.style.opacity = '1';
+                        });
+                    });
                     setTimeout(() => { burst.style.opacity = '0'; setTimeout(() => burst.remove(), 500); }, 600);
 
                     apple.animate([
@@ -3621,9 +3981,11 @@
                     sadBurst.textContent = '😢';
                     sadBurst.style.cssText = `position:absolute; left:${bx}px; top:${by}px; transform:translate(-50%,-50%) scale(0); font-size:3rem; z-index:100; pointer-events:none; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease 0.5s; opacity:1;`;
                     finalScreenEl.appendChild(sadBurst);
-                    requestAnimationFrame(() => { requestAnimationFrame(() => {
-                        sadBurst.style.transform = 'translate(-50%,-50%) scale(2)';
-                    }); });
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            sadBurst.style.transform = 'translate(-50%,-50%) scale(2)';
+                        });
+                    });
                     setTimeout(() => { sadBurst.style.opacity = '0'; setTimeout(() => sadBurst.remove(), 500); }, 800);
 
                     createWaterSplash(apple);
@@ -3649,9 +4011,11 @@
                     penaltyToast.textContent = '+🍎';
                     penaltyToast.style.cssText = `position:absolute; left:${bx}px; top:${by - 40}px; transform:translate(-50%,-100%) scale(0); font-size:1.4rem; font-weight:900; color:#fbbf24; text-shadow:0 2px 8px rgba(0,0,0,0.7); z-index:110; pointer-events:none; transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease 0.5s; opacity:1;`;
                     finalScreenEl.appendChild(penaltyToast);
-                    requestAnimationFrame(() => { requestAnimationFrame(() => {
-                        penaltyToast.style.transform = 'translate(-50%,-100%) scale(1.3)';
-                    }); });
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            penaltyToast.style.transform = 'translate(-50%,-100%) scale(1.3)';
+                        });
+                    });
                     setTimeout(() => { penaltyToast.style.opacity = '0'; setTimeout(() => penaltyToast.remove(), 500); }, 1000);
 
                     setTimeout(() => {
@@ -3782,9 +4146,9 @@
                     input.style.height = '52px';
                     input.style.fontSize = '1.25rem';
                     // responsive: bump up on larger viewports via JS
-                    if (window.innerWidth >= 640) { input.style.width='52px'; input.style.height='62px'; input.style.fontSize='1.4rem'; }
-                    if (window.innerWidth >= 768) { input.style.width='58px'; input.style.height='68px'; input.style.fontSize='1.6rem'; }
-                    if (window.innerWidth >= 1024) { input.style.width='68px'; input.style.height='80px'; input.style.fontSize='1.85rem'; }
+                    if (window.innerWidth >= 640) { input.style.width = '52px'; input.style.height = '62px'; input.style.fontSize = '1.4rem'; }
+                    if (window.innerWidth >= 768) { input.style.width = '58px'; input.style.height = '68px'; input.style.fontSize = '1.6rem'; }
+                    if (window.innerWidth >= 1024) { input.style.width = '68px'; input.style.height = '80px'; input.style.fontSize = '1.85rem'; }
 
                     if (i === 0) {
                         input.value = w[i].toLowerCase();
@@ -4223,7 +4587,7 @@
             const checkWinCondition = () => {
                 const vals = inputs.map(inp => inp.value.trim().toLowerCase());
                 const validList = flashcards.slice(0, originalFlashcardsCount).map(c => c.word.toLowerCase());
-                
+
                 const allValidAndPresent = vals.every(v => v && validList.includes(v));
                 const allUnique = new Set(vals).size === vals.length;
 
@@ -4249,13 +4613,13 @@
                 const val = inputEl.value.trim().toLowerCase();
                 const validList = flashcards.slice(0, originalFlashcardsCount).map(c => c.word.toLowerCase());
                 if (val === '') { inputEl.classList.remove('input-error'); return; }
-                
+
                 if (!validList.includes(val)) {
                     inputEl.classList.add('input-error');
                     playErrorSound();
                 } else {
                     inputEl.classList.remove('input-error');
-                    
+
                     const otherVals = inputs.filter(inp => inp !== inputEl).map(inp => inp.value.trim().toLowerCase());
                     if (otherVals.includes(val)) {
                         inputEl.classList.add('input-error');
@@ -4446,20 +4810,20 @@
                 document.getElementById('hint-btn-3'),
                 document.getElementById('hint-btn-4')
             ];
-            
+
             const iconStr = selectedZodiacEmoji || '🔮';
 
             btns.forEach(btn => {
                 if (!btn) return;
                 const emojiEl = btn.querySelector('.hint-emoji');
                 const countEl = btn.querySelector('.hint-count-text');
-                
+
                 if (emojiEl) emojiEl.textContent = iconStr;
                 if (countEl) countEl.textContent = `${remainingHints}`;
-                
+
                 btn.classList.remove('opacity-0', 'pointer-events-none');
-                
-                if(remainingHints <= 0) {
+
+                if (remainingHints <= 0) {
                     btn.classList.add('opacity-50', 'pointer-events-none');
                     btn.classList.remove('hover:scale-105', 'hover:bg-white/20');
                 } else {
@@ -4471,10 +4835,10 @@
 
         function useTranslationHint(partNum) {
             if (remainingHints <= 0) return;
-            
+
             remainingHints--;
             updateHintButtonsUI();
-            
+
             let textToSpeak = '';
             if (partNum === 1) textToSpeak = getPlainSentence(currentWord1);
             else if (partNum === 2) textToSpeak = getPlainSentence(currentWord2);
@@ -4662,7 +5026,7 @@
                 if (mb) mb.style.display = '';
                 const tray = document.getElementById('mystery-card-tray');
                 if (tray) { tray.classList.add('hidden'); tray.classList.remove('flex'); }
-                [0,1,2].forEach(i => {
+                [0, 1, 2].forEach(i => {
                     const inner = document.getElementById(`card-inner-${i}`);
                     if (inner) inner.classList.remove('flipped');
                 });
@@ -4783,99 +5147,123 @@
         // ═══════════════════════════════════════════
 
         const zodiacMagicMap = {
-            '♈': { skill:'Pyrokinesis', icon:'🔥', desc:'Kiểm soát lửa thuần thục — ngọn lửa của bạn không thể tắt.',
-                   orbLight:'#fde68a', orbMid:'#ef4444', orbDark:'#450a0a', orbGlow:'rgba(239,68,68,.9)',
-                   ringColor:'rgba(252,165,165,.7)', ringColor2:'rgba(254,202,202,.4)', pColor:'#fca5a5', soundFreq:220 },
-            '♉': { skill:'Nature Harmony', icon:'🌿', desc:'Gọi cây xanh sinh trưởng tức thì — đất dưới chân bạn nở hoa.',
-                   orbLight:'#bbf7d0', orbMid:'#16a34a', orbDark:'#052e16', orbGlow:'rgba(22,163,74,.9)',
-                   ringColor:'rgba(134,239,172,.7)', ringColor2:'rgba(187,247,208,.4)', pColor:'#86efac', soundFreq:196 },
-            '♊': { skill:'Mirror Split', icon:'🪞', desc:'Tạo phân thân ảo — kẻ thù không biết đâu là thật.',
-                   orbLight:'#e0f2fe', orbMid:'#0284c7', orbDark:'#0c4a6e', orbGlow:'rgba(2,132,199,.9)',
-                   ringColor:'rgba(125,211,252,.7)', ringColor2:'rgba(186,230,253,.4)', pColor:'#7dd3fc', soundFreq:246 },
-            '♋': { skill:'Tide Mastery', icon:'🌊', desc:'Điều khiển thủy triều — đại dương nghe lời bạn.',
-                   orbLight:'#bae6fd', orbMid:'#0369a1', orbDark:'#0a192f', orbGlow:'rgba(3,105,161,.9)',
-                   ringColor:'rgba(56,189,248,.7)', ringColor2:'rgba(186,230,253,.4)', pColor:'#38bdf8', soundFreq:185 },
-            '♌': { skill:'Solar Radiance', icon:'✨', desc:'Tỏa hào quang mặt trời — bạn chói rạng như ngôi sao.',
-                   orbLight:'#fef9c3', orbMid:'#ca8a04', orbDark:'#422006', orbGlow:'rgba(234,179,8,.9)',
-                   ringColor:'rgba(253,224,71,.7)', ringColor2:'rgba(254,240,138,.4)', pColor:'#fde047', soundFreq:261 },
-            '♍': { skill:'Alchemy', icon:'📿', desc:'Giả kim thuật — biến mọi thứ thành vàng ròng.',
-                   orbLight:'#d1fae5', orbMid:'#059669', orbDark:'#022c22', orbGlow:'rgba(5,150,105,.9)',
-                   ringColor:'rgba(110,231,183,.7)', ringColor2:'rgba(167,243,208,.4)', pColor:'#6ee7b7', soundFreq:174 },
-            '♎': { skill:'Fate Balance', icon:'⚖️', desc:'Cân bằng vận mệnh — không ai thoát khỏi sự công bằng của bạn.',
-                   orbLight:'#f3e8ff', orbMid:'#a855f7', orbDark:'#2e1065', orbGlow:'rgba(168,85,247,.9)',
-                   ringColor:'rgba(216,180,254,.7)', ringColor2:'rgba(233,213,255,.4)', pColor:'#d8b4fe', soundFreq:233 },
-            '♏': { skill:'Dark Vision', icon:'🔮', desc:'Nhìn xuyên màn đêm — bí mật nào cũng hiển hiện trước mắt bạn.',
-                   orbLight:'#ede9fe', orbMid:'#7c3aed', orbDark:'#1e0a3c', orbGlow:'rgba(124,58,237,.9)',
-                   ringColor:'rgba(167,139,250,.7)', ringColor2:'rgba(196,181,253,.4)', pColor:'#a78bfa', soundFreq:155 },
-            '♐': { skill:'Star Arrow', icon:'🏹', desc:'Mũi tên xuyên không gian — không khoảng cách nào là trở ngại.',
-                   orbLight:'#fef3c7', orbMid:'#d97706', orbDark:'#451a03', orbGlow:'rgba(217,119,6,.9)',
-                   ringColor:'rgba(252,211,77,.7)', ringColor2:'rgba(253,230,138,.4)', pColor:'#fcd34d', soundFreq:196 },
-            '♑': { skill:'Earth Armor', icon:'🏔️', desc:'Giáp thạch đất — không gì có thể xuyên qua lớp phòng thủ của bạn.',
-                   orbLight:'#d6d3d1', orbMid:'#57534e', orbDark:'#1c1917', orbGlow:'rgba(87,83,78,.9)',
-                   ringColor:'rgba(168,162,158,.7)', ringColor2:'rgba(214,211,209,.4)', pColor:'#a8a29e', soundFreq:165 },
-            '♒': { skill:'Storm Call', icon:'⚡', desc:'Gọi sấm sét từ thinh không — cơn bão chính là ý chí của bạn.',
-                   orbLight:'#e0f2fe', orbMid:'#0ea5e9', orbDark:'#082f49', orbGlow:'rgba(14,165,233,.9)',
-                   ringColor:'rgba(56,189,248,.7)', ringColor2:'rgba(186,230,253,.4)', pColor:'#38bdf8', soundFreq:277 },
-            '♓': { skill:'Dream Walk', icon:'🌀', desc:'Du hành trong giấc mơ — thực và ảo không còn ranh giới.',
-                   orbLight:'#fce7f3', orbMid:'#db2777', orbDark:'#500724', orbGlow:'rgba(219,39,119,.9)',
-                   ringColor:'rgba(249,168,212,.7)', ringColor2:'rgba(251,207,232,.4)', pColor:'#f9a8d4', soundFreq:207 },
+            '♈': {
+                skill: 'Pyrokinesis', icon: '🔥', desc: 'Kiểm soát lửa thuần thục — ngọn lửa của bạn không thể tắt.',
+                orbLight: '#fde68a', orbMid: '#ef4444', orbDark: '#450a0a', orbGlow: 'rgba(239,68,68,.9)',
+                ringColor: 'rgba(252,165,165,.7)', ringColor2: 'rgba(254,202,202,.4)', pColor: '#fca5a5', soundFreq: 220
+            },
+            '♉': {
+                skill: 'Nature Harmony', icon: '🌿', desc: 'Gọi cây xanh sinh trưởng tức thì — đất dưới chân bạn nở hoa.',
+                orbLight: '#bbf7d0', orbMid: '#16a34a', orbDark: '#052e16', orbGlow: 'rgba(22,163,74,.9)',
+                ringColor: 'rgba(134,239,172,.7)', ringColor2: 'rgba(187,247,208,.4)', pColor: '#86efac', soundFreq: 196
+            },
+            '♊': {
+                skill: 'Mirror Split', icon: '🪞', desc: 'Tạo phân thân ảo — kẻ thù không biết đâu là thật.',
+                orbLight: '#e0f2fe', orbMid: '#0284c7', orbDark: '#0c4a6e', orbGlow: 'rgba(2,132,199,.9)',
+                ringColor: 'rgba(125,211,252,.7)', ringColor2: 'rgba(186,230,253,.4)', pColor: '#7dd3fc', soundFreq: 246
+            },
+            '♋': {
+                skill: 'Tide Mastery', icon: '🌊', desc: 'Điều khiển thủy triều — đại dương nghe lời bạn.',
+                orbLight: '#bae6fd', orbMid: '#0369a1', orbDark: '#0a192f', orbGlow: 'rgba(3,105,161,.9)',
+                ringColor: 'rgba(56,189,248,.7)', ringColor2: 'rgba(186,230,253,.4)', pColor: '#38bdf8', soundFreq: 185
+            },
+            '♌': {
+                skill: 'Solar Radiance', icon: '✨', desc: 'Tỏa hào quang mặt trời — bạn chói rạng như ngôi sao.',
+                orbLight: '#fef9c3', orbMid: '#ca8a04', orbDark: '#422006', orbGlow: 'rgba(234,179,8,.9)',
+                ringColor: 'rgba(253,224,71,.7)', ringColor2: 'rgba(254,240,138,.4)', pColor: '#fde047', soundFreq: 261
+            },
+            '♍': {
+                skill: 'Alchemy', icon: '📿', desc: 'Giả kim thuật — biến mọi thứ thành vàng ròng.',
+                orbLight: '#d1fae5', orbMid: '#059669', orbDark: '#022c22', orbGlow: 'rgba(5,150,105,.9)',
+                ringColor: 'rgba(110,231,183,.7)', ringColor2: 'rgba(167,243,208,.4)', pColor: '#6ee7b7', soundFreq: 174
+            },
+            '♎': {
+                skill: 'Fate Balance', icon: '⚖️', desc: 'Cân bằng vận mệnh — không ai thoát khỏi sự công bằng của bạn.',
+                orbLight: '#f3e8ff', orbMid: '#a855f7', orbDark: '#2e1065', orbGlow: 'rgba(168,85,247,.9)',
+                ringColor: 'rgba(216,180,254,.7)', ringColor2: 'rgba(233,213,255,.4)', pColor: '#d8b4fe', soundFreq: 233
+            },
+            '♏': {
+                skill: 'Dark Vision', icon: '🔮', desc: 'Nhìn xuyên màn đêm — bí mật nào cũng hiển hiện trước mắt bạn.',
+                orbLight: '#ede9fe', orbMid: '#7c3aed', orbDark: '#1e0a3c', orbGlow: 'rgba(124,58,237,.9)',
+                ringColor: 'rgba(167,139,250,.7)', ringColor2: 'rgba(196,181,253,.4)', pColor: '#a78bfa', soundFreq: 155
+            },
+            '♐': {
+                skill: 'Star Arrow', icon: '🏹', desc: 'Mũi tên xuyên không gian — không khoảng cách nào là trở ngại.',
+                orbLight: '#fef3c7', orbMid: '#d97706', orbDark: '#451a03', orbGlow: 'rgba(217,119,6,.9)',
+                ringColor: 'rgba(252,211,77,.7)', ringColor2: 'rgba(253,230,138,.4)', pColor: '#fcd34d', soundFreq: 196
+            },
+            '♑': {
+                skill: 'Earth Armor', icon: '🏔️', desc: 'Giáp thạch đất — không gì có thể xuyên qua lớp phòng thủ của bạn.',
+                orbLight: '#d6d3d1', orbMid: '#57534e', orbDark: '#1c1917', orbGlow: 'rgba(87,83,78,.9)',
+                ringColor: 'rgba(168,162,158,.7)', ringColor2: 'rgba(214,211,209,.4)', pColor: '#a8a29e', soundFreq: 165
+            },
+            '♒': {
+                skill: 'Storm Call', icon: '⚡', desc: 'Gọi sấm sét từ thinh không — cơn bão chính là ý chí của bạn.',
+                orbLight: '#e0f2fe', orbMid: '#0ea5e9', orbDark: '#082f49', orbGlow: 'rgba(14,165,233,.9)',
+                ringColor: 'rgba(56,189,248,.7)', ringColor2: 'rgba(186,230,253,.4)', pColor: '#38bdf8', soundFreq: 277
+            },
+            '♓': {
+                skill: 'Dream Walk', icon: '🌀', desc: 'Du hành trong giấc mơ — thực và ảo không còn ranh giới.',
+                orbLight: '#fce7f3', orbMid: '#db2777', orbDark: '#500724', orbGlow: 'rgba(219,39,119,.9)',
+                ringColor: 'rgba(249,168,212,.7)', ringColor2: 'rgba(251,207,232,.4)', pColor: '#f9a8d4', soundFreq: 207
+            },
         };
 
         // 50 quotes - shuffle order tracked to avoid repeats
         const quotesPool = [
             // ── Tình yêu (Love) ──
-            { en: '"The best thing to hold onto in life is each other."', vi: '"Điều tốt nhất để nắm giữ trong cuộc đời là nhau."', author:'— Audrey Hepburn' },
-            { en: '"To love and be loved is to feel the sun from both sides."', vi: '"Yêu và được yêu là cảm nhận ánh mặt trời từ cả hai phía."', author:'— David Viscott' },
-            { en: '"Love is composed of a single soul inhabiting two bodies."', vi: '"Tình yêu là một tâm hồn cư trú trong hai thân xác."', author:'— Aristotle' },
-            { en: '"Keep love in your heart. A life without it is like a sunless garden."', vi: '"Giữ tình yêu trong tim. Cuộc đời không có nó như khu vườn thiếu ánh nắng."', author:'— Oscar Wilde' },
-            { en: '"The best love is the kind that awakens the soul and makes us reach for more."', vi: '"Tình yêu đẹp nhất là thứ đánh thức linh hồn và khiến ta vươn tới nhiều hơn."', author:'— Nicholas Sparks' },
-            { en: '"In all the world, there is no heart for me like yours."', vi: '"Trên khắp thế gian, không trái tim nào dành cho tôi như trái tim bạn."', author:'— Maya Angelou' },
-            { en: '"Love does not consist of gazing at each other, but in looking outward together."', vi: '"Tình yêu không phải nhìn nhau, mà là cùng nhìn về một hướng."', author:'— Antoine de Saint-Exupéry' },
-            { en: '"Where there is love there is life."', vi: '"Nơi nào có tình yêu, nơi đó có sự sống."', author:'— Mahatma Gandhi' },
-            { en: '"You know you\'re in love when you can\'t fall asleep because reality is finally better than your dreams."', vi: '"Bạn biết mình đang yêu khi bạn không ngủ được vì thực tại đã đẹp hơn giấc mơ."', author:'— Dr. Seuss' },
-            { en: '"The greatest happiness of life is the conviction that we are loved."', vi: '"Hạnh phúc lớn nhất của cuộc đời là niềm tin rằng ta được yêu thương."', author:'— Victor Hugo' },
+            { en: '"The best thing to hold onto in life is each other."', vi: '"Điều tốt nhất để nắm giữ trong cuộc đời là nhau."', author: '— Audrey Hepburn' },
+            { en: '"To love and be loved is to feel the sun from both sides."', vi: '"Yêu và được yêu là cảm nhận ánh mặt trời từ cả hai phía."', author: '— David Viscott' },
+            { en: '"Love is composed of a single soul inhabiting two bodies."', vi: '"Tình yêu là một tâm hồn cư trú trong hai thân xác."', author: '— Aristotle' },
+            { en: '"Keep love in your heart. A life without it is like a sunless garden."', vi: '"Giữ tình yêu trong tim. Cuộc đời không có nó như khu vườn thiếu ánh nắng."', author: '— Oscar Wilde' },
+            { en: '"The best love is the kind that awakens the soul and makes us reach for more."', vi: '"Tình yêu đẹp nhất là thứ đánh thức linh hồn và khiến ta vươn tới nhiều hơn."', author: '— Nicholas Sparks' },
+            { en: '"In all the world, there is no heart for me like yours."', vi: '"Trên khắp thế gian, không trái tim nào dành cho tôi như trái tim bạn."', author: '— Maya Angelou' },
+            { en: '"Love does not consist of gazing at each other, but in looking outward together."', vi: '"Tình yêu không phải nhìn nhau, mà là cùng nhìn về một hướng."', author: '— Antoine de Saint-Exupéry' },
+            { en: '"Where there is love there is life."', vi: '"Nơi nào có tình yêu, nơi đó có sự sống."', author: '— Mahatma Gandhi' },
+            { en: '"You know you\'re in love when you can\'t fall asleep because reality is finally better than your dreams."', vi: '"Bạn biết mình đang yêu khi bạn không ngủ được vì thực tại đã đẹp hơn giấc mơ."', author: '— Dr. Seuss' },
+            { en: '"The greatest happiness of life is the conviction that we are loved."', vi: '"Hạnh phúc lớn nhất của cuộc đời là niềm tin rằng ta được yêu thương."', author: '— Victor Hugo' },
             // ── Cuộc sống (Life) ──
-            { en: '"Life is what happens when you\'re busy making other plans."', vi: '"Cuộc đời xảy ra khi bạn đang bận lên kế hoạch cho những điều khác."', author:'— John Lennon' },
-            { en: '"In the middle of every difficulty lies opportunity."', vi: '"Trong mỗi khó khăn ẩn chứa một cơ hội."', author:'— Albert Einstein' },
-            { en: '"You only live once, but if you do it right, once is enough."', vi: '"Bạn chỉ sống một lần, nhưng nếu sống đúng cách, một lần là đủ."', author:'— Mae West' },
-            { en: '"Be yourself; everyone else is already taken."', vi: '"Hãy là chính mình; người khác đã có chủ rồi."', author:'— Oscar Wilde' },
-            { en: '"Keep your face always toward the sunshine, and shadows will fall behind you."', vi: '"Luôn hướng mặt về phía ánh nắng, bóng tối sẽ tự rơi lại phía sau."', author:'— Walt Whitman' },
-            { en: '"The most wasted day of all is one in which we have not laughed."', vi: '"Ngày vô nghĩa nhất là ngày mà ta chưa cười lần nào."', author:'— Nicolas de Chamfort' },
-            { en: '"You are never too old to set another goal or to dream a new dream."', vi: '"Bạn không bao giờ quá già để đặt mục tiêu mới hay mơ giấc mơ mới."', author:'— C.S. Lewis' },
-            { en: '"Spread love everywhere you go. Let no one come to you without leaving happier."', vi: '"Lan tỏa tình yêu đến mọi nơi. Đừng để ai rời xa bạn mà không hạnh phúc hơn."', author:'— Mother Teresa' },
-            { en: '"It does not matter how slowly you go as long as you do not stop."', vi: '"Không quan trọng bạn đi chậm đến đâu, miễn là đừng dừng lại."', author:'— Confucius' },
-            { en: '"Life is short, and it is up to you to make it sweet."', vi: '"Cuộc đời ngắn ngủi, và tùy bạn làm cho nó ngọt ngào."', author:'— Sarah Louise Delany' },
-            { en: '"The purpose of our lives is to be happy."', vi: '"Mục đích của cuộc đời chúng ta là hạnh phúc."', author:'— Dalai Lama' },
-            { en: '"Get busy living or get busy dying."', vi: '"Hãy bận rộn sống hoặc bận rộn chết."', author:'— Stephen King' },
-            { en: '"Many of life\'s failures are people who did not realize how close they were to success when they gave up."', vi: '"Nhiều người thất bại vì không biết mình đã gần đến thành công đến thế nào khi họ bỏ cuộc."', author:'— Thomas A. Edison' },
-            { en: '"If life were predictable it would cease to be life, and be without flavor."', vi: '"Nếu cuộc đời có thể đoán trước, nó sẽ không còn là cuộc đời nữa."', author:'— Eleanor Roosevelt' },
-            { en: '"Live in the sunshine, swim the sea, drink the wild air."', vi: '"Sống dưới ánh nắng, bơi cùng biển cả, uống gió trời tự do."', author:'— Ralph Waldo Emerson' },
+            { en: '"Life is what happens when you\'re busy making other plans."', vi: '"Cuộc đời xảy ra khi bạn đang bận lên kế hoạch cho những điều khác."', author: '— John Lennon' },
+            { en: '"In the middle of every difficulty lies opportunity."', vi: '"Trong mỗi khó khăn ẩn chứa một cơ hội."', author: '— Albert Einstein' },
+            { en: '"You only live once, but if you do it right, once is enough."', vi: '"Bạn chỉ sống một lần, nhưng nếu sống đúng cách, một lần là đủ."', author: '— Mae West' },
+            { en: '"Be yourself; everyone else is already taken."', vi: '"Hãy là chính mình; người khác đã có chủ rồi."', author: '— Oscar Wilde' },
+            { en: '"Keep your face always toward the sunshine, and shadows will fall behind you."', vi: '"Luôn hướng mặt về phía ánh nắng, bóng tối sẽ tự rơi lại phía sau."', author: '— Walt Whitman' },
+            { en: '"The most wasted day of all is one in which we have not laughed."', vi: '"Ngày vô nghĩa nhất là ngày mà ta chưa cười lần nào."', author: '— Nicolas de Chamfort' },
+            { en: '"You are never too old to set another goal or to dream a new dream."', vi: '"Bạn không bao giờ quá già để đặt mục tiêu mới hay mơ giấc mơ mới."', author: '— C.S. Lewis' },
+            { en: '"Spread love everywhere you go. Let no one come to you without leaving happier."', vi: '"Lan tỏa tình yêu đến mọi nơi. Đừng để ai rời xa bạn mà không hạnh phúc hơn."', author: '— Mother Teresa' },
+            { en: '"It does not matter how slowly you go as long as you do not stop."', vi: '"Không quan trọng bạn đi chậm đến đâu, miễn là đừng dừng lại."', author: '— Confucius' },
+            { en: '"Life is short, and it is up to you to make it sweet."', vi: '"Cuộc đời ngắn ngủi, và tùy bạn làm cho nó ngọt ngào."', author: '— Sarah Louise Delany' },
+            { en: '"The purpose of our lives is to be happy."', vi: '"Mục đích của cuộc đời chúng ta là hạnh phúc."', author: '— Dalai Lama' },
+            { en: '"Get busy living or get busy dying."', vi: '"Hãy bận rộn sống hoặc bận rộn chết."', author: '— Stephen King' },
+            { en: '"Many of life\'s failures are people who did not realize how close they were to success when they gave up."', vi: '"Nhiều người thất bại vì không biết mình đã gần đến thành công đến thế nào khi họ bỏ cuộc."', author: '— Thomas A. Edison' },
+            { en: '"If life were predictable it would cease to be life, and be without flavor."', vi: '"Nếu cuộc đời có thể đoán trước, nó sẽ không còn là cuộc đời nữa."', author: '— Eleanor Roosevelt' },
+            { en: '"Live in the sunshine, swim the sea, drink the wild air."', vi: '"Sống dưới ánh nắng, bơi cùng biển cả, uống gió trời tự do."', author: '— Ralph Waldo Emerson' },
             // ── Gia đình (Family) ──
-            { en: '"Family is not an important thing. It\'s everything."', vi: '"Gia đình không chỉ là điều quan trọng — đó là tất cả."', author:'— Michael J. Fox' },
-            { en: '"In family life, love is the oil that eases friction, the cement that binds closer together."', vi: '"Trong gia đình, tình yêu là dầu làm dịu ma sát, xi măng gắn kết mọi người lại."', author:'— Friedrich Nietzsche' },
-            { en: '"The bond that links your true family is not one of blood, but of respect and joy in each other\'s life."', vi: '"Sợi dây gắn kết gia đình thực sự không phải máu mủ, mà là sự tôn trọng và niềm vui trong cuộc sống của nhau."', author:'— Richard Bach' },
-            { en: '"Home is where the heart is."', vi: '"Nhà là nơi trái tim thuộc về."', author:'— Pliny the Elder' },
-            { en: '"A happy family is but an earlier heaven."', vi: '"Một gia đình hạnh phúc là thiên đường sớm hơn."', author:'— George Bernard Shaw' },
-            { en: '"Family is the compass that guides us."', vi: '"Gia đình là la bàn định hướng cho chúng ta."', author:'— Brad Henry' },
-            { en: '"Other things may change us, but we start and end with the family."', vi: '"Nhiều thứ có thể thay đổi chúng ta, nhưng ta bắt đầu và kết thúc với gia đình."', author:'— Anthony Brandt' },
-            { en: '"The memories we make with our family is everything."', vi: '"Những ký ức ta tạo ra với gia đình là tất cả."', author:'— Candace Cameron Bure' },
-            { en: '"Family means no one gets left behind or forgotten."', vi: '"Gia đình nghĩa là không ai bị bỏ lại hay bị lãng quên."', author:'— David Ogden Stiers' },
-            { en: '"In every conceivable manner, the family is link to our past, bridge to our future."', vi: '"Theo mọi cách có thể, gia đình là sợi dây nối với quá khứ, cây cầu đến tương lai."', author:'— Alex Haley' },
+            { en: '"Family is not an important thing. It\'s everything."', vi: '"Gia đình không chỉ là điều quan trọng — đó là tất cả."', author: '— Michael J. Fox' },
+            { en: '"In family life, love is the oil that eases friction, the cement that binds closer together."', vi: '"Trong gia đình, tình yêu là dầu làm dịu ma sát, xi măng gắn kết mọi người lại."', author: '— Friedrich Nietzsche' },
+            { en: '"The bond that links your true family is not one of blood, but of respect and joy in each other\'s life."', vi: '"Sợi dây gắn kết gia đình thực sự không phải máu mủ, mà là sự tôn trọng và niềm vui trong cuộc sống của nhau."', author: '— Richard Bach' },
+            { en: '"Home is where the heart is."', vi: '"Nhà là nơi trái tim thuộc về."', author: '— Pliny the Elder' },
+            { en: '"A happy family is but an earlier heaven."', vi: '"Một gia đình hạnh phúc là thiên đường sớm hơn."', author: '— George Bernard Shaw' },
+            { en: '"Family is the compass that guides us."', vi: '"Gia đình là la bàn định hướng cho chúng ta."', author: '— Brad Henry' },
+            { en: '"Other things may change us, but we start and end with the family."', vi: '"Nhiều thứ có thể thay đổi chúng ta, nhưng ta bắt đầu và kết thúc với gia đình."', author: '— Anthony Brandt' },
+            { en: '"The memories we make with our family is everything."', vi: '"Những ký ức ta tạo ra với gia đình là tất cả."', author: '— Candace Cameron Bure' },
+            { en: '"Family means no one gets left behind or forgotten."', vi: '"Gia đình nghĩa là không ai bị bỏ lại hay bị lãng quên."', author: '— David Ogden Stiers' },
+            { en: '"In every conceivable manner, the family is link to our past, bridge to our future."', vi: '"Theo mọi cách có thể, gia đình là sợi dây nối với quá khứ, cây cầu đến tương lai."', author: '— Alex Haley' },
             // ── Sự nghiệp (Career) ──
-            { en: '"The only way to do great work is to love what you do."', vi: '"Cách duy nhất để làm điều tuyệt vời là yêu những gì bạn làm."', author:'— Steve Jobs' },
-            { en: '"Choose a job you love, and you will never have to work a day in your life."', vi: '"Chọn công việc bạn yêu, và bạn sẽ không phải làm việc một ngày nào trong đời."', author:'— Confucius' },
-            { en: '"Success is not final; failure is not fatal: It is the courage to continue that counts."', vi: '"Thành công không phải là đích cuối; thất bại không phải là tử thần — điều quan trọng là dũng khí tiếp tục."', author:'— Winston Churchill' },
-            { en: '"The secret of getting ahead is getting started."', vi: '"Bí quyết để tiến về phía trước là bắt đầu."', author:'— Mark Twain' },
-            { en: '"Hard work beats talent when talent doesn\'t work hard."', vi: '"Chăm chỉ đánh bại tài năng khi tài năng không chịu chăm chỉ."', author:'— Tim Notke' },
-            { en: '"Don\'t watch the clock; do what it does. Keep going."', vi: '"Đừng nhìn đồng hồ; hãy làm như nó — tiếp tục tiến bước."', author:'— Sam Levenson' },
-            { en: '"Success usually comes to those who are too busy to be looking for it."', vi: '"Thành công thường đến với những người quá bận rộn để tìm kiếm nó."', author:'— Henry David Thoreau' },
-            { en: '"I find that the harder I work, the more luck I seem to have."', vi: '"Tôi thấy rằng càng làm việc chăm chỉ, tôi càng có vẻ may mắn hơn."', author:'— Thomas Jefferson' },
-            { en: '"Opportunities don\'t happen; you create them."', vi: '"Cơ hội không tự đến — bạn phải tạo ra chúng."', author:'— Chris Grosser' },
-            { en: '"Don\'t be afraid to give up the good to go for the great."', vi: '"Đừng sợ từ bỏ điều tốt để theo đuổi điều vĩ đại."', author:'— John D. Rockefeller' },
-            { en: '"The road to success and the road to failure are almost exactly the same."', vi: '"Con đường đến thành công và thất bại gần như giống nhau."', author:'— Colin R. Davis' },
-            { en: '"Success is walking from failure to failure with no loss of enthusiasm."', vi: '"Thành công là bước từ thất bại này sang thất bại khác mà không mất đi nhiệt huyết."', author:'— Winston Churchill' },
-            { en: '"If you genuinely want something, don\'t wait for it — teach yourself to be impatient."', vi: '"Nếu bạn thực sự muốn điều gì, đừng chờ đợi — hãy dạy bản thân sự nóng lòng."', author:'— Gurbaksh Chahal' },
-            { en: '"The only limit to our realization of tomorrow will be our doubts of today."', vi: '"Giới hạn duy nhất cho sự thực hiện ngày mai chính là những nghi ngờ của hôm nay."', author:'— Franklin D. Roosevelt' },
+            { en: '"The only way to do great work is to love what you do."', vi: '"Cách duy nhất để làm điều tuyệt vời là yêu những gì bạn làm."', author: '— Steve Jobs' },
+            { en: '"Choose a job you love, and you will never have to work a day in your life."', vi: '"Chọn công việc bạn yêu, và bạn sẽ không phải làm việc một ngày nào trong đời."', author: '— Confucius' },
+            { en: '"Success is not final; failure is not fatal: It is the courage to continue that counts."', vi: '"Thành công không phải là đích cuối; thất bại không phải là tử thần — điều quan trọng là dũng khí tiếp tục."', author: '— Winston Churchill' },
+            { en: '"The secret of getting ahead is getting started."', vi: '"Bí quyết để tiến về phía trước là bắt đầu."', author: '— Mark Twain' },
+            { en: '"Hard work beats talent when talent doesn\'t work hard."', vi: '"Chăm chỉ đánh bại tài năng khi tài năng không chịu chăm chỉ."', author: '— Tim Notke' },
+            { en: '"Don\'t watch the clock; do what it does. Keep going."', vi: '"Đừng nhìn đồng hồ; hãy làm như nó — tiếp tục tiến bước."', author: '— Sam Levenson' },
+            { en: '"Success usually comes to those who are too busy to be looking for it."', vi: '"Thành công thường đến với những người quá bận rộn để tìm kiếm nó."', author: '— Henry David Thoreau' },
+            { en: '"I find that the harder I work, the more luck I seem to have."', vi: '"Tôi thấy rằng càng làm việc chăm chỉ, tôi càng có vẻ may mắn hơn."', author: '— Thomas Jefferson' },
+            { en: '"Opportunities don\'t happen; you create them."', vi: '"Cơ hội không tự đến — bạn phải tạo ra chúng."', author: '— Chris Grosser' },
+            { en: '"Don\'t be afraid to give up the good to go for the great."', vi: '"Đừng sợ từ bỏ điều tốt để theo đuổi điều vĩ đại."', author: '— John D. Rockefeller' },
+            { en: '"The road to success and the road to failure are almost exactly the same."', vi: '"Con đường đến thành công và thất bại gần như giống nhau."', author: '— Colin R. Davis' },
+            { en: '"Success is walking from failure to failure with no loss of enthusiasm."', vi: '"Thành công là bước từ thất bại này sang thất bại khác mà không mất đi nhiệt huyết."', author: '— Winston Churchill' },
+            { en: '"If you genuinely want something, don\'t wait for it — teach yourself to be impatient."', vi: '"Nếu bạn thực sự muốn điều gì, đừng chờ đợi — hãy dạy bản thân sự nóng lòng."', author: '— Gurbaksh Chahal' },
+            { en: '"The only limit to our realization of tomorrow will be our doubts of today."', vi: '"Giới hạn duy nhất cho sự thực hiện ngày mai chính là những nghi ngờ của hôm nay."', author: '— Franklin D. Roosevelt' },
         ];
         let quoteShuffleOrder = [];
         let quoteShuffleIdx = 0;
@@ -4897,61 +5285,61 @@
 
                 if (type === 'box') {
                     // Mystical twinkle rising
-                    [0,.15,.3,.45].forEach((t,i) => {
+                    [0, .15, .3, .45].forEach((t, i) => {
                         const o = ctx.createOscillator(); const g = ctx.createGain();
-                        o.type = 'sine'; o.frequency.value = 400 + i*150;
-                        g.gain.setValueAtTime(0, ctx.currentTime+t);
-                        g.gain.linearRampToValueAtTime(.4, ctx.currentTime+t+.05);
-                        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+t+.4);
+                        o.type = 'sine'; o.frequency.value = 400 + i * 150;
+                        g.gain.setValueAtTime(0, ctx.currentTime + t);
+                        g.gain.linearRampToValueAtTime(.4, ctx.currentTime + t + .05);
+                        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + t + .4);
                         o.connect(g); g.connect(master);
-                        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.4);
+                        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + .4);
                     });
                 } else if (type === 'card') {
                     // Soft whoosh + chime
                     const o1 = ctx.createOscillator(); const g1 = ctx.createGain();
                     o1.type = 'triangle'; o1.frequency.setValueAtTime(600, ctx.currentTime);
-                    o1.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime+.3);
-                    g1.gain.setValueAtTime(.5, ctx.currentTime); g1.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+.5);
-                    o1.connect(g1); g1.connect(master); o1.start(); o1.stop(ctx.currentTime+.5);
+                    o1.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + .3);
+                    g1.gain.setValueAtTime(.5, ctx.currentTime); g1.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .5);
+                    o1.connect(g1); g1.connect(master); o1.start(); o1.stop(ctx.currentTime + .5);
                 } else if (type === 'orb') {
                     // Magical orb drone + shimmer
-                    const freq = (zodiacMagicMap[selectedZodiacEmoji] || {soundFreq:300}).soundFreq;
-                    [0,1,2].forEach(i => {
+                    const freq = (zodiacMagicMap[selectedZodiacEmoji] || { soundFreq: 300 }).soundFreq;
+                    [0, 1, 2].forEach(i => {
                         const o = ctx.createOscillator(); const g = ctx.createGain();
-                        o.type = i===0?'sine':i===1?'triangle':'sawtooth';
-                        o.frequency.value = freq * (i===0?1:i===1?1.5:2);
+                        o.type = i === 0 ? 'sine' : i === 1 ? 'triangle' : 'sawtooth';
+                        o.frequency.value = freq * (i === 0 ? 1 : i === 1 ? 1.5 : 2);
                         g.gain.setValueAtTime(0, ctx.currentTime);
-                        g.gain.linearRampToValueAtTime(.2/(i+1), ctx.currentTime+.1);
-                        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+1.2);
-                        o.connect(g); g.connect(master); o.start(); o.stop(ctx.currentTime+1.2);
+                        g.gain.linearRampToValueAtTime(.2 / (i + 1), ctx.currentTime + .1);
+                        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + 1.2);
+                        o.connect(g); g.connect(master); o.start(); o.stop(ctx.currentTime + 1.2);
                     });
                 } else if (type === 'quote') {
                     // Soft harp-like
-                    [0,.12,.24,.36,.48].forEach((t,i) => {
+                    [0, .12, .24, .36, .48].forEach((t, i) => {
                         const o = ctx.createOscillator(); const g = ctx.createGain();
                         o.type = 'sine'; o.frequency.value = 523 * Math.pow(1.122, i);
-                        g.gain.setValueAtTime(0, ctx.currentTime+t);
-                        g.gain.linearRampToValueAtTime(.3, ctx.currentTime+t+.05);
-                        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+t+.6);
-                        o.connect(g); g.connect(master); o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.8);
+                        g.gain.setValueAtTime(0, ctx.currentTime + t);
+                        g.gain.linearRampToValueAtTime(.3, ctx.currentTime + t + .05);
+                        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + t + .6);
+                        o.connect(g); g.connect(master); o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + .8);
                     });
                 } else if (type === 'code') {
                     // Digital beep decode
-                    [0,.08,.16,.24,.32,.4].forEach((t,i) => {
+                    [0, .08, .16, .24, .32, .4].forEach((t, i) => {
                         const o = ctx.createOscillator(); const g = ctx.createGain();
-                        o.type = 'square'; o.frequency.value = 300 + Math.random()*400;
-                        g.gain.setValueAtTime(.15, ctx.currentTime+t); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+t+.06);
-                        o.connect(g); g.connect(master); o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.06);
+                        o.type = 'square'; o.frequency.value = 300 + Math.random() * 400;
+                        g.gain.setValueAtTime(.15, ctx.currentTime + t); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + t + .06);
+                        o.connect(g); g.connect(master); o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + .06);
                     });
                 }
-            } catch(e) {}
+            } catch (e) { }
         }
 
         function showMysteryBox() {
             playSuccessSound();
             const wrapper = document.getElementById('mystery-box-wrapper');
-            wrapper.classList.remove('opacity-0','scale-0');
-            wrapper.classList.add('opacity-100','scale-100','pointer-events-auto');
+            wrapper.classList.remove('opacity-0', 'scale-0');
+            wrapper.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
 
             // Populate shooting stars background
             const bg = document.getElementById('mystery-stars-bg');
@@ -4960,7 +5348,7 @@
                     const s = document.createElement('div');
                     const size = 1 + Math.random() * 3;
                     s.className = 'mystery-star';
-                    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${1.5+Math.random()*2.5}s;--del:${Math.random()*2}s;`;
+                    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;--dur:${1.5 + Math.random() * 2.5}s;--del:${Math.random() * 2}s;`;
                     bg.appendChild(s);
                 }
             }
@@ -4980,7 +5368,7 @@
             globalMysteryCode = mysteryCode;
 
             const magic = zodiacMagicMap[selectedZodiacEmoji] || zodiacMagicMap['♏'];
-            
+
             // Card 2 – Secret Code (Ordinal 1)
             document.getElementById('card-front-2').innerHTML = `
                 <div style="width:100%;height:100%;background:linear-gradient(135deg,rgba(139,92,246,.2) 0%,rgba(30,27,75,.8) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:15px;box-sizing:border-box;">
@@ -5002,7 +5390,7 @@
             // Card 1 – Quote face (requires Name to flip)
             const q = getNextQuote();
             globalQuoteWordCount = q.en.split(/\s+/).filter(w => w.length > 0).length;
-            
+
             document.getElementById('card-front-1').innerHTML = `
                 <div style="width:100%;height:100%;background:linear-gradient(160deg,#0f172a,#1e1b4b,#0f172a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;box-sizing:border-box;position:relative;overflow:hidden;">
                     <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.25) 0%,transparent 70%);pointer-events:none;"></div>
@@ -5042,7 +5430,7 @@
                     </div>
                 </div>`;
         }
-        }
+
 
         let mysteryBoxOpened_real = false;
         function openMysteryBox() {
@@ -5088,8 +5476,8 @@
                 restartBtn.classList.remove('hidden');
                 restartBtn.classList.add('flex');
                 setTimeout(() => {
-                    restartBtn.classList.remove('opacity-0','scale-90','pointer-events-none');
-                    restartBtn.classList.add('opacity-100','scale-100','pointer-events-auto');
+                    restartBtn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                    restartBtn.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
                 }, 1200);
             }
         }
@@ -5108,7 +5496,7 @@
                     <span class="text-3xl">🔮</span>
                 </div>
             `;
-            
+
             portal.classList.remove('opacity-0');
             portal.classList.add('opacity-100');
 
@@ -5125,7 +5513,7 @@
             const inp = document.getElementById('quote-name-input');
             const enteredName = inp.value.trim().toLowerCase();
             const actualName = document.getElementById('user-name-input').value.trim().toLowerCase();
-            
+
             if (enteredName === actualName && actualName !== "") {
                 isQuoteUnlocked = true;
                 inp.style.borderColor = "#4ade80";
@@ -5145,10 +5533,10 @@
             if (event) event.stopPropagation();
             const inpCode = document.getElementById('orb-code-input');
             const inpCount = document.getElementById('orb-word-count-input');
-            
+
             const enteredCode = parseInt(inpCode.value.trim());
             const enteredCount = parseInt(inpCount.value.trim());
-            
+
             let success = true;
             if (enteredCode !== globalMysteryCode) {
                 inpCode.classList.add('animate-shake');
@@ -5157,7 +5545,7 @@
             } else {
                 inpCode.style.borderColor = "#4ade80";
             }
-            
+
             if (enteredCount !== globalQuoteWordCount) {
                 inpCount.classList.add('animate-shake');
                 inpCount.style.borderColor = "#ef4444";
@@ -5165,7 +5553,7 @@
             } else {
                 inpCount.style.borderColor = "#4ade80";
             }
-            
+
             if (success) {
                 isOrbUnlocked = true;
                 setTimeout(() => revealCard(0), 400);
@@ -5237,22 +5625,24 @@
                 const sr = finalScreen.getBoundingClientRect();
                 const cx = rect.left - sr.left + rect.width / 2;
                 const cy = rect.top - sr.top + rect.height / 2;
-                const colors = idx===0 ? [magic.pColor, magic.ringColor, magic.orbLight]
-                              : idx===1 ? ['#fde047','#fbbf24','#fef3c7']
-                              : ['#4ade80','#22d3ee','#a3e635'];
+                const colors = idx === 0 ? [magic.pColor, magic.ringColor, magic.orbLight]
+                    : idx === 1 ? ['#fde047', '#fbbf24', '#fef3c7']
+                        : ['#4ade80', '#22d3ee', '#a3e635'];
                 for (let i = 0; i < 12; i++) {
                     const p = document.createElement('div');
                     const angle = (i / 12) * Math.PI * 2;
                     const dist = 50 + Math.random() * 40;
                     const size = 4 + Math.random() * 5;
-                    p.style.cssText = `position:absolute;left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;border-radius:50%;background:${colors[i%colors.length]};box-shadow:0 0 8px ${colors[i%colors.length]};transform:translate(-50%,-50%);transition:all .8s ease;pointer-events:none;z-index:200;`;
+                    p.style.cssText = `position:absolute;left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;border-radius:50%;background:${colors[i % colors.length]};box-shadow:0 0 8px ${colors[i % colors.length]};transform:translate(-50%,-50%);transition:all .8s ease;pointer-events:none;z-index:200;`;
                     finalScreen.appendChild(p);
-                    requestAnimationFrame(() => { requestAnimationFrame(() => {
-                        p.style.left = `${cx + Math.cos(angle)*dist}px`;
-                        p.style.top = `${cy + Math.sin(angle)*dist}px`;
-                        p.style.opacity = '0';
-                        p.style.transform = 'translate(-50%,-50%) scale(0)';
-                    }); });
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            p.style.left = `${cx + Math.cos(angle) * dist}px`;
+                            p.style.top = `${cy + Math.sin(angle) * dist}px`;
+                            p.style.opacity = '0';
+                            p.style.transform = 'translate(-50%,-50%) scale(0)';
+                        });
+                    });
                     setTimeout(() => p.remove(), 900);
                 }
 
@@ -5264,15 +5654,15 @@
                         overlay.style.cssText = `position:fixed;inset:0;z-index:99999;background:rgba(5,2,20,0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:background .6s ease;pointer-events:auto;overflow:hidden;cursor:pointer;`;
                         document.body.appendChild(overlay);
                         // Stars bg
-                        for (let s=0;s<30;s++) {
-                            const star=document.createElement('div');
-                            const sz=1+Math.random()*2.5;
-                            star.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:#fff;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${.2+Math.random()*.6};animation:star-twinkle ${1.5+Math.random()*2}s ease-in-out infinite ${Math.random()}s;`;
+                        for (let s = 0; s < 30; s++) {
+                            const star = document.createElement('div');
+                            const sz = 1 + Math.random() * 2.5;
+                            star.style.cssText = `position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:#fff;left:${Math.random() * 100}%;top:${Math.random() * 100}%;opacity:${.2 + Math.random() * .6};animation:star-twinkle ${1.5 + Math.random() * 2}s ease-in-out infinite ${Math.random()}s;`;
                             overlay.appendChild(star);
                         }
                         // Big card clone
                         const bigCard = document.createElement('div');
-                        bigCard.style.cssText = `width:480px;height:750px;border-radius:2rem;overflow:hidden;transform:scale(0);transition:transform .8s cubic-bezier(.34,1.56,.64,1) .2s;flex-shrink:0;box-shadow:0 0 120px ${idx===1 ? 'rgba(251,191,36,.6)' : 'rgba(74,222,128,.6)'},0 50px 100px rgba(0,0,0,.8);border:4px solid ${idx===1 ? 'rgba(251,191,36,.5)' : 'rgba(74,222,128,.4)'};`;
+                        bigCard.style.cssText = `width:480px;height:750px;border-radius:2rem;overflow:hidden;transform:scale(0);transition:transform .8s cubic-bezier(.34,1.56,.64,1) .2s;flex-shrink:0;box-shadow:0 0 120px ${idx === 1 ? 'rgba(251,191,36,.6)' : 'rgba(74,222,128,.6)'},0 50px 100px rgba(0,0,0,.8);border:4px solid ${idx === 1 ? 'rgba(251,191,36,.5)' : 'rgba(74,222,128,.4)'};`;
                         if (cardFront) {
                             let content = cardFront.innerHTML;
                             // Scale up internal font sizes (2x scaling)
@@ -5280,7 +5670,7 @@
                                 const val = parseFloat(m.match(/[0-9.]+/)[0]);
                                 return `font-size:${val * 2.0}rem`;
                             });
-                             // Scale up specific paddings/gaps
+                            // Scale up specific paddings/gaps
                             content = content.replace(/gap:\.?[0-9]*px/g, (m) => {
                                 const val = parseFloat(m.match(/[0-9.]+/)[0]);
                                 return `gap:${val * 2.0}px`;
@@ -5289,10 +5679,12 @@
                         }
                         overlay.appendChild(bigCard);
                         // Fade in overlay
-                        requestAnimationFrame(() => { requestAnimationFrame(() => {
-                            overlay.style.background = 'rgba(5,2,20,0.92)';
-                            bigCard.style.transform = 'scale(1)';
-                        }); });
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                overlay.style.background = 'rgba(5,2,20,0.92)';
+                                bigCard.style.transform = 'scale(1)';
+                            });
+                        });
                         // Dismiss
                         const dismiss = () => {
                             overlay.style.transition = 'opacity .5s ease';
@@ -5339,7 +5731,7 @@
                 gg.gain.setValueAtTime(0.8, ctx.currentTime);
                 gg.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
                 og.connect(gg); gg.connect(master); og.start(); og.stop(ctx.currentTime + 2);
-            } catch(e) {}
+            } catch (e) { }
         }
 
         function showOrbShowcase() {
@@ -5353,17 +5745,19 @@
             document.body.appendChild(overlay);
 
             // Stars bg
-            for(let i=0;i<40;i++) {
-                const s=document.createElement('div');
-                const sz=1+Math.random()*2.5;
-                s.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:#fff;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${.2+Math.random()*.6};animation:star-twinkle ${1.5+Math.random()*2}s ease-in-out infinite ${Math.random()}s;`;
+            for (let i = 0; i < 40; i++) {
+                const s = document.createElement('div');
+                const sz = 1 + Math.random() * 2.5;
+                s.style.cssText = `position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:#fff;left:${Math.random() * 100}%;top:${Math.random() * 100}%;opacity:${.2 + Math.random() * .6};animation:star-twinkle ${1.5 + Math.random() * 2}s ease-in-out infinite ${Math.random()}s;`;
                 overlay.appendChild(s);
             }
 
             // Fade in overlay
-            requestAnimationFrame(() => { requestAnimationFrame(() => {
-                overlay.style.background = `rgba(5,2,20,0.95)`;
-            }); });
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    overlay.style.background = `rgba(5,2,20,0.95)`;
+                });
+            });
 
             // Build big orb
             const orbWrap = document.createElement('div');
@@ -5382,24 +5776,26 @@
             overlay.appendChild(label);
 
             // Flying particles around orb
-            for(let i=0;i<20;i++) {
-                const p=document.createElement('div');
-                const ang=(i/20)*Math.PI*2;
-                const r=160+Math.random()*60;
-                const sz=4+Math.random()*5;
-                const dur=2+Math.random()*3;
-                p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:${magic.pColor};box-shadow:0 0 10px ${magic.pColor};left:50%;top:50%;transform:translate(-50%,-50%) rotate(${ang}rad) translateX(${r}px);animation:orbit-particle ${dur}s linear infinite ${Math.random()}s;--r:${r}px;opacity:0;transition:opacity .5s ease .8s;`;
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                const ang = (i / 20) * Math.PI * 2;
+                const r = 160 + Math.random() * 60;
+                const sz = 4 + Math.random() * 5;
+                const dur = 2 + Math.random() * 3;
+                p.style.cssText = `position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:${magic.pColor};box-shadow:0 0 10px ${magic.pColor};left:50%;top:50%;transform:translate(-50%,-50%) rotate(${ang}rad) translateX(${r}px);animation:orbit-particle ${dur}s linear infinite ${Math.random()}s;--r:${r}px;opacity:0;transition:opacity .5s ease .8s;`;
                 orbWrap.appendChild(p);
             }
 
             // Animate in
-            requestAnimationFrame(() => { requestAnimationFrame(() => {
-                orbWrap.style.transform = 'scale(1)';
-                label.style.transform = 'translateY(0)';
-                label.style.opacity = '1';
-                // Show particles
-                orbWrap.querySelectorAll('div[style*="orbit-particle"]').forEach(p => p.style.opacity='1');
-            }); });
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    orbWrap.style.transform = 'scale(1)';
+                    label.style.transform = 'translateY(0)';
+                    label.style.opacity = '1';
+                    // Show particles
+                    orbWrap.querySelectorAll('div[style*="orbit-particle"]').forEach(p => p.style.opacity = '1');
+                });
+            });
 
             // Auto-dismiss after 7 seconds
             setTimeout(() => {
@@ -5421,39 +5817,39 @@
             const inner = Math.round(s * 0.7);
             const ringInset = Math.round(s * 0.02);
             // Each zodiac gets a unique layered orb with distinct elements
-            const sign = Object.entries(zodiacMagicMap).find(([k,v]) => v===magic);
+            const sign = Object.entries(zodiacMagicMap).find(([k, v]) => v === magic);
             const signKey = sign ? sign[0] : '';
             // Unique shape overlays per element group
             const extras = {
-                '♈':` <div style="position:absolute;inset:${ringInset*3}px;border-radius:50%;border:3px solid ${magic.pColor};opacity:.4;animation:orb-ring-spin 2s linear infinite;"></div>
+                '♈': ` <div style="position:absolute;inset:${ringInset * 3}px;border-radius:50%;border:3px solid ${magic.pColor};opacity:.4;animation:orb-ring-spin 2s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 20%, rgba(255,200,100,.3) 0%, transparent 50%);"></div>`,
-                '♉':` <div style="position:absolute;inset:${ringInset*5}px;border-radius:50%;border:2px dashed ${magic.pColor};opacity:.5;animation:orb-ring-spin2 6s linear infinite;"></div>
+                '♉': ` <div style="position:absolute;inset:${ringInset * 5}px;border-radius:50%;border:2px dashed ${magic.pColor};opacity:.5;animation:orb-ring-spin2 6s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 65% 25%, rgba(170,255,170,.25) 0%, transparent 45%);"></div>`,
-                '♊':` <div style="position:absolute;inset:0;border-radius:50%;background:linear-gradient(45deg,transparent 40%,rgba(180,220,255,.2) 50%,transparent 60%);animation:shimmer-scan 2s linear infinite;"></div>
-                         <div style="position:absolute;inset:${ringInset*4}px;border-radius:50%;border:1px solid ${magic.pColor};opacity:.3;animation:orb-ring-spin 3s linear infinite;"></div>`,
-                '♋':` <div style="position:absolute;inset:${ringInset*2}px;border-radius:50%;border:3px solid rgba(56,189,248,.5);opacity:.6;animation:orb-ring-spin 5s linear infinite;"></div>
+                '♊': ` <div style="position:absolute;inset:0;border-radius:50%;background:linear-gradient(45deg,transparent 40%,rgba(180,220,255,.2) 50%,transparent 60%);animation:shimmer-scan 2s linear infinite;"></div>
+                         <div style="position:absolute;inset:${ringInset * 4}px;border-radius:50%;border:1px solid ${magic.pColor};opacity:.3;animation:orb-ring-spin 3s linear infinite;"></div>`,
+                '♋': ` <div style="position:absolute;inset:${ringInset * 2}px;border-radius:50%;border:3px solid rgba(56,189,248,.5);opacity:.6;animation:orb-ring-spin 5s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 50% 80%, rgba(56,189,248,.3) 0%, transparent 55%);"></div>`,
-                '♌':` <div style="position:absolute;inset:${ringInset}px;border-radius:50%;border:4px solid rgba(253,224,71,.6);opacity:.7;animation:orb-ring-spin 1.5s linear infinite;"></div>
+                '♌': ` <div style="position:absolute;inset:${ringInset}px;border-radius:50%;border:4px solid rgba(253,224,71,.6);opacity:.7;animation:orb-ring-spin 1.5s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 30%, rgba(255,240,100,.4) 0%, transparent 50%);"></div>`,
-                '♍':` <div style="position:absolute;inset:${ringInset*4}px;border-radius:50%;border:2px dotted ${magic.pColor};opacity:.5;animation:orb-ring-spin2 8s linear infinite;"></div>
+                '♍': ` <div style="position:absolute;inset:${ringInset * 4}px;border-radius:50%;border:2px dotted ${magic.pColor};opacity:.5;animation:orb-ring-spin2 8s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 60% 70%, rgba(110,231,183,.2) 0%, transparent 50%);"></div>`,
-                '♎':` <div style="position:absolute;inset:${ringInset*2}px;border-radius:50%;border:3px solid rgba(216,180,254,.5);opacity:.5;animation:orb-ring-spin 4s linear infinite;"></div>
+                '♎': ` <div style="position:absolute;inset:${ringInset * 2}px;border-radius:50%;border:3px solid rgba(216,180,254,.5);opacity:.5;animation:orb-ring-spin 4s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,rgba(216,180,254,.1) 0%,rgba(99,102,241,.15) 100%);"></div>`,
-                '♏':` <div style="position:absolute;inset:${ringInset}px;border-radius:50%;background:radial-gradient(circle at 50% 50%, rgba(124,58,237,.5) 0%, transparent 70%);animation:box-glow-pulse 2s infinite;"></div>
-                         <div style="position:absolute;inset:${ringInset*3}px;border-radius:50%;border:2px solid rgba(167,139,250,.7);opacity:.6;animation:orb-ring-spin 2.5s linear infinite;"></div>`,
-                '♐':` <div style="position:absolute;inset:${ringInset*2}px;border-radius:50%;border:3px dashed rgba(252,211,77,.6);opacity:.6;animation:orb-ring-spin 3.5s linear infinite;"></div>
+                '♏': ` <div style="position:absolute;inset:${ringInset}px;border-radius:50%;background:radial-gradient(circle at 50% 50%, rgba(124,58,237,.5) 0%, transparent 70%);animation:box-glow-pulse 2s infinite;"></div>
+                         <div style="position:absolute;inset:${ringInset * 3}px;border-radius:50%;border:2px solid rgba(167,139,250,.7);opacity:.6;animation:orb-ring-spin 2.5s linear infinite;"></div>`,
+                '♐': ` <div style="position:absolute;inset:${ringInset * 2}px;border-radius:50%;border:3px dashed rgba(252,211,77,.6);opacity:.6;animation:orb-ring-spin 3.5s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 70% 20%, rgba(255,200,50,.3) 0%, transparent 50%);"></div>`,
-                '♑':` <div style="position:absolute;inset:${ringInset*3}px;border-radius:50%;border:2px solid rgba(168,162,158,.4);opacity:.5;animation:orb-ring-spin2 7s linear infinite;"></div>
+                '♑': ` <div style="position:absolute;inset:${ringInset * 3}px;border-radius:50%;border:2px solid rgba(168,162,158,.4);opacity:.5;animation:orb-ring-spin2 7s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 60%, rgba(214,211,209,.15) 0%, transparent 55%);"></div>`,
-                '♒':` <div style="position:absolute;inset:${ringInset}px;border-radius:50%;border:4px solid rgba(56,189,248,.7);opacity:.6;animation:orb-ring-spin 1.2s linear infinite;"></div>
-                         <div style="position:absolute;inset:${ringInset*4}px;border-radius:50%;border:2px dashed rgba(186,230,253,.5);animation:orb-ring-spin2 3s linear infinite;"></div>`,
-                '♓':` <div style="position:absolute;inset:${ringInset*2}px;border-radius:50%;border:3px solid rgba(249,168,212,.6);opacity:.6;animation:orb-ring-spin 5s linear infinite;"></div>
+                '♒': ` <div style="position:absolute;inset:${ringInset}px;border-radius:50%;border:4px solid rgba(56,189,248,.7);opacity:.6;animation:orb-ring-spin 1.2s linear infinite;"></div>
+                         <div style="position:absolute;inset:${ringInset * 4}px;border-radius:50%;border:2px dashed rgba(186,230,253,.5);animation:orb-ring-spin2 3s linear infinite;"></div>`,
+                '♓': ` <div style="position:absolute;inset:${ringInset * 2}px;border-radius:50%;border:3px solid rgba(249,168,212,.6);opacity:.6;animation:orb-ring-spin 5s linear infinite;"></div>
                          <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 30% 70%, rgba(249,168,212,.3) 0%, transparent 55%);"></div>`,
             };
             const extraHTML = extras[signKey] || '';
             return `
                 <div style="width:${s}px;height:${s}px;transform-style:preserve-3d;animation:orb-spin 5s linear infinite;position:relative;">
-                    <div style="position:absolute;inset:${ringInset*3}px;border-radius:50%;
+                    <div style="position:absolute;inset:${ringInset * 3}px;border-radius:50%;
                         background:radial-gradient(circle at 35% 30%, ${magic.orbLight} 0%, ${magic.orbMid} 45%, ${magic.orbDark} 100%);
                         box-shadow:0 0 60px ${magic.orbGlow},0 0 120px ${magic.orbGlow},inset -15px -15px 40px rgba(0,0,0,.5),inset 12px 12px 30px rgba(255,255,255,.12);">
                     </div>
