@@ -2605,6 +2605,7 @@
         let remainingHints = 0;
         let mysteryBoxOpened = false;
         let globalMysteryCode = 0;
+        let firstRitualCode = 0;
         let isOrbUnlocked = false;
         let globalQuoteWordCount = 0;
 
@@ -5415,6 +5416,7 @@
             const wordsLen = (currentWord1.length + currentWord2.length + currentWord3.length + currentWord4.length);
             const mysteryCode = (nameLen + totalScore + wordsLen) * 5;
             globalMysteryCode = mysteryCode;
+            firstRitualCode = mysteryCode;
 
             const magic = zodiacMagicMap[selectedZodiacEmoji] || zodiacMagicMap['♏'];
 
@@ -5582,7 +5584,11 @@
             utterance.onend = () => {
                 btn.classList.remove('animate-pulse', 'text-yellow-400');
                 const wordCount = text.split(/\s+/).filter(w => w.length > 0).length;
-                const code = wordCount + totalScore - 59;
+                
+                // Sum of digits of the first ritual code
+                const digitSum = firstRitualCode.toString().split('').reduce((sum, d) => sum + (parseInt(d) || 0), 0);
+                const code = wordCount + digitSum;
+                
                 globalMysteryCode = code; 
 
                 // Update ALL containers (static card and big overlay card)
