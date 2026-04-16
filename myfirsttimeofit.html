@@ -5395,8 +5395,10 @@
                 <div style="width:100%;height:100%;background:linear-gradient(160deg,#0f172a,#1e1b4b,#0f172a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;box-sizing:border-box;position:relative;overflow:hidden;">
                     <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.25) 0%,transparent 70%);pointer-events:none;"></div>
                     <p style="font-size:1.6rem;margin:0;filter:drop-shadow(0 0 10px rgba(251,191,36,1))">💬</p>
-                    <p style="font-size:.7rem;color:#e0e7ff;font-style:italic;font-weight:700;text-align:center;line-height:1.5;margin:0;padding:0 2px;">${q.en}</p>
-                    <p style="font-size:.65rem;color:rgba(196,181,253,.7);text-align:center;margin:0;">${q.author}</p>
+                    <p style="font-size:.75rem;color:#e0e7ff;font-style:italic;font-weight:700;text-align:center;line-height:1.4;margin:0;padding:0 2px;">${q.en}</p>
+                    <div style="width:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(196,181,253,.4),transparent);margin:2px 0;"></div>
+                    <p style="font-size:.65rem;color:rgba(196,181,253,.7);font-style:italic;text-align:center;line-height:1.3;margin:0;padding:0 2px;">${q.vi}</p>
+                    <p style="font-size:.6rem;color:rgba(255,255,255,.4);text-align:center;margin:0;margin-top:2px;">— ${q.author}</p>
                 </div>`;
 
             document.getElementById('card-back-1').innerHTML = `
@@ -5410,14 +5412,16 @@
 
             // Card 0 – Magical Orb (Ordinal 3)
             document.getElementById('card-front-0').innerHTML = `
-                <div style="width:100%;height:100%;background:linear-gradient(160deg,#0f0a1e,#1e1b4b,#0d1a2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;box-sizing:border-box;">
-                    <p style="font-size:.55rem;font-weight:900;letter-spacing:.25em;color:rgba(196,181,253,.7);text-transform:uppercase;margin:0;">The Orb</p>
-                    <div class="magic-orb-scene" style="transform: scale(0.5); margin: -20px 0;">
+                <div style="width:100%;height:100%;background:linear-gradient(160deg,#0f0a1e,#1e1b4b,#0d1a2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;box-sizing:border-box;">
+                    <p style="font-size:.55rem;font-weight:900;letter-spacing:.25em;color:rgba(196,181,253,.6);text-transform:uppercase;margin:0;">The Magical Orb</p>
+                    <div class="magic-orb-scene" style="transform: scale(0.45); margin: -25px 0;">
                         <div class="magic-orb" style="--orb-light:${magic.orbLight};--orb-mid:${magic.orbMid};--orb-dark:${magic.orbDark};--orb-glow:${magic.orbGlow};--ring-color:${magic.ringColor};--ring-color2:${magic.ringColor2};">
                             <div class="orb-ball"></div>
                         </div>
                     </div>
-                    <p style="font-size:.7rem;color:rgba(196,181,253,.6);margin:0;text-align:center;">${magic.skill}</p>
+                    <p style="font-size:.75rem;font-weight:900;color:#fff;margin:0;text-align:center;">${magic.skill}</p>
+                    <p style="font-size:.55rem;color:rgba(196,181,253,.75);margin:0;text-align:center;line-height:1.3;padding:0 4px;">${magic.desc}</p>
+                    <p style="font-size:.6rem;color:rgba(196,181,253,.4);margin:0;">${selectedZodiacEmoji || '⭐'}</p>
                 </div>`;
 
             document.getElementById('card-back-0').innerHTML = `
