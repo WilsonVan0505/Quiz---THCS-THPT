@@ -1273,6 +1273,22 @@
                 font-size: 3rem;
             }
         }
+        .crystal-pill {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            padding: 0.6rem 1.8rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .crystal-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
@@ -1521,10 +1537,12 @@
                         </div>
 
                         <!-- Câu ví dụ tiếng Anh -->
-                        <div class="relative w-full">
-                            <p class="text-base sm:text-lg md:text-xl lg:text-3xl font-medium leading-snug sm:leading-relaxed m-0 shrink-0 px-2 ex-glow-en"
-                                id="word-ex"></p>
-                            <div id="firefly-container" class="absolute inset-0 pointer-events-none overflow-visible"></div>
+                        <div class="relative w-full mt-4 sm:mt-6 mb-2">
+                            <div class="crystal-pill mx-auto">
+                                <p class="text-base sm:text-lg md:text-xl lg:text-3xl font-medium leading-snug sm:leading-relaxed m-0 shrink-0 px-2 ex-glow-en"
+                                    id="word-ex"></p>
+                                <div id="firefly-container" class="absolute inset-0 pointer-events-none overflow-visible"></div>
+                            </div>
                         </div>
 
                         <!-- Nhóm nút (Nghe, Hint, Review) -->
@@ -1885,12 +1903,9 @@
                                             <div id="orb-unlock-container" class="flex flex-col items-center gap-2 w-full mt-1">
                                                 <input type="text" id="orb-code-input" 
                                                     class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-1 py-1 text-center text-white text-base font-black tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 shadow-inner" 
-                                                    placeholder="CODE?" autocomplete="off"
-                                                    onclick="event.stopPropagation()">
-                                                <button onclick="checkOrbUnlock(event)" 
-                                                    class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[0.55rem] font-black tracking-widest uppercase px-3 py-1.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all hover:scale-105 active:scale-95">
-                                                    Unlock
-                                                </button>
+                                                    placeholder="ENTER CODE" autocomplete="off"
+                                                    onclick="event.stopPropagation()"
+                                                    onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
                                             </div>
                                             <p id="orb-hint-text" class="text-[0.45rem] font-bold tracking-widest uppercase mt-1" style="color:rgba(196,181,253,.5)">Magical Protection</p>
                                         </div>
@@ -3090,7 +3105,7 @@
             const baseCards = flashcards.slice(0, originalFlashcardsCount);
             const activeFires = [];
             const titleRect = titleObj.getBoundingClientRect();
-            const alignY = titleRect.bottom + 25;
+            const alignY = titleRect.bottom + 12;
             const screenWidth = window.innerWidth;
 
             baseCards.forEach((card, index) => {
@@ -4100,6 +4115,8 @@
                     playSuccessSound();
                     setTimeout(() => {
                         transitionPage('step-1-container', 'step2-part-1');
+                        remainingHints++;
+                        updateHintButtonsUI();
                         initStep2(vals[0], vals[1], vals[2], vals[3]);
                     }, 500);
                 }
@@ -4256,8 +4273,6 @@
                 const isCorrect = handleSentenceInput(sentInp4, document.getElementById('feedback-4'), document.getElementById('sent-box-4'), origNorm4);
                 if (isCorrect && !appleGameStarted) {
                     appleGameStarted = true;
-                    remainingHints++;
-                    updateHintButtonsUI();
                     playSuccessSound();
                     setTimeout(() => {
                         const questionBox = document.getElementById('final-question-box');
