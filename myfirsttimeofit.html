@@ -662,26 +662,50 @@
             pointer-events: none;
         }
 
-        #user-name-input {
-            transition: all 0.3s ease;
+        #header-name-container {
+            animation: header-pulse 3s infinite alternate ease-in-out;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        #user-name-input:disabled {
-            opacity: 0.8;
-            cursor: default;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+        #header-name-container.flicker-error {
+            animation: input-flicker-red 0.4s ease-in-out 3;
+            border-color: #f87171 !important;
         }
 
-        #user-name-input:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+        @keyframes header-pulse {
+            0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.2)); }
+            100% { transform: translate(-50%, -50%) scale(1.05); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6)); }
         }
 
-        .review-transition-active #review-transition-screen > div {
-            transform: scale(1.25);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        @keyframes input-flicker-red {
+            0%, 100% { transform: translate(-50%, -50%) scale(1.05); border-color: transparent; }
+            50% { transform: translate(-50%, -50%) scale(1.15); border-color: #ef4444; box-shadow: 0 0 20px #ef4444; }
+        }
+
+        /* Enhanced Letter Glow */
+        .char-input:focus {
+            background: rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.9), inset 0 0 10px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6) !important;
+            transform: translateY(-2px) scale(1.05);
+            outline: none;
+        }
+
+        /* Magical Sparkle Particle */
+        .magic-sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: magic-fade 0.6s ease-out forwards;
+        }
+
+        @keyframes magic-fade {
+            0% { transform: scale(1) rotate(0); opacity: 1; filter: blur(0); }
+            100% { transform: scale(0) rotate(180deg); opacity: 0; filter: blur(2px); }
         }
 
         @media (max-width: 768px) {
@@ -2337,7 +2361,23 @@
             setTimeout(fly, 500);
         }
 
+        function validateNameBeforeStart() {
+            const name = document.getElementById('user-name-input').value.trim();
+            if (!name) {
+                const container = document.getElementById('header-name-container');
+                if (container) {
+                    container.classList.remove('flicker-error');
+                    void container.offsetWidth;
+                    container.classList.add('flicker-error');
+                    setTimeout(() => container.classList.remove('flicker-error'), 1200);
+                }
+                return false;
+            }
+            return true;
+        }
+
         function startZodiacSelection() {
+            if (!validateNameBeforeStart()) return;
             playTransitionSound();
             const startScreen = document.getElementById('start-screen');
             const zodiacScreen = document.getElementById('zodiac-screen');
@@ -2381,6 +2421,7 @@
         }
 
         function startLearning() {
+            if (!validateNameBeforeStart()) return;
             playTransitionSound();
             const startScreen = document.getElementById('start-screen');
             const flashcardEl = document.getElementById('flashcard');
@@ -3010,65 +3051,117 @@
                 container.appendChild(apple);
             });
         }
+        function createMagicSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'magic-sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            const rx = (Math.random() - 0.5) * 20;
+            const ry = (Math.random() - 0.5) * 20;
+            sparkle.style.setProperty('--dx', rx + 'px');
+            sparkle.style.setProperty('--dy', ry + 'px');
+            const colors = ['#f5d0fe', '#f0abfc', '#e879f9', '#ffffff', '#c084fc'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            sparkle.style.backgroundColor = color;
+            sparkle.style.boxShadow = `0 0 10px ${color}`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 600);
+        }
 
         function triggerFallingFires(titleElement) {
             if (firesHaveFallen) return;
             firesHaveFallen = true;
-            if (titleElement) titleElement.classList.remove('animate-wave', 'cursor-pointer', 'hover:scale-105');
-            else {
-                const titleObj = document.getElementById('tree-title');
-                if (titleObj) titleObj.classList.remove('animate-wave', 'cursor-pointer', 'hover:scale-105');
-            }
+
+            const titleObj = titleElement || document.getElementById('tree-title');
+            if (titleObj) titleObj.classList.remove('animate-wave', 'cursor-pointer', 'hover:scale-105');
 
             const baseCards = flashcards.slice(0, originalFlashcardsCount);
-            let zIndexCounter = 100;
+            const activeFires = [];
+            const titleRect = titleObj.getBoundingClientRect();
+            const alignY = titleRect.bottom + 50;
+            const screenWidth = window.innerWidth;
 
             baseCards.forEach((card, index) => {
-                setTimeout(() => {
-                    const leafSlot = document.getElementById(`leaf-icon-slot-${index}`);
-                    const sourceFire = document.getElementById(`fire-${index}`);
-                    if (!leafSlot || !sourceFire) return;
+                const sourceFire = document.getElementById(`fire-${index}`);
+                if (!sourceFire) return;
 
-                    const sourceRect = sourceFire.getBoundingClientRect();
-                    const targetRect = leafSlot.getBoundingClientRect();
-                    const flyingFire = document.createElement('div');
-                    flyingFire.className = 'falling-fire';
-                    flyingFire.innerHTML = `
-                        <svg viewBox="0 0 24 24" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" style="fill: url(#purple-fire); filter: drop-shadow(0 0 10px rgba(217, 70, 239, 1));">
-                            <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z" clip-rule="evenodd" />
-                        </svg>
-                    `;
-                    flyingFire.style.left = (sourceRect.left + sourceRect.width / 2 - 12) + 'px';
-                    flyingFire.style.top = (sourceRect.top + sourceRect.height / 2 - 12) + 'px';
-                    flyingFire.style.zIndex = zIndexCounter++;
-                    document.body.appendChild(flyingFire);
-                    playTransitionSound();
+                const fromLeft = Math.random() > 0.5;
+                const startX = fromLeft ? -100 : screenWidth + 100;
+                const startY = Math.random() * window.innerHeight;
 
-                    sourceFire.style.opacity = '0.1';
-                    sourceFire.classList.remove('fire-burning');
+                const flyingFire = document.createElement('div');
+                flyingFire.className = 'falling-fire';
+                flyingFire.style.position = 'fixed';
+                flyingFire.style.left = startX + 'px';
+                flyingFire.style.top = startY + 'px';
+                flyingFire.style.zIndex = 2000 + index;
+                flyingFire.innerHTML = `
+                    <svg viewBox="0 0 24 24" class="w-6 h-6 sm:w-8 sm:h-8" style="fill: url(#purple-fire); filter: drop-shadow(0 0 15px rgba(217, 70, 239, 1));">
+                        <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                document.body.appendChild(flyingFire);
 
-                    requestAnimationFrame(() => {
-                        flyingFire.style.left = (targetRect.left + targetRect.width / 2 - 12) + 'px';
-                        flyingFire.style.top = (targetRect.top + targetRect.height / 2 - 12) + 'px';
-                        flyingFire.style.transform = `rotate(${Math.random() > 0.5 ? 360 : -360}deg) scale(0.3)`;
-                        flyingFire.style.opacity = '0';
-                    });
+                sourceFire.style.opacity = '0.1';
+                sourceFire.classList.remove('fire-burning');
 
-                    setTimeout(() => {
-                        flyingFire.remove();
-                        leafSlot.classList.remove('opacity-0', 'scale-50');
-                        leafSlot.classList.add('opacity-100', 'scale-100');
-                    }, 800);
-                }, index * 120);
+                const targetX = (screenWidth / 2) + (index - (baseCards.length - 1) / 2) * (screenWidth < 640 ? 30 : 50);
+                const targetY = alignY;
+
+                activeFires.push({ el: flyingFire, tx: targetX, ty: targetY, index });
+
+                flyingFire.animate([
+                    { left: startX + 'px', top: startY + 'px', opacity: 0, scale: 0.5 },
+                    { left: targetX + 'px', top: targetY + 'px', opacity: 1, scale: 1.3 }
+                ], {
+                    duration: 1200 + Math.random() * 800,
+                    delay: index * 40,
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    fill: 'forwards'
+                });
             });
 
             setTimeout(() => {
-                // Enable baskets (now embedded in tree section)
-                const basketBtns = document.querySelectorAll('[data-basket]');
-                basketBtns.forEach(b => {
-                    b.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
+                activeFires.forEach((f, i) => {
+                    setTimeout(() => {
+                        const leafSlot = document.getElementById(`leaf-icon-slot-${f.index}`);
+                        if (!leafSlot) return;
+                        const rect = leafSlot.getBoundingClientRect();
+                        const endX = rect.left + rect.width / 2 - 16;
+                        const endY = rect.top + rect.height / 2 - 16;
+
+                        const moveAnim = f.el.animate([
+                            { left: f.tx + 'px', top: f.ty + 'px', scale: 1.3 },
+                            { left: endX + 'px', top: endY + 'px', scale: 0.8 }
+                        ], { duration: 1500, easing: 'cubic-bezier(0.45, 0.05, 0.55, 0.95)', fill: 'forwards' });
+
+                        playTransitionSound();
+                        const sparkleInt = setInterval(() => {
+                            const cur = f.el.getBoundingClientRect();
+                            createMagicSparkle(cur.left + 16, cur.top + 16);
+                        }, 60);
+
+                        moveAnim.onfinish = () => {
+                            clearInterval(sparkleInt);
+                            f.el.remove();
+                            leafSlot.classList.remove('opacity-0', 'scale-50');
+                            leafSlot.classList.add('opacity-100', 'scale-100');
+                            const burstCount = 8;
+                            for(let b=0; b<burstCount; b++) {
+                                createMagicSparkle(endX + 16, endY + 16);
+                            }
+                        };
+                    }, i * 200);
                 });
-            }, (baseCards.length * 120) + 800);
+
+                // Enable baskets after a delay
+                setTimeout(() => {
+                    const basketBtns = document.querySelectorAll('[data-basket]');
+                    basketBtns.forEach(b => {
+                        b.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
+                    });
+                }, (baseCards.length * 200) + 1600);
+            }, 3000);
         }
 
         function triggerDoveAnimation() {
