@@ -5549,9 +5549,8 @@
                 <div style="display:flex;flex-direction:column;align-items:center;gap:15px;width:100%;z-index:10;">
                     <div style="font-size:2.8rem;filter:drop-shadow(0 0 20px rgba(167,139,250,0.5))">🔮</div>
                     <div style="display:flex;flex-direction:column;gap:12px;width:85%;align-items:center;">
-                        <input type="number" id="orb-code-input" class="mystical-input no-spinners w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="QUANTUM CODE" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }" onclick="event.stopPropagation()">
-                        <input type="number" id="orb-word-count-input" class="mystical-input no-spinners w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="LOGOS COUNT" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }" onclick="event.stopPropagation()">
-                        <p class="input-subnote">Fuse Code & Logos Count</p>
+                        <input type="number" id="orb-logos-input" class="mystical-input no-spinners w-full px-5 py-3.5 rounded-2xl text-center font-bold outline-none text-white text-base" placeholder="LOGOS PASS" autocomplete="off" onkeydown="if(event.key==='Enter' || event.keyCode===13) { event.preventDefault(); checkOrbUnlock(event); }" onclick="event.stopPropagation()">
+                        <p class="input-subnote">Enter Logos Pass to Finalize</p>
                     </div>
                 </div>`;
         }
@@ -5673,38 +5672,24 @@
             }
         }
 
+        let isOrbUnlocked = false;
         function checkOrbUnlock(event) {
             if (event) event.stopPropagation();
-            const inpCode = document.getElementById('orb-code-input');
-            const inpCount = document.getElementById('orb-word-count-input');
+            const inp = document.getElementById('orb-logos-input');
+            if (!inp) return;
 
-            const enteredCode = parseInt(inpCode.value.trim());
-            const enteredCount = parseInt(inpCount.value.trim());
+            const enteredPass = parseInt(inp.value.trim());
 
-            let success = true;
-            if (enteredCode !== globalMysteryCode) {
-                inpCode.classList.add('animate-shake');
-                inpCode.style.borderColor = "#ef4444";
-                success = false;
-            } else {
-                inpCode.style.borderColor = "#4ade80";
-            }
-
-            if (enteredCount !== globalQuoteWordCount) {
-                inpCount.classList.add('animate-shake');
-                inpCount.style.borderColor = "#ef4444";
-                success = false;
-            } else {
-                inpCount.style.borderColor = "#4ade80";
-            }
-
-            if (success) {
+            if (enteredPass === globalQuoteWordCount) {
                 isOrbUnlocked = true;
+                inp.style.borderColor = "#4ade80";
                 setTimeout(() => revealCard(0), 400);
             } else {
+                inp.classList.add('animate-shake');
+                inp.style.borderColor = "#ef4444";
                 setTimeout(() => {
-                    inpCode.classList.remove('animate-shake');
-                    inpCount.classList.remove('animate-shake');
+                    inp.classList.remove('animate-shake');
+                    inp.style.borderColor = "";
                 }, 500);
             }
         }
