@@ -1118,13 +1118,33 @@
         .mystery-card-face {
             position:absolute; inset:0; backface-visibility:hidden;
             border-radius:1.25rem; overflow:hidden;
+            transform-style: preserve-3d;
         }
         .mystery-card-back {
             background: linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#1e3a5f 100%);
             border: 1.5px solid rgba(167,139,250,.5);
             display:flex; align-items:center; justify-content:center;
+            z-index: 2;
         }
-        .mystery-card-front { transform: rotateY(180deg); }
+        .mystery-card-front { 
+            transform: rotateY(180deg); 
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        .mystery-card-inner.flipped .mystery-card-front {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .crystal-glass-purple {
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.45) 0%, rgba(107, 33, 168, 0.6) 100%);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(196, 181, 253, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(167, 139, 250, 0.3);
+            color: #ddd6fe;
+        }
 
         /* Orb 3D */
         .magic-orb-scene {
@@ -1590,7 +1610,9 @@
                                 </svg>
                             </button>
                             <button id="hint-btn" onclick="giveHint()" title="Gợi ý"
-                                class="text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-fuchsia-900/50 text-fuchsia-200 hover:bg-fuchsia-800 font-medium rounded-full transition-colors flex items-center gap-1 shadow-sm border border-fuchsia-500/30">Hint</button>
+                                class="text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-fuchsia-900/50 text-fuchsia-200 hover:bg-fuchsia-800 font-medium rounded-full transition-colors flex items-center gap-1 shadow-sm border border-fuchsia-500/30">
+                                <span class="hint-emoji">🔮</span> Hint <span class="hint-count-text">x 0</span>
+                            </button>
                             <button id="review-btn" onclick="markForReview()" title="Học lại ở cuối bài"
                                 class="hidden text-xs sm:text-sm lg:text-base px-3 py-1.5 sm:px-4 sm:py-1.5 lg:py-2 h-8 sm:h-9 lg:h-11 bg-purple-900/50 text-purple-200 hover:bg-purple-800 font-medium rounded-full transition-colors items-center gap-1 shadow-sm border border-purple-500/30">
                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -4349,15 +4371,20 @@
                 document.getElementById('hint-btn-1'),
                 document.getElementById('hint-btn-2'),
                 document.getElementById('hint-btn-3'),
-                document.getElementById('hint-btn-4')
+                document.getElementById('hint-btn-4'),
+                document.getElementById('hint-btn') // Main flashcard hint button
             ];
-            if(btns.some(b => !b)) return;
-
-            const iconStr = selectedZodiacEmoji || '⭐';
+            
+            const iconStr = selectedZodiacEmoji || '🔮';
 
             btns.forEach(btn => {
-                btn.querySelector('.hint-emoji').textContent = iconStr;
-                btn.querySelector('.hint-count-text').textContent = remainingHints;
+                if (!btn) return;
+                const emojiEl = btn.querySelector('.hint-emoji');
+                const countEl = btn.querySelector('.hint-count-text');
+                
+                if (emojiEl) emojiEl.textContent = iconStr;
+                if (countEl) countEl.textContent = `x ${remainingHints}`;
+                
                 btn.classList.remove('opacity-0', 'pointer-events-none');
                 
                 if(remainingHints <= 0) {
@@ -4983,14 +5010,19 @@
 
         function showHintToast() {
             const toast = document.createElement('div');
-            toast.className = 'fixed top-24 left-1/2 -translate-x-1/2 bg-green-500/90 text-white px-6 py-3 rounded-full font-bold shadow-lg z-[1000] border border-white/20 animate-bounce flex items-center gap-2';
-            toast.innerHTML = `<span>✨</span> 1 HINT ADDED! <span>✨</span>`;
+            toast.className = 'fixed top-24 left-1/2 -translate-x-1/2 glass-morphism crystal-glass-purple px-6 py-3 rounded-2xl font-bold shadow-2xl z-[1000] animate-bounce flex items-center gap-3 scale-110';
+            toast.innerHTML = `<span class="text-xl">🔮</span> 1 HINT ADDED! <span class="text-xl">🔮</span>`;
             document.body.appendChild(toast);
+            
+            // Immediately update UI
+            updateHintButtonsUI();
+
             setTimeout(() => {
-                toast.style.transition = 'opacity 0.6s ease';
+                toast.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, -20px) scale(0.9)';
                 setTimeout(() => toast.remove(), 600);
-            }, 2500);
+            }, 3000);
         }
 
         let isQuoteUnlocked = false;
