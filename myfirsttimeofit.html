@@ -662,6 +662,34 @@
             pointer-events: none;
         }
 
+        #user-name-input {
+            transition: all 0.3s ease;
+        }
+
+        #user-name-input:disabled {
+            opacity: 0.8;
+            cursor: default;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+        }
+
+        #user-name-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+        }
+
+        .review-transition-active #review-transition-screen > div {
+            transform: scale(1.25);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @media (max-width: 768px) {
+            #header-name-container {
+                display: none !important;
+            }
+        }
+
         @keyframes magic-fly-up {
             0% {
                 opacity: 0;
@@ -1286,6 +1314,14 @@
                         class="text-[0.6rem] sm:text-xs md:text-sm font-black text-purple-200 tracking-widest uppercase mt-1 md:mt-2">Unit</span>
                     <span
                         class="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-none drop-shadow-md">1</span>
+                </div>
+                <div id="header-name-container" class="absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center z-30 pointer-events-auto">
+                    <div class="glass-panel px-3 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/30 flex items-center gap-3 backdrop-blur-md shadow-2xl transition-all hover:scale-105">
+                        <span class="text-[0.55rem] sm:text-[0.65rem] font-black text-purple-200/70 tracking-[0.3em] uppercase drop-shadow-sm mt-0.5">Explorer</span>
+                        <input type="text" id="user-name-input" 
+                               class="bg-transparent border-none text-sm sm:text-base md:text-lg font-black text-white focus:outline-none w-24 sm:w-32 md:w-48 text-center placeholder-white/20 tracking-wider drop-shadow-md"
+                               placeholder="Your name..." value="Thỏ Béo Béo" autocomplete="off" spellcheck="false">
+                    </div>
                 </div>
                 <div class="flex items-center mb-2 md:mb-3">
                     <div class="ribbon-banner flex items-center gap-2 sm:gap-4 pr-3 sm:pr-4">
@@ -2314,6 +2350,7 @@
                 void zodiacScreen.offsetWidth;
                 zodiacScreen.classList.remove('screen-hidden');
                 zodiacScreen.classList.add('screen-active');
+                updateHeaderState('zodiac-screen');
             }, 800);
         }
 
@@ -2334,6 +2371,7 @@
                 void flashcardEl.offsetWidth;
                 flashcardEl.classList.remove('screen-hidden');
                 flashcardEl.classList.add('screen-active');
+                updateHeaderState('flashcard');
 
                 renderCard();
                 startTimer();
@@ -2355,6 +2393,7 @@
                 void flashcardEl.offsetWidth;
                 flashcardEl.classList.remove('screen-hidden');
                 flashcardEl.classList.add('screen-active');
+                updateHeaderState('flashcard');
 
                 renderCard();
                 startTimer();
@@ -2398,6 +2437,33 @@
                 container.insertAdjacentHTML('beforeend', svgStr);
             }
             updateFireProgress();
+        }
+
+        function updateHeaderState(screenId) {
+            const header = document.querySelector('.textbook-header');
+            const nameContainer = document.getElementById('header-name-container');
+            const nameInput = document.getElementById('user-name-input');
+            const body = document.body;
+
+            // Header visibility
+            if (screenId === 'review-transition-screen' || screenId === 'final-screen' || screenId === 'flower-screen') {
+                if (header) header.classList.add('hidden');
+                body.classList.add('review-transition-active');
+            } else {
+                if (header) header.classList.remove('hidden');
+                body.classList.remove('review-transition-active');
+            }
+
+            // Name Input state
+            if (screenId === 'start-screen') {
+                if (nameInput) nameInput.disabled = false;
+                if (nameContainer) nameContainer.classList.remove('hidden');
+            } else if (screenId === 'flashcard' || screenId === 'zodiac-screen') {
+                if (nameInput) nameInput.disabled = true;
+                if (nameContainer) nameContainer.classList.remove('hidden');
+            } else {
+                if (nameContainer) nameContainer.classList.add('hidden');
+            }
         }
 
         function updateFireProgress() {
@@ -3244,6 +3310,7 @@
                 
                 flashcardEl.classList.remove('hidden');
                 currentIndex++;
+                updateHeaderState('flashcard');
                 renderCard();
 
                 setTimeout(() => {
@@ -3709,6 +3776,7 @@
                     document.getElementById('review-count').textContent = totalCards - originalFlashcardsCount;
                     reviewScreen.classList.remove('hidden');
                     reviewScreen.classList.add('flex');
+                    updateHeaderState('review-transition-screen');
                     playTransitionSound();
                     return;
                 }
@@ -3727,6 +3795,7 @@
                     renderTree();
                     finalScreen.classList.remove('hidden');
                     finalScreen.classList.add('flex');
+                    updateHeaderState('final-screen');
                     stopTimer();
                 }
             }, 700);
@@ -4408,6 +4477,7 @@
                 void startScreen.offsetWidth;
                 startScreen.classList.remove('screen-hidden');
                 startScreen.classList.add('screen-active');
+                updateHeaderState('start-screen');
             }
 
             totalScore = 0;
@@ -4453,6 +4523,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initSpaceBackground();
             initFireProgress();
+            updateHeaderState('start-screen');
             renderCard();
             initStartScreenButterfly();
             setupFinalQuestion();
