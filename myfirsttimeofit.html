@@ -1329,8 +1329,6 @@
         .mystery-card-wrapper {
             perspective: 800px;
             animation: card-deal .6s cubic-bezier(.34, 1.56, .64, 1) var(--deal-delay, .1s) both;
-            container-type: inline-size;
-            aspect-ratio: 140 / 290;
         }
 
         .mystery-card-inner {
@@ -1431,10 +1429,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50cqw;
+            font-size: 6rem;
             font-weight: 900;
             color: rgba(255, 255, 255, 0.05);
-            text-shadow: 0 0 10cqw rgba(167, 139, 250, 0.1);
+            text-shadow: 0 0 10px rgba(167, 139, 250, 0.1);
             user-select: none;
             pointer-events: none;
             z-index: -1;
@@ -2603,7 +2601,7 @@
                         <div id="mystery-card-tray"
                             class="hidden items-center justify-center gap-4 sm:gap-6 w-full max-w-xl pointer-events-auto">
                             <div class="mystery-card-wrapper"
-                                style="--deal-delay:.1s;--card-rot:-6deg;width:calc(28% + 2vw);flex-shrink:0;"
+                                style="--deal-delay:.1s;--card-rot:-6deg;height:290px;width:140px;flex-shrink:0;"
                                 onclick="revealCard(0)">
                                 <div class="mystery-card-inner" id="card-inner-0">
                                     <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3"
@@ -2613,23 +2611,23 @@
                                         </div>
                                         <div class="flex flex-col items-center gap-2 w-full z-10">
                                             <span
-                                                style="font-size:20cqw;filter:drop-shadow(0 0 5cqw rgba(196,181,253,1))"
+                                                style="font-size:1.8rem;filter:drop-shadow(0 0 12px rgba(196,181,253,1))"
                                                 id="orb-card-icon">🔮</span>
                                             <div id="orb-unlock-container"
                                                 class="flex flex-col items-center gap-1.5 w-full mt-0.5">
                                                 <input type="text" id="orb-code-input"
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[8.5cqw] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
                                                     placeholder="SECRET CODE" autocomplete="off"
                                                     onclick="event.stopPropagation()"
                                                     onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
                                                 <input type="text" id="orb-word-count-input"
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[8.5cqw] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1 text-center text-white text-[0.75rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
                                                     placeholder="WORD COUNT?" autocomplete="off"
                                                     onclick="event.stopPropagation()"
                                                     onkeydown="if(event.key==='Enter') checkOrbUnlock(event)">
                                             </div>
                                             <p id="orb-hint-text"
-                                                class="text-[4.5cqw] font-bold tracking-widest uppercase mt-0.5"
+                                                class="text-[0.4rem] font-bold tracking-widest uppercase mt-0.5"
                                                 style="color:rgba(196,181,253,.5)">Dual Authentication Required</p>
                                         </div>
                                     </div>
@@ -2637,7 +2635,7 @@
                                 </div>
                             </div>
                             <div class="mystery-card-wrapper"
-                                style="--deal-delay:.3s;--card-rot:0deg;width:calc(28% + 2vw);flex-shrink:0;"
+                                style="--deal-delay:.3s;--card-rot:0deg;height:290px;width:140px;flex-shrink:0;"
                                 onclick="revealCard(1)">
                                 <div class="mystery-card-inner" id="card-inner-1">
                                     <div class="mystery-card-face mystery-card-back flex flex-col items-center justify-center p-3"
@@ -2647,17 +2645,17 @@
                                         </div>
                                         <div class="flex flex-col items-center gap-2 w-full z-10">
                                             <span
-                                                style="font-size:28cqw;filter:drop-shadow(0 0 5cqw rgba(251,191,36,1))">💬</span>
+                                                style="font-size:2.5rem;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">💬</span>
                                             <div id="quote-unlock-container"
                                                 class="flex flex-col items-center gap-2 w-full mt-1">
                                                 <input type="text" id="quote-name-input"
-                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1.5 text-center text-white text-[9cqw] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
+                                                    class="w-full bg-black/40 border border-purple-500/30 rounded-lg px-2 py-1.5 text-center text-white text-[0.8rem] font-bold tracking-widest outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
                                                     placeholder="YOUR NAME?" autocomplete="off"
                                                     onclick="event.stopPropagation()"
                                                     onkeydown="if(event.key==='Enter') checkQuoteUnlock(event)">
                                             </div>
                                             <p id="quote-hint-text"
-                                                class="text-[5cqw] font-bold tracking-widest uppercase mt-1"
+                                                class="text-[0.45rem] font-bold tracking-widest uppercase mt-1"
                                                 style="color:rgba(196,181,253,.5)">Identity Verification</p>
                                         </div>
                                     </div>
@@ -2665,7 +2663,7 @@
                                 </div>
                             </div>
                             <div class="mystery-card-wrapper"
-                                style="--deal-delay:.5s;--card-rot:6deg;width:calc(28% + 2vw);flex-shrink:0;"
+                                style="--deal-delay:.5s;--card-rot:6deg;height:290px;width:140px;flex-shrink:0;"
                                 onclick="revealCard(2)">
                                 <div class="mystery-card-inner" id="card-inner-2">
                                     <div class="mystery-card-face mystery-card-back" id="card-back-2">
@@ -2674,8 +2672,8 @@
                                         </div>
                                         <div class="flex flex-col items-center gap-3">
                                             <span
-                                                style="font-size:34cqw;filter:drop-shadow(0 0 5cqw rgba(251,191,36,1))">🗝️</span>
-                                            <p class="text-[7.5cqw] font-bold tracking-widest uppercase"
+                                                style="font-size:3rem;filter:drop-shadow(0 0 12px rgba(251,191,36,1))">🗝️</span>
+                                            <p class="text-[0.65rem] font-bold tracking-widest uppercase"
                                                 style="color:rgba(196,181,253,.7)">Tap to reveal</p>
                                         </div>
                                     </div>
