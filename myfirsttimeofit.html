@@ -60,7 +60,9 @@
         }
 
         .screen-transition {
-            transition: opacity 0.8s ease, filter 0.8s ease, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
             transform-origin: center;
         }
 
@@ -451,9 +453,9 @@
         }
 
         .main-app-container {
-            background: rgba(255, 255, 255, 0.015);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.012);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 3rem;
             padding: 1.5rem;
@@ -671,31 +673,26 @@
             }
         }
 
-        @property --ripple-percent {
-            syntax: '<percentage>';
-            inherits: false;
-            initial-value: 0%;
+        .main-app-container {
+            perspective: 1500px;
+            transform-style: preserve-3d;
         }
 
-        .ripple-wipe {
-            clip-path: circle(var(--ripple-percent) at center);
-            -webkit-clip-path: circle(var(--ripple-percent) at center);
-            animation: ripple-wipe-anim 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            pointer-events: auto !important;
+        .flip-out {
+            transform: rotateY(-180deg) !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        .flip-in {
+            transform: rotateY(0deg) !important;
             opacity: 1 !important;
-            transform: scale(1) !important;
-            filter: blur(0px) !important;
-            z-index: 50 !important;
-            visibility: visible !important;
+            pointer-events: auto !important;
         }
 
-        @keyframes ripple-wipe-anim {
-            from {
-                --ripple-percent: 0%;
-            }
-            to {
-                --ripple-percent: 150%;
-            }
+        .flip-prep {
+            transform: rotateY(180deg) !important;
+            opacity: 0 !important;
         }
 
         .review-mode-active #flashcard {
@@ -2039,7 +2036,7 @@
                                         d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                                 <span id="level-text"
-                                    class="font-bold tracking-wider text-[0.65rem] sm:text-xs md:text-sm drop-shadow-sm mt-0.5">A1-A2</span>
+                                    class="font-bold tracking-wider text-[0.65rem] sm:text-xs md:text-sm drop-shadow-sm">A1-A2</span>
                             </div>
                             <div class="flex items-center gap-1.5 info-crystal px-2 sm:px-3 py-1 rounded-full text-white"
                                 title="Study Time">
@@ -2050,7 +2047,7 @@
                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 <span id="session-timer"
-                                    class="font-timer font-bold tracking-wider text-[0.65rem] sm:text-xs md:text-sm drop-shadow-sm leading-none mt-0.5">00:00</span>
+                                    class="font-timer font-bold tracking-wider text-[0.65rem] sm:text-xs md:text-sm drop-shadow-sm leading-none">00:00</span>
                             </div>
                         </div>
                         <div class="flex flex-col items-center gap-1">
@@ -2068,7 +2065,7 @@
                         </div>
                     </div>
                     <div id="fire-progress-container"
-                        class="w-full flex flex-wrap justify-center gap-0.5 sm:gap-1 md:gap-1.5 mt-0.5 min-h-[1.2rem] md:min-h-[1.5rem]">
+                        class="w-full flex flex-wrap justify-center gap-0.5 sm:gap-1 md:gap-1.5 mt-0 min-h-[1.2rem] md:min-h-[1.5rem]">
                     </div>
                 </div>
             </div>
@@ -3225,18 +3222,25 @@
             const startScreen = document.getElementById('start-screen');
             const zodiacScreen = document.getElementById('zodiac-screen');
             
-            // Prepare the NEW screen
-            zodiacScreen.classList.remove('hidden', 'screen-hidden');
-            void zodiacScreen.offsetWidth; // Force Reflow
-            zodiacScreen.classList.add('ripple-wipe');
+            // Prepare screens for horizontal flip
+            zodiacScreen.classList.remove('hidden', 'screen-hidden', 'screen-active');
+            zodiacScreen.classList.add('flip-prep');
+            void zodiacScreen.offsetWidth; // Reflow
+
+            // Trigger animations
+            startScreen.classList.add('flip-out');
+            startScreen.classList.remove('screen-active');
+            
+            zodiacScreen.classList.remove('flip-prep');
+            zodiacScreen.classList.add('flip-in');
             updateHeaderState('zodiac-screen');
 
             setTimeout(() => {
-                startScreen.classList.add('hidden', 'screen-hidden');
-                startScreen.classList.remove('screen-active');
-                zodiacScreen.classList.remove('ripple-wipe');
+                startScreen.classList.add('hidden');
+                startScreen.classList.remove('flip-out');
+                zodiacScreen.classList.remove('flip-in');
                 zodiacScreen.classList.add('screen-active');
-            }, 1000);
+            }, 800);
         }
 
         function selectZodiac(emoji) {
@@ -3247,10 +3251,17 @@
             const zodiacScreen = document.getElementById('zodiac-screen');
             const flashcardEl = document.getElementById('flashcard');
 
-            // Prepare the NEW screen
-            flashcardEl.classList.remove('hidden', 'screen-hidden');
-            void flashcardEl.offsetWidth; // Force Reflow
-            flashcardEl.classList.add('ripple-wipe');
+            // Prepare screens for horizontal flip
+            flashcardEl.classList.remove('hidden', 'screen-hidden', 'screen-active');
+            flashcardEl.classList.add('flip-prep');
+            void flashcardEl.offsetWidth; // Reflow
+
+            // Trigger animations
+            zodiacScreen.classList.add('flip-out');
+            zodiacScreen.classList.remove('screen-active');
+
+            flashcardEl.classList.remove('flip-prep');
+            flashcardEl.classList.add('flip-in');
             updateHeaderState('flashcard');
 
             renderCard();
@@ -3259,11 +3270,11 @@
             if (firstEditableInput) firstEditableInput.focus();
 
             setTimeout(() => {
-                zodiacScreen.classList.add('hidden', 'screen-hidden');
-                zodiacScreen.classList.remove('screen-active');
-                flashcardEl.classList.remove('ripple-wipe');
+                zodiacScreen.classList.add('hidden');
+                zodiacScreen.classList.remove('flip-out');
+                flashcardEl.classList.remove('flip-in');
                 flashcardEl.classList.add('screen-active');
-            }, 1000);
+            }, 800);
         }
 
         function startLearning() {
@@ -3272,10 +3283,17 @@
             const startScreen = document.getElementById('start-screen');
             const flashcardEl = document.getElementById('flashcard');
             
-            // Prepare the NEW screen
-            flashcardEl.classList.remove('hidden', 'screen-hidden');
-            void flashcardEl.offsetWidth; // Force Reflow
-            flashcardEl.classList.add('ripple-wipe');
+            // Prepare screens for horizontal flip
+            flashcardEl.classList.remove('hidden', 'screen-hidden', 'screen-active');
+            flashcardEl.classList.add('flip-prep');
+            void flashcardEl.offsetWidth; // Reflow
+
+            // Trigger animations
+            startScreen.classList.add('flip-out');
+            startScreen.classList.remove('screen-active');
+
+            flashcardEl.classList.remove('flip-prep');
+            flashcardEl.classList.add('flip-in');
             updateHeaderState('flashcard');
 
             renderCard();
@@ -3284,11 +3302,11 @@
             if (firstEditableInput) firstEditableInput.focus();
 
             setTimeout(() => {
-                startScreen.classList.add('hidden', 'screen-hidden');
-                startScreen.classList.remove('screen-active');
-                flashcardEl.classList.remove('ripple-wipe');
+                startScreen.classList.add('hidden');
+                startScreen.classList.remove('flip-out');
+                flashcardEl.classList.remove('flip-in');
                 flashcardEl.classList.add('screen-active');
-            }, 1000);
+            }, 800);
         }
 
         function startTimer() {
