@@ -6978,8 +6978,10 @@
                                         if (isClosing) return;
                                         isClosing = true;
                                         cleanup3D();
-                                        oldOnClick();
-                                        setTimeout(() => showSummary(), 700);
+                                        showSummary();
+                                        setTimeout(() => {
+                                            oldOnClick();
+                                        }, 1000);
                                     };
                                 }, 1300);
 
