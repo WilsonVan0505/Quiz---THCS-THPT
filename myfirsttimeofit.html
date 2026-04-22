@@ -6864,33 +6864,11 @@
                     ], { duration: 4000, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
 
                     anim1.onfinish = () => {
-                        anim1.cancel();
-                        anim2.cancel();
+                        orb1Wrap.style.display = 'none';
+                        orb2Wrap.style.display = 'none';
 
-                        arena.style.flexDirection = window.innerWidth >= 768 ? 'row' : 'column';
-                        arena.style.gap = window.innerWidth >= 768 ? '150px' : '90px';
-
-                        orb1Wrap.style.animation = 'none';
-                        orb2Wrap.style.animation = 'none';
-                        orb1Wrap.style.position = 'relative';
-                        orb2Wrap.style.position = 'relative';
-
-                        const targetScale = window.innerWidth >= 768 ? 1.2 : 1.05;
-                        orb1Wrap.style.transform = `scale(${targetScale})`;
-                        orb2Wrap.style.transform = `scale(${targetScale})`;
-
-                        const createLabel = (txt, color, id) => `<div id="${id}" class="absolute -bottom-14 left-1/2 -translate-x-1/2 whitespace-nowrap text-center animate-pulse transition-opacity duration-500"><p class="text-sm md:text-xl font-black text-white uppercase tracking-[0.1em] drop-shadow-[0_0_15px_${color}]">${txt}</p></div>`;
-                        orb1Wrap.innerHTML += createLabel(magic.skill, magic.orbGlow, 'orb-label-1');
-                        orb2Wrap.innerHTML += createLabel(chosenOrbData.skill, chosenOrbData.orbGlow, 'orb-label-2');
-
-                        for (let k = 0; k < 20; k++) {
-                            setTimeout(() => {
-                                createMagicSparkle(window.innerWidth / 2 + (Math.random() - 0.5) * window.innerWidth * 0.8, window.innerHeight / 2 + (Math.random() - 0.5) * window.innerHeight * 0.8);
-                            }, k * 100);
-                        }
-
-                        // Play card sound and show the 3D background (just the vortex, without 3D orbs)
                         playMagicSound('card');
+
                         const ritual3D = document.createElement('div');
                         ritual3D.id = "ritual-3d-container";
                         ritual3D.innerHTML = `
@@ -6898,73 +6876,17 @@
                             <div id="ritual-3d-canvas"></div>
                         `;
                         overlay.appendChild(ritual3D);
+
                         arena.style.zIndex = '90';
 
                         let cleanup3D;
-                        // hide3DOrbs = true, so the HTML orbs are the ONLY orbs
-                        startRitual3D(ritual3D.querySelector('#ritual-3d-canvas'), magic, chosenOrbData, false, true).then(fn => {
+                        startRitual3D(ritual3D.querySelector('#ritual-3d-canvas'), magic, chosenOrbData, false).then(fn => {
                             cleanup3D = fn;
                         });
                         ritual3D.style.opacity = '1';
 
-                        // 3D sequence timeline:
-                        // t=0 to t=4: Calm (HTML orbs display on screen for 4s)
-                        // t=4 to t=7: Particles Gather (HTML orbs fly into center)
-                        // t=7: Burst!
-
-                        const T_GATHER = 4000;
-                        const T_FLY_DURATION = 3000; // t=4 to t=7
-
-                        setTimeout(() => {
-                            document.getElementById('orb-label-1').style.opacity = '0';
-                            document.getElementById('orb-label-2').style.opacity = '0';
-                            playMagicSound('card'); // Secondary woosh
-
-                            const arenaRect = arena.getBoundingClientRect();
-                            const orb1Rect = orb1Wrap.getBoundingClientRect();
-                            const orb2Rect = orb2Wrap.getBoundingClientRect();
-
-                            const centerX1 = orb1Rect.left - arenaRect.left + orb1Rect.width / 2;
-                            const centerY1 = orb1Rect.top - arenaRect.top + orb1Rect.height / 2;
-                            const centerX2 = orb2Rect.left - arenaRect.left + orb2Rect.width / 2;
-                            const centerY2 = orb2Rect.top - arenaRect.top + orb2Rect.height / 2;
-
-                            orb1Wrap.style.position = 'absolute';
-                            orb2Wrap.style.position = 'absolute';
-                            arena.style.display = 'block';
-
-                            orb1Wrap.style.left = \`\${centerX1}px\`;
-                            orb1Wrap.style.top = \`\${centerY1}px\`;
-                            orb1Wrap.style.transform = \`translate(-50%, -50%) scale(\${targetScale})\`;
-
-                            orb2Wrap.style.left = \`\${centerX2}px\`;
-                            orb2Wrap.style.top = \`\${centerY2}px\`;
-                            orb2Wrap.style.transform = \`translate(-50%, -50%) scale(\${targetScale})\`;
-
-                            const showcaseScale = window.innerWidth >= 768 ? 0.22 : 0.17;
-                            // Target center of screen (vòng ma thuật)
-                            const destX = arenaRect.width / 2;
-                            const destY = arenaRect.height / 2;
-
-                            const flyConfig = { duration: T_FLY_DURATION, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'forwards' };
-
-                            const flyAnim1 = orb1Wrap.animate([
-                                { left: \`\${centerX1}px\`, top: \`\${centerY1}px\`, transform: \`translate(-50%, -50%) scale(\${targetScale})\` },
-                                { left: \`\${destX}px\`, top: \`\${destY}px\`, transform: \`translate(-50%, -50%) scale(\${showcaseScale})\` }
-                            ], flyConfig);
-
-                            const flyAnim2 = orb2Wrap.animate([
-                                { left: \`\${centerX2}px\`, top: \`\${centerY2}px\`, transform: \`translate(-50%, -50%) scale(\${targetScale})\` },
-                                { left: \`\${destX}px\`, top: \`\${destY}px\`, transform: \`translate(-50%, -50%) scale(\${showcaseScale})\` }
-                            ], flyConfig);
-
-                            flyAnim1.onfinish = () => {
-                                orb1Wrap.style.display = 'none';
-                                orb2Wrap.style.display = 'none';
-                            };
-                        }, T_GATHER); // 4000ms pause
-
-                        // We wait 9.5s total (4s pause + 3s fly + 2.5s explosion tail) before showing summary
+                        // 3D sequence runs: 4s bobbing, 3s gathering (flying into circle), then Burst! 
+                        // We wait 9.5 seconds total to let the explosion finish before showing summary.
                         setTimeout(() => {
                             if (cleanup3D) cleanup3D();
                             if (showcaseCleanup) showcaseCleanup();
@@ -6974,7 +6896,7 @@
                                 overlay.remove();
                                 showSummary();
                             }, 700);
-                        }, 9800);
+                        }, 9500);
                     };
 
                 }, 800);
@@ -7256,7 +7178,7 @@
         // ==========================================
         // NEW THREE.JS RITUAL SYSTEM (VERSION 2.0)
         // ==========================================
-        async function startRitual3D(container, orbData1, orbData2, isBackgroundMode = false, hide3DOrbs = false) {
+        async function startRitual3D(container, orbData1, orbData2, isBackgroundMode = false) {
             // Import modern Three.js modules dynamically
             const THREE = await import('three');
             const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
@@ -7366,8 +7288,6 @@
             }
 
             function createOrbs() {
-                if (hide3DOrbs) return; // Completely skip creating the 3D orbs
-
                 const orbGeo = new THREE.SphereGeometry(0.8, 32, 32);
                 const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x000000, metalness: 0.1, roughness: 0.0, transmission: 0.95, thickness: 0.5, transparent: true, opacity: 1.0 });
 
@@ -7493,7 +7413,7 @@
                     obj.mesh.material.opacity = 0.5 + Math.sin(time * 2) * 0.2 + (gatherRatio * 0.5);
                 });
 
-                if (!isBackgroundMode && !hide3DOrbs) {
+                if (!isBackgroundMode) {
                     if (isGathering) {
                         let flyT = gatherRatio; // easing from 0 to 1
                         orbLeft.position.lerpVectors(new THREE.Vector3(-3, 1.5, 0), new THREE.Vector3(0, 0.5, 0), flyT);
@@ -7525,14 +7445,6 @@
                     symbolRight.quaternion.copy(camera.quaternion);
                     if (orbLeft.visible) orbLeft.children.find(c => c.name === "glow").quaternion.copy(camera.quaternion);
                     if (orbRight.visible) orbRight.children.find(c => c.name === "glow").quaternion.copy(camera.quaternion);
-                } else if (!isBackgroundMode && hide3DOrbs) {
-                    // Even if 3D orbs are hidden, we still want the energy line to show up!
-                    if (isGathering) {
-                        energyLine.material.opacity = gatherRatio * 0.8;
-                        energyLine.scale.set(1 + Math.random() * gatherRatio, 1, 1 + Math.random() * gatherRatio);
-                    } else {
-                        energyLine.material.opacity = 0;
-                    }
                 }
 
                 const positions = particles.geometry.attributes.position.array;
