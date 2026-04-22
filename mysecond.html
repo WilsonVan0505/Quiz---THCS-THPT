@@ -1844,8 +1844,13 @@
         .stat-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: center;
+            padding: 12px 24px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 9999px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             color: #d1d5db;
         }
 
@@ -1856,11 +1861,11 @@
 
         .review-word-chip {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 6px 14px;
             margin: 4px;
             background: rgba(168, 85, 247, 0.15);
             border: 1px solid rgba(168, 85, 247, 0.3);
-            border-radius: 12px;
+            border-radius: 9999px;
             font-size: 0.75rem;
             color: #d8b4fe;
             font-style: italic;
@@ -3157,12 +3162,12 @@
         <div class="summary-nebula"></div>
         <div class="summary-card">
             <div
-                style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+                style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:20px; background:rgba(255,255,255,0.05); padding:12px 24px; border-radius:9999px; border:1px solid rgba(167,139,250,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                 <p id="summary-date"
                     style="font-size: 0.7rem; color: rgba(196, 181, 253, 0.8); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin:0;">
                 </p>
                 <p id="summary-user"
-                    style="font-size: 0.7rem; color: #fff; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; margin:0; background:rgba(167,139,250,0.2); padding:2px 8px; border-radius:4px;">
+                    style="font-size: 0.7rem; color: #fff; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; margin:0; background:rgba(167,139,250,0.3); padding:4px 12px; border-radius:9999px;">
                 </p>
             </div>
 
@@ -3181,7 +3186,7 @@
                 </div>
 
                 <div
-                    style="margin: 15px 0; padding: 15px; background:rgba(0,0,0,0.2); border-radius:1rem; border:1px solid rgba(255,255,255,0.05);">
+                    style="margin: 15px 0; padding: 20px 24px; background:rgba(255,255,255,0.05); border-radius:2.5rem; border:1px solid rgba(167, 139, 250, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                     <p
                         style="font-size: 0.65rem; color: rgba(196, 181, 253, 0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; font-weight: 900;">
                         Words for Review</p>
@@ -6607,7 +6612,7 @@
             let label = "";
             let colors = "";
             if (totalScore >= 100) { label = "Xuất sắc"; colors = "background: linear-gradient(135deg, #fffbeb 0%, #f97316 40%, #ea580c 100%); color: #fff; box-shadow: 0 10px 25px -5px rgba(234,88,12,0.8), inset 0 2px 4px rgba(255,255,255,0.6); border: 1px solid rgba(251,146,60,0.8); text-shadow: 0 2px 4px rgba(0,0,0,0.4);"; }
-            else if (totalScore >= 91) { label = "Ưu tú"; colors = "background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 50%, #d97706 100%); color: #fff; box-shadow: 0 8px 20px -5px rgba(217,119,6,0.7), inset 0 2px 4px rgba(255,255,255,0.5); border: 1px solid rgba(252,211,77,0.7); text-shadow: 0 2px 4px rgba(0,0,0,0.3);"; }
+            else if (totalScore >= 90) { label = "Ưu tú"; colors = "background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 50%, #d97706 100%); color: #fff; box-shadow: 0 8px 20px -5px rgba(217,119,6,0.7), inset 0 2px 4px rgba(255,255,255,0.5); border: 1px solid rgba(252,211,77,0.7); text-shadow: 0 2px 4px rgba(0,0,0,0.3);"; }
             else if (totalScore >= 80) { label = "Giỏi"; colors = "background: linear-gradient(135deg, #ffedd5 0%, #fb923c 50%, #c2410c 100%); color: #fff; box-shadow: 0 8px 15px -4px rgba(194,65,12,0.6), inset 0 2px 4px rgba(255,255,255,0.4); border: 1px solid rgba(253,186,116,0.6); text-shadow: 0 1px 3px rgba(0,0,0,0.3);"; }
             else if (totalScore >= 70) { label = "Tốt"; colors = "background: linear-gradient(135deg, #fed7aa 0%, #f97316 50%, #9a3412 100%); color: #fff; box-shadow: 0 6px 12px -3px rgba(154,52,18,0.5), inset 0 1px 3px rgba(255,255,255,0.3); border: 1px solid rgba(251,146,60,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.3);"; }
             else if (totalScore >= 60) { label = "Khá"; colors = "background: linear-gradient(135deg, #ffedd5 0%, #ea580c 50%, #7c2d12 100%); color: #ffedd5; box-shadow: 0 4px 10px -2px rgba(124,45,18,0.4), inset 0 1px 2px rgba(255,255,255,0.2); border: 1px solid rgba(234,88,12,0.4); text-shadow: 0 1px 2px rgba(0,0,0,0.4);"; }
