@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nghi Thức Ma Thuật - 2 Orbs</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #030308;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, rgba(3, 3, 8, 0.8) 100%);
+        }
+        .ui-container {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 14px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.8);
+            animation: pulse-text 4s infinite alternate;
+        }
+        @keyframes pulse-text {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: #00f3ff;
+            text-shadow: 0 0 15px #00f3ff;
+            transition: opacity 1s ease-out;
+        }
+
+        /* Thiết kế ô màu đen chứa biểu tượng */
+        .mystic-panel {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(3, 3, 8, 0.75); /* Màu đen trong suốt */
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 15px rgba(185, 0, 255, 0.1);
+            border-radius: 16px;
+            padding: 15px 40px;
+            display: flex;
+            gap: 50px;
+            z-index: 5;
+            backdrop-filter: blur(8px); /* Hiệu ứng kính mờ */
+            transition: box-shadow 0.3s ease;
+        }
+
+        .mystic-panel:hover {
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(185, 0, 255, 0.2);
+        }
+
+        .icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .icon-wrapper:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-wrapper svg {
+            width: 45px;
+            height: 45px;
+            fill: none;
+            stroke: #00f3ff;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 6px rgba(0, 243, 255, 0.8));
+            transition: stroke 0.3s ease, filter 0.3s ease;
+        }
+
+        .icon-wrapper:hover svg {
+            stroke: #b900ff;
+            filter: drop-shadow(0 0 10px rgba(185, 0, 255, 0.8));
+        }
+
+        .icon-label {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #a0c4ff;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .icon-wrapper:hover .icon-label {
+            color: #e0b0ff;
+            text-shadow: 0 0 8px rgba(185, 0, 255, 0.8);
+        }
+    </style>
+    <!-- Nhập thư viện Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+    <div id="loading">ĐANG HỘI TỤ MA THUẬT...</div>
+    <div id="overlay"></div>
+    <div class="ui-container">Nghi Thức Đang Diễn Ra</div>
+
+    <!-- Bảng điều khiển biểu tượng -->
+    <div class="mystic-panel">
+        <!-- Biểu tượng Núi -->
+        <div class="icon-wrapper" title="Nguyên tố Thổ">
+            <svg viewBox="0 0 24 24">
+                <path d="M8 3L2 19h20L16 9" />
+                <path d="M12 12l-4 7h8z" />
+                <path d="M8 3l3 5" />
+            </svg>
+            <div class="icon-label">Núi</div>
+        </div>
+        
+        <!-- Biểu tượng Bông Hoa -->
+        <div class="icon-wrapper" title="Nguyên tố Mộc">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 22c4-4 8-6 8-12a8 8 0 0 0-16 0c0 6 4 8 8 12z" />
+                <path d="M12 22c-2-4-2-8 0-12 2 4 2 8 0 12z" />
+                <path d="M12 10c2-2 4-2 6-2-2 4-4 6-6 6-2 0-4-2-6-6 2 0 4 0 6 2z" />
+            </svg>
+            <div class="icon-label">Hoa</div>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script>
+        // Cấu hình
+        const config = {
+            colors: {
+                primary: '#00f3ff', // Xanh lơ
+                secondary: '#b900ff', // Tím
+                orbDark: '#050a1f',
+                orbLight: '#00ffff'
+            },
+            circleSize: 10,
+            particleCount: 600,
+        };
+
+        // Các thành phần DOM
+        const container = document.getElementById('canvas-container');
+        const loadingScreen = document.getElementById('loading');
+
+        // Các biến lõi của Three.js
+        let scene, camera, renderer;
+        let clock = new THREE.Clock();
+
+        // Các đối tượng trong không gian
+        let orbs = []; // Lưu trữ 2 quả cầu
+        let circlePrimary, circleSecondary, circleFloor;
+        let particleSystem;
+        let pulses = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        // Trình tạo Texture
+        function createParticleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            gradient.addColorStop(0.2, 'rgba(0, 243, 255, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(0, 243, 255, 0.2)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        function createPulseTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.strokeStyle = config.colors.primary;
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = config.colors.primary;
+            
+            ctx.beginPath();
+            ctx.arc(128, 128, 100, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        function createSummoningCircleTexture(color, isSecondary = false) {
+            const size = 1024;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const center = size / 2;
+
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = isSecondary ? 10 : 20;
+
+            const drawArc = (radius, width) => {
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                ctx.arc(center, center, radius, 0, Math.PI * 2);
+                ctx.stroke();
+            };
+
+            if (!isSecondary) {
+                drawArc(480, 6);
+                drawArc(450, 2);
+                drawArc(350, 4);
+                drawArc(220, 2);
+            } else {
+                drawArc(420, 3);
+                drawArc(380, 1);
+                drawArc(260, 4);
+            }
+
+            const runes = ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᚺ", "ᚾ", "ᛁ", "ᛃ", "ᛇ", "ᛈ", "ᛉ", "ᛊ", "ᛏ", "ᛒ", "ᛖ", "ᛗ", "ᛚ", "ᛜ", "ᛞ", "ᛟ", "Δ", "Θ", "Λ", "Ξ", "Π", "Σ", "Φ", "Ψ", "Ω", "✧", "✦", "⚝"];
+            
+            const drawRunes = (radius, count, fontSize) => {
+                ctx.font = `bold ${fontSize}px sans-serif`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                for (let i = 0; i < count; i++) {
+                    let angle = (i / count) * Math.PI * 2;
+                    let x = center + Math.cos(angle) * radius;
+                    let y = center + Math.sin(angle) * radius;
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(angle + Math.PI / 2);
+                    ctx.fillText(runes[Math.floor(Math.random() * runes.length)], 0, 0);
+                    ctx.restore();
+                }
+            };
+
+            if (!isSecondary) {
+                drawRunes(400, 36, 32);
+                drawRunes(285, 12, 40);
+            } else {
+                drawRunes(400, 24, 24);
+                drawRunes(320, 18, 28);
+            }
+
+            const drawPolygon = (radius, sides, offsetAngle = 0, width = 2) => {
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                for (let i = 0; i <= sides; i++) {
+                    let angle = (i / sides) * Math.PI * 2 + offsetAngle;
+                    let x = center + Math.cos(angle) * radius;
+                    let y = center + Math.sin(angle) * radius;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            };
+
+            if (!isSecondary) {
+                drawPolygon(350, 3, 0, 3);
+                drawPolygon(350, 3, Math.PI, 3);
+            } else {
+                drawPolygon(380, 4, 0, 2);
+                drawPolygon(380, 4, Math.PI / 4, 2);
+            }
+
+            if (!isSecondary) {
+                const gradient = ctx.createRadialGradient(center, center, 0, center, center, 200);
+                gradient.addColorStop(0, color.replace(')', ', 0.3)').replace('rgb', 'rgba'));
+                gradient.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(center, center, 200, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // Khởi tạo không gian
+        function init() {
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x030308, 0.04);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 1.5, 12);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setClearColor(0x030308, 1);
+            container.appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0x222244);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0x00f3ff, 2, 20);
+            pointLight.position.set(0, 0, 0);
+            scene.add(pointLight);
+
+            const bottomLight = new THREE.PointLight(0xb900ff, 3, 20);
+            bottomLight.position.set(0, -5, 2);
+            scene.add(bottomLight);
+
+            // Tạo 2 quả cầu ở 2 góc ban đầu đối diện nhau
+            createOrb(config.colors.primary, 0); 
+            createOrb(config.colors.secondary, Math.PI);
+
+            createMagicCircles();
+            createParticles();
+
+            // Lắng nghe sự kiện
+            window.addEventListener('resize', onWindowResize, false);
+            document.addEventListener('mousemove', onMouseMove, false);
+            document.addEventListener('touchmove', (e) => {
+                if(e.touches.length > 0) {
+                    mouseX = (e.touches[0].clientX - window.innerWidth / 2) * 0.005;
+                    mouseY = (e.touches[0].clientY - window.innerHeight / 2) * 0.005;
+                }
+            }, {passive: true});
+
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => loadingScreen.remove(), 1000);
+            }, 500);
+
+            animate();
+        }
+
+        // Tạo 1 Quả Cầu
+        function createOrb(color, initialAngle) {
+            const orbGroup = new THREE.Group();
+
+            const geometry = new THREE.SphereGeometry(1.0, 64, 64);
+            const material = new THREE.MeshPhysicalMaterial({
+                color: config.colors.orbDark,
+                metalness: 0.9,
+                roughness: 0.1,
+                envMapIntensity: 1.0,
+                transmission: 0.9, 
+                opacity: 1,
+                transparent: true,
+                emissive: config.colors.orbDark,
+                emissiveIntensity: 0.2
+            });
+            const orbMesh = new THREE.Mesh(geometry, material);
+            orbGroup.add(orbMesh);
+
+            const coreGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+            const coreMaterial = new THREE.MeshStandardMaterial({
+                color: color,
+                emissive: color,
+                emissiveIntensity: 2.0,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            const orbCore = new THREE.Mesh(coreGeometry, coreMaterial);
+            orbGroup.add(orbCore);
+
+            orbGroup.userData = {
+                core: orbCore,
+                initialAngle: initialAngle,
+                startX: 0,
+                startY: 0,
+                startZ: 0
+            };
+
+            scene.add(orbGroup);
+            orbs.push(orbGroup);
+        }
+
+        function createMagicCircles() {
+            const texturePrimary = createSummoningCircleTexture(config.colors.primary);
+            const textureSecondary = createSummoningCircleTexture(config.colors.secondary, true);
+
+            const geoPrimary = new THREE.PlaneGeometry(config.circleSize, config.circleSize);
+            const geoSecondary = new THREE.PlaneGeometry(config.circleSize * 1.1, config.circleSize * 1.1);
+
+            const matPrimary = new THREE.MeshBasicMaterial({
+                map: texturePrimary,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                side: THREE.DoubleSide,
+                opacity: 0.8
+            });
+
+            const matSecondary = new THREE.MeshBasicMaterial({
+                map: textureSecondary,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                side: THREE.DoubleSide,
+                opacity: 0.6
+            });
+
+            circlePrimary = new THREE.Mesh(geoPrimary, matPrimary);
+            circlePrimary.position.set(0, 0, -3);
+            scene.add(circlePrimary);
+
+            circleSecondary = new THREE.Mesh(geoSecondary, matSecondary);
+            circleSecondary.position.set(0, 0, -3.5);
+            scene.add(circleSecondary);
+
+            circleFloor = new THREE.Mesh(geoPrimary, matPrimary);
+            circleFloor.rotation.x = -Math.PI / 2;
+            circleFloor.position.set(0, -3, -1);
+            circleFloor.scale.set(1.5, 1.5, 1.5);
+            scene.add(circleFloor);
+        }
+
+        function createParticles() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(config.particleCount * 3);
+            const speeds = new Float32Array(config.particleCount);
+            const phases = new Float32Array(config.particleCount);
+
+            for (let i = 0; i < config.particleCount; i++) {
+                const r = Math.random() * 4;
+                const theta = Math.random() * Math.PI * 2;
+                
+                positions[i * 3] = r * Math.cos(theta);
+                positions[i * 3 + 1] = -4 + Math.random() * 8;
+                positions[i * 3 + 2] = r * Math.sin(theta) - 1;
+
+                speeds[i] = 0.01 + Math.random() * 0.03;
+                phases[i] = Math.random() * Math.PI * 2;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1));
+            geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+
+            const material = new THREE.PointsMaterial({
+                map: createParticleTexture(),
+                size: 0.3,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                opacity: 0.6
+            });
+
+            particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+        }
+
+        function spawnPulse(isExplosion = false) {
+            const geometry = new THREE.PlaneGeometry(1, 1);
+            const material = new THREE.MeshBasicMaterial({
+                map: createPulseTexture(),
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                opacity: 1
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(0, 0, -2.9);
+            scene.add(mesh);
+            pulses.push({ mesh: mesh, life: 0, maxLife: isExplosion ? 2.5 : 2.0, isExplosion: isExplosion });
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            targetX = (event.clientX - window.innerWidth / 2) * 0.005;
+            targetY = (event.clientY - window.innerHeight / 2) * 0.005;
+        }
+
+        // Vòng lặp animation
+        let pulseTimer = 0;
+        let explosionTriggered = false;
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            // Hiệu ứng Parallax
+            mouseX += (targetX - mouseX) * 0.05;
+            mouseY += (targetY - mouseY) * 0.05;
+            camera.position.x = mouseX * 4;
+            camera.position.y = 1.5 - mouseY * 4;
+            camera.lookAt(0, 0, 0);
+
+            // Xoay vòng tròn
+            if (circlePrimary) circlePrimary.rotation.z -= 0.1 * delta;
+            if (circleSecondary) circleSecondary.rotation.z += 0.05 * delta;
+            if (circleFloor) circleFloor.rotation.z -= 0.08 * delta;
+
+            // Xử lý logic 2 Quả Cầu
+            for (let i = 0; i < orbs.length; i++) {
+                const orbGroup = orbs[i];
+                const ud = orbGroup.userData;
+
+                orbGroup.rotation.y += 0.2 * delta;
+                orbGroup.rotation.z += 0.1 * delta;
+                ud.core.rotation.x -= 0.5 * delta;
+                ud.core.rotation.y -= 0.3 * delta;
+
+                if (time < 4.0) {
+                    // Cảnh 1: Quay vòng vòng quanh tâm chung
+                    const currentAngle = ud.initialAngle + time * 1.5; 
+                    const radius = 2.0; 
+                    
+                    orbGroup.position.x = Math.cos(currentAngle) * radius;
+                    orbGroup.position.z = Math.sin(currentAngle) * radius;
+                    orbGroup.position.y = 1.5 + Math.sin(time * 3 + ud.initialAngle) * 0.5;
+
+                    ud.startX = orbGroup.position.x;
+                    ud.startY = orbGroup.position.y;
+                    ud.startZ = orbGroup.position.z;
+                } else if (time < 6.0) {
+                    // Cảnh 2: Di chuyển vào trung tâm vòng tròn sáp nhập
+                    const progress = (time - 4.0) / 2.0; 
+                    const t = progress * progress * (3 - 2 * progress); // Ease in-out
+                    
+                    const targetX = 0;
+                    const targetY = 0;
+                    const targetZ = -3; // Tâm vòng ma thuật
+
+                    orbGroup.position.x = ud.startX + (targetX - ud.startX) * t;
+                    orbGroup.position.y = ud.startY + (targetY - ud.startY) * t;
+                    orbGroup.position.z = ud.startZ + (targetZ - ud.startZ) * t;
+
+                    // Thu nhỏ 1 chút khi bay vào
+                    const scale = 1 - (t * 0.4);
+                    orbGroup.scale.set(scale, scale, scale);
+                } else {
+                    // Cảnh 3: Đã sáp nhập và xoay
+                    orbGroup.position.set(0, Math.sin(time * 5 + (i * Math.PI)) * 0.2, -3); 
+                    orbGroup.rotation.y += 0.8 * delta; // Xoay nhanh hơn
+
+                    // Nổ hiệu ứng xung kích chỉ 1 lần vào lúc sáp nhập
+                    if (!explosionTriggered && i === 0) {
+                        explosionTriggered = true;
+                        for (let p = 0; p < 4; p++) {
+                            setTimeout(() => spawnPulse(true), p * 150);
+                        }
+                        
+                        // Cập nhật text UI
+                        const ui = document.querySelector('.ui-container');
+                        if(ui) {
+                            ui.innerText = "NGHI THỨC HOÀN TẤT";
+                            ui.style.color = "#b900ff";
+                            ui.style.textShadow = "0 0 15px rgba(185, 0, 255, 0.8)";
+                        }
+                    }
+                }
+            }
+
+            if (particleSystem) {
+                const positions = particleSystem.geometry.attributes.position.array;
+                const speeds = particleSystem.geometry.attributes.aSpeed.array;
+                const phases = particleSystem.geometry.attributes.aPhase.array;
+
+                for (let i = 0; i < config.particleCount; i++) {
+                    const i3 = i * 3;
+                    positions[i3 + 1] += speeds[i];
+                    positions[i3] += Math.sin(time * 2 + phases[i]) * 0.01;
+
+                    if (positions[i3 + 1] > 4) {
+                        positions[i3 + 1] = -4;
+                        const r = Math.random() * 4;
+                        const theta = Math.random() * Math.PI * 2;
+                        positions[i3] = r * Math.cos(theta);
+                        positions[i3 + 2] = r * Math.sin(theta) - 1;
+                    }
+                }
+                particleSystem.geometry.attributes.position.needsUpdate = true;
+            }
+
+            pulseTimer += delta;
+            if (pulseTimer > 1.5 && (!explosionTriggered || time > 8.0)) {
+                spawnPulse(false);
+                pulseTimer = 0;
+            }
+
+            for (let i = pulses.length - 1; i >= 0; i--) {
+                let p = pulses[i];
+                p.life += delta;
+                if (p.life >= p.maxLife) {
+                    scene.remove(p.mesh);
+                    pulses.splice(i, 1);
+                } else {
+                    const progress = p.life / p.maxLife;
+                    const scaleModifier = p.isExplosion ? 25 : 10;
+                    const scale = (1 + progress * scaleModifier);
+                    p.mesh.scale.set(scale, scale, 1);
+                    p.mesh.material.opacity = (1 - progress) * (p.isExplosion ? 1.0 : 0.4);
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+    </script>
+</body>
+</html>
