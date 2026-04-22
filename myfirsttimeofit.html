@@ -6795,7 +6795,10 @@
                 if (showcaseCleanup) showcaseCleanup();
                 overlay.style.transition = 'opacity .6s ease';
                 overlay.style.opacity = '0';
-                setTimeout(() => overlay.remove(), 700);
+                setTimeout(() => {
+                    overlay.remove();
+                    showSummary(); // Trigger summary table after ritual is closed
+                }, 700);
             };
             overlay.appendChild(closeBtn);
 
@@ -7003,7 +7006,12 @@
                                     const oldOnClick = closeBtn.onclick;
                                     closeBtn.onclick = () => {
                                         cleanup3D();
-                                        oldOnClick();
+                                        overlay.style.transition = 'opacity .6s ease';
+                                        overlay.style.opacity = '0';
+                                        setTimeout(() => {
+                                            overlay.remove();
+                                            showSummary(); // Trigger summary table after ritual is closed
+                                        }, 700);
                                     };
                                 }, 1300);
 
