@@ -3157,56 +3157,7 @@
             class="relative w-full h-[75vh] flex items-center justify-center transition-all duration-1000"></div>
     </div>
 
-    <!-- Final Ritual Summary Overlay -->
-    <div id="summary-overlay">
-        <div class="summary-nebula"></div>
-        <div class="summary-card">
-            <div
-                style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:20px; background:rgba(255,255,255,0.05); padding:12px 24px; border-radius:9999px; border:1px solid rgba(167,139,250,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                <p id="summary-date"
-                    style="font-size: 0.7rem; color: rgba(196, 181, 253, 0.8); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin:0;">
-                </p>
-                <p id="summary-user"
-                    style="font-size: 0.7rem; color: #fff; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; margin:0; background:rgba(167,139,250,0.3); padding:4px 12px; border-radius:9999px;">
-                </p>
-            </div>
 
-            <h1
-                style="font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 0.05em; filter: drop-shadow(0 0 10px rgba(167,139,250,0.5));">
-                Summary</h1>
-
-            <div id="summary-orb-container" style="margin-bottom: 25px;"></div>
-
-            <div id="summary-classification" class="classification-badge"></div>
-
-            <div class="stats-grid" style="text-align: left; margin-top: 25px;">
-                <div class="stat-item">
-                    <span>Correct Words (First try)</span>
-                    <span id="stat-correct" class="stat-value">0</span>
-                </div>
-
-                <div
-                    style="margin: 15px 0; padding: 20px 24px; background:rgba(255,255,255,0.05); border-radius:2.5rem; border:1px solid rgba(167, 139, 250, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                    <p
-                        style="font-size: 0.65rem; color: rgba(196, 181, 253, 0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; font-weight: 900;">
-                        Words for Review</p>
-                    <div id="summary-review-list"
-                        style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px;"></div>
-                </div>
-
-                <div class="stat-item">
-                    <span>Total Time</span>
-                    <span id="stat-time" class="stat-value">0m 0s</span>
-                </div>
-                <div class="stat-item">
-                    <span>Total Score</span>
-                    <span id="stat-score" class="stat-value">0</span>
-                </div>
-            </div>
-
-            <button onclick="window.location.reload()" class="btn-restart-final">Restart Session</button>
-        </div>
-    </div>
 
     <script>
         let totalScore = 0;
@@ -6586,8 +6537,8 @@
             if (cardsFlippedCount >= 3) {
                 const rBtn = document.getElementById('restart-btn');
                 if (rBtn) {
-                    rBtn.innerHTML = `<span style="margin-right:8px;">🔮</span><span>View Summary</span>`;
-                    rBtn.onclick = () => showSummary();
+                    rBtn.innerHTML = `<span style="margin-right:8px;">🔮</span><span>Restart Ritual</span>`;
+                    rBtn.onclick = () => resetQuiz();
                     rBtn.style.background = "linear-gradient(135deg, #7c3aed, #4f46e5)";
                     rBtn.style.boxShadow = "0 0 30px rgba(139, 92, 246, 0.6)";
                     rBtn.classList.add('animate-bounce');
@@ -6599,74 +6550,6 @@
             }
         }
 
-        function showSummary() {
-            ritualEndTime = Date.now();
-            const totalMs = ritualEndTime - (ritualStartTime || ritualEndTime);
-            const totalMin = totalMs / 60000;
-            const formattedTime = totalMin.toFixed(2).replace('.', ':') + ' mins';
-
-            const now = new Date();
-            const dStr = `Ngày ${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
-            const tStr = now.toLocaleTimeString('vi-VN', { hour12: false });
-            document.getElementById('summary-date').textContent = `${dStr} | ${tStr}`;
-
-            const nameInput = document.getElementById('user-name-input');
-            const userName = nameInput ? nameInput.value.trim().toUpperCase() : "EXPLORER";
-            document.getElementById('summary-user').textContent = userName;
-
-            document.getElementById('stat-correct').textContent = solvedFirstTryCount;
-            document.getElementById('stat-time').textContent = formattedTime;
-            document.getElementById('stat-score').textContent = totalScore;
-
-            const reviewListEl = document.getElementById('summary-review-list');
-            reviewListEl.innerHTML = '';
-            if (reviewWordsList.length === 0) {
-                reviewListEl.innerHTML = '<p style="font-style:italic; color:rgba(255,255,255,0.3); font-size:0.8rem;">No words to review</p>';
-            } else {
-                reviewWordsList.forEach(w => {
-                    const chip = document.createElement('span');
-                    chip.className = 'review-word-chip';
-                    chip.textContent = w;
-                    reviewListEl.appendChild(chip);
-                });
-            }
-
-            // Cosmic Orange Classification
-            const badge = document.getElementById('summary-classification');
-            let label = "";
-            let colors = "";
-            const maxPossibleScore = originalFlashcardsCount * 5;
-            const scorePercent = Math.round((totalScore / maxPossibleScore) * 100);
-
-            if (scorePercent >= 100) { label = "Xuất sắc"; colors = "background: linear-gradient(135deg, #fffbeb 0%, #f97316 40%, #ea580c 100%); color: #fff; box-shadow: 0 10px 25px -5px rgba(234,88,12,0.8), inset 0 2px 4px rgba(255,255,255,0.6); border: 1px solid rgba(251,146,60,0.8); text-shadow: 0 2px 4px rgba(0,0,0,0.4);"; }
-            else if (scorePercent >= 90) { label = "Ưu tú"; colors = "background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 50%, #d97706 100%); color: #fff; box-shadow: 0 8px 20px -5px rgba(217,119,6,0.7), inset 0 2px 4px rgba(255,255,255,0.5); border: 1px solid rgba(252,211,77,0.7); text-shadow: 0 2px 4px rgba(0,0,0,0.3);"; }
-            else if (scorePercent >= 80) { label = "Giỏi"; colors = "background: linear-gradient(135deg, #ffedd5 0%, #fb923c 50%, #c2410c 100%); color: #fff; box-shadow: 0 8px 15px -4px rgba(194,65,12,0.6), inset 0 2px 4px rgba(255,255,255,0.4); border: 1px solid rgba(253,186,116,0.6); text-shadow: 0 1px 3px rgba(0,0,0,0.3);"; }
-            else if (scorePercent >= 70) { label = "Tốt"; colors = "background: linear-gradient(135deg, #fed7aa 0%, #f97316 50%, #9a3412 100%); color: #fff; box-shadow: 0 6px 12px -3px rgba(154,52,18,0.5), inset 0 1px 3px rgba(255,255,255,0.3); border: 1px solid rgba(251,146,60,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.3);"; }
-            else if (scorePercent >= 60) { label = "Khá"; colors = "background: linear-gradient(135deg, #ffedd5 0%, #ea580c 50%, #7c2d12 100%); color: #ffedd5; box-shadow: 0 4px 10px -2px rgba(124,45,18,0.4), inset 0 1px 2px rgba(255,255,255,0.2); border: 1px solid rgba(234,88,12,0.4); text-shadow: 0 1px 2px rgba(0,0,0,0.4);"; }
-            else { label = "Học lại"; colors = "background: linear-gradient(135deg, #431407 0%, #7c2d12 50%, #9a3412 100%); color: #fdba74; box-shadow: 0 4px 10px -2px rgba(67,20,7,0.6), inset 0 1px 2px rgba(255,255,255,0.1); border: 1px solid rgba(124,45,18,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.6);"; }
-
-            badge.textContent = label;
-            badge.style.cssText = colors;
-
-            // Orb Display
-            const magic = activeSessionOrb;
-            document.getElementById('summary-orb-container').innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; gap:12px;">
-                    <div style="position:relative; width:100px; height:100px; margin-bottom:0;">
-                        ${buildOrbHTML(magic, '100%')}
-                    </div>
-                    <p style="font-size:0.9rem; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:0.1em; margin:0; filter:drop-shadow(0 0 8px ${magic.orbGlow});">${magic.skill}</p>
-                </div>
-            `;
-
-            const overlay = document.getElementById('summary-overlay');
-            overlay.style.display = 'flex';
-            overlay.style.opacity = '0';
-            requestAnimationFrame(() => {
-                overlay.style.transition = 'opacity 1s ease';
-                overlay.style.opacity = '1';
-            });
-        }
 
         function playAlertSound() {
             try {
@@ -7011,7 +6894,7 @@
                                         if (isClosing) return;
                                         isClosing = true;
                                         cleanup3D();
-                                        showSummary();
+                                        resetQuiz();
                                         setTimeout(() => {
                                             oldOnClick();
                                         }, 1000);
