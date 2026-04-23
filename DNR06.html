@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Thi Thử Số 06 - Tiếng Anh</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS cho thanh cuộn bên trong ứng dụng đẹp hơn */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        #passage-container::-webkit-scrollbar,
+        #questions-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #passage-container::-webkit-scrollbar-track,
+        #questions-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #passage-container::-webkit-scrollbar-thumb,
+        #questions-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col bg-slate-100 text-slate-800 font-sans overflow-hidden">
+
+    <div id="app" class="flex flex-col h-full w-full"></div>
+
+    <script>
+        const quizData = [
+            {
+                title: "Part 1: Guided Cloze Test - Riverside Art Gallery",
+                instruction: "Read the following invitation letter and mark the letter A, B, C or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 1 to 6.",
+                passage: "You are cordially invited to celebrate\nThe Grand Opening of Riverside Art Gallery\n\nDear Art Enthusiasts,\nIt is with great pleasure that we invite you to (1) ______ in our grand opening celebration on Saturday, November 15th, 2025. This milestone event marks the culmination of two years of planning and preparation.\nEvent Details:\n a) Reception begins at 7:00 PM with champagne and hors d’oeuvres\n b) Gallery tour and artist presentations from 8:00 PM to 9:30 PM\n c) Live jazz performance and networking session until midnight\nWe will be showcasing (2) ______ of contemporary artworks from both established and emerging artists. Guests may explore the galleries at their leisure (3) ______ participate in guided tours led by our curators.\nThe gallery features three levels of (4) ______ exhibition spaces designed by award-winning architects. Complimentary valet parking is available (5) ______ the main entrance on Riverside Drive.\nPlease RSVP by November 1st as seating is limited. We look forward to (6) ______ this momentous occasion with you and celebrating the vibrant arts community in our city.\nDress Code: Smart Casual",
+                passageTranslation: "Kính gửi những Người đam mê Nghệ thuật,\nChúng tôi vô cùng vui mừng mời Quý vị (1) tham gia Lễ Khai trương Trọng thể của chúng tôi vào Thứ Bảy, ngày 15 tháng 11 năm 2025. Sự kiện quan trọng này đánh dấu sự kết tinh của hai năm lên kế hoạch và chuẩn bị.\nChi tiết sự kiện:\n a) Tiệc chiêu đãi bắt đầu lúc 7:00 tối với sâm panh và món khai vị\n b) Tham quan phòng tranh và thuyết trình của nghệ sĩ từ 8:00 tối đến 9:30 tối\n c) Biểu diễn nhạc jazz trực tiếp và buổi giao lưu cho đến nửa đêm\nChúng tôi sẽ trưng bày (2) một bộ sưu tập các tác phẩm nghệ thuật đương đại từ cả những nghệ sĩ đã thành danh và nghệ sĩ mới nổi. Quý khách có thể tự do tham quan các phòng trưng bày (3) hoặc tham gia các chuyến tham quan có hướng dẫn do các giám tuyển của chúng tôi dẫn dắt.\nPhòng trưng bày có ba tầng không gian triển lãm (4) tuyệt đẹp, hiện đại, ngập tràn ánh sáng được thiết kế bởi các kiến trúc sư đạt giải thưởng. Dịch vụ đỗ xe valet miễn phí có sẵn (5) tại lối vào chính trên Đại lộ Riverside.\nVui lòng phản hồi trước ngày 1 tháng 11 vì số chỗ ngồi có hạn. Chúng tôi mong chờ (6) được cùng Quý vị chào mừng sự kiện trọng đại này và tôn vinh cộng đồng nghệ thuật sôi động của thành phố chúng ta.\nTrang phục: Lịch sự thoải mái",
+                questions: [
+                    { id: 1, text: "Question 1", options: ["partake", "contribute", "participate", "involve"], correct: 2, explanation: "Cụm \"invite you to ________ in our grand opening celebration\" yêu cầu động từ đi với \"in\" để diễn tả việc tham gia một sự kiện. \"Participate in\" là cụm trang trọng và phổ biến nhất.\nA. SAI – \"Partake in\" cũng có nghĩa tham gia nhưng ít trang trọng hơn.\nB. SAI – \"Contribute\" thường đi với \"to\" (đóng góp vào).\nC. ĐÚNG – \"Participate in\" phù hợp về nghĩa, ngữ pháp và sắc thái trang trọng.\nD. SAI – \"Involve\" thường dùng ở dạng bị động \"be involved in\"." },
+                    { id: 2, text: "Question 2", options: ["a collection", "a number", "an amount", "a sum"], correct: 0, explanation: "\"Artworks\" là danh từ đếm được số nhiều, nhưng trong ngữ cảnh triển lãm nghệ thuật, \"a collection of\" (một bộ sưu tập) là cách diễn đạt tự nhiên và chuyên nghiệp nhất.\nA. ĐÚNG – Thường dùng cho các tác phẩm nghệ thuật được tập hợp trưng bày.\nB. SAI – \"A number of\" không cụ thể bằng \"collection\" trong ngữ cảnh này.\nC. SAI – \"An amount of\" dùng cho danh từ không đếm được.\nD. SAI – \"A sum of\" thường dùng cho tiền." },
+                    { id: 3, text: "Question 3", options: ["or", "nor", "but", "so"], correct: 0, explanation: "\"Guests may explore the galleries at their leisure ________ participate in guided tours\". Hai hoạt động được đưa ra như những lựa chọn cho khách.\nA. ĐÚNG – \"Or\" dùng để nối hai lựa chọn thay thế cho nhau.\nB. SAI – \"Nor\" dùng trong câu phủ định.\nC. SAI – \"But\" biểu thị sự tương phản.\nD. SAI – \"So\" biểu thị kết quả." },
+                    { id: 4, text: "Question 4", options: ["stunning modern light-filled", "modern stunning light-filled", "light-filled stunning modern", "modern light-filled stunning"], correct: 0, explanation: "Quy tắc trật tự tính từ: Opinion (đánh giá) -> Size -> Age -> Shape -> Color -> Origin -> Material -> Purpose. \"Stunning\" là tính từ chỉ đánh giá (Opinion), \"modern\" chỉ độ tuổi/thời đại (Age), \"light-filled\" mô tả chất lượng/đặc điểm. Trật tự đúng là stunning (opinion) – modern (age) – light-filled (quality).\nA. ĐÚNG." },
+                    { id: 5, text: "Question 5", options: ["near", "by", "at", "beside"], correct: 2, explanation: "\"Complimentary valet parking is available ________ the main entrance\". Cần giới từ chỉ vị trí chính xác nơi dịch vụ đỗ xe có sẵn.\nA. SAI – \"Near\" có nghĩa gần đó, không chỉ vị trí chính xác.\nC. ĐÚNG – \"At the main entrance\" là cách diễn đạt phổ biến để chỉ địa điểm cụ thể." },
+                    { id: 6, text: "Question 6", options: ["commemorating", "observing", "marking", "celebrating"], correct: 3, explanation: "\"We look forward to ________ this momentous occasion with you\". Ngữ cảnh là lễ khai trương phòng tranh, một sự kiện vui, do đó động từ phù hợp là \"celebrating\". Hơn nữa, câu sau có \"celebrating the vibrant arts community\" cũng dùng cùng từ này.\nD. ĐÚNG – Phù hợp nhất với sự kiện khai trương vui vẻ." }
+                ]
+            },
+            {
+                title: "Part 2: Sentence Arrangement",
+                instruction: "Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 7 to 11.",
+                passage: "",
+                passageTranslation: "",
+                questions: [
+                    { id: 7, text: "a. Coastal engineering projects included the construction of reinforced seawalls along vulnerable stretches, preventing erosion and safeguarding residential areas.\nb. Such interventions underscore the region’s strategic response to escalating climatic threats and demonstrate effective coastal resilience planning.\nc. Complementing these structures, extensive mangrove reforestation initiatives were undertaken to create natural barriers against storm surges.\nd. In response to intensifying tropical storms, Central Vietnam’s coastal provinces have implemented substantial protective infrastructure over recent years.\ne. Community-based monitoring systems were subsequently established, empowering local residents to report environmental changes and coordinate emergency responses.", options: ["d-c-a-e-b", "d-a-c-e-b", "a-d-c-b-e", "d-a-e-c-b"], correct: 1, explanation: "Trật tự hợp lý: Giới thiệu vấn đề (d) -> Biện pháp cụ thể đầu tiên là xây đê (a) -> Biện pháp bổ sung là trồng rừng (c) -> Biện pháp giám sát (e) -> Kết luận/đánh giá (b). Câu c “Complementing these structures…” rõ ràng phải đi sau câu a. B là đáp án đúng.", translation: "d. Để ứng phó với các cơn bão nhiệt đới ngày càng gia tăng cường độ, các tỉnh ven biển miền Trung Việt Nam đã triển khai cơ sở hạ tầng bảo vệ quy mô lớn trong những năm gần đây.\na. Các dự án kỹ thuật bờ biển bao gồm việc xây dựng các đê chắn sóng được gia cố dọc theo các đoạn bờ dễ bị tổn thương...\nc. Bổ sung cho các công trình này, các sáng kiến trồng lại rừng ngập mặn quy mô lớn đã được thực hiện...\ne. Các hệ thống giám sát dựa vào cộng đồng sau đó đã được thiết lập...\nb. Những can thiệp như vậy nhấn mạnh phản ứng chiến lược của khu vực đối với các mối đe dọa khí hậu..." },
+                    { id: 8, text: "a. We are pleased to introduce our Helix Series label printers for growing businesses nationwide today.\nb. To receive a demo, complete the request form and confirm preferred date and site access.\nc. Our engineers will configure drivers, train your team, and deliver samples within two days onsite.\nd. Introductory pricing and free installation apply to orders placed before 30 November this calendar year.\ne. For details, reply to this email or contact sales@aurorainstruments.com for assistance during business hours.", options: ["a-b-c-d-e", "a-c-b-d-e", "b-a-c-d-e", "a-b-d-c-e"], correct: 0, explanation: "Trình tự logic của email: Giới thiệu sản phẩm (a) -> Hướng dẫn cách nhận bản demo (b) -> Mô tả dịch vụ sau khi yêu cầu demo (c) -> Thông tin khuyến mãi (d) -> Thông tin liên hệ (e). A là đáp án đúng.", translation: "a. Chúng tôi vui mừng giới thiệu dòng máy in nhãn Helix Series...\nb. Để nhận bản demo, vui lòng hoàn thành biểu mẫu yêu cầu...\nc. Các kỹ sư của chúng tôi sẽ cấu hình trình điều khiển, đào tạo đội ngũ của Quý khách...\nd. Giá giới thiệu và lắp đặt miễn phí được áp dụng...\ne. Để biết thêm chi tiết, vui lòng trả lời email này..." },
+                    { id: 9, text: "a. Tourist: Okay, thanks anyway. I’ll check my phone’s map application instead.\nb. Tourist: Excuse me, could you tell me how to get to the central train station?\nc. Alex: I’m sorry, but I’m not from around here myself. I’m just visiting too.", options: ["b-c-a", "c-b-a", "a-b-c", "b-a-c"], correct: 0, explanation: "Trình tự tự nhiên: Người hỏi đường (b) -> Người được hỏi trả lời không biết (c) -> Người hỏi phản hồi lại và cảm ơn (a).", translation: "b. Du khách: Xin lỗi, bạn có thể chỉ cho tôi đường đến ga trung tâm không?\nc. Alex: Tôi xin lỗi, nhưng bản thân tôi cũng không phải người ở đây...\na. Du khách: Vâng, dù sao cũng cảm ơn bạn. Tôi sẽ kiểm tra ứng dụng bản đồ..." },
+                    { id: 10, text: "a. Huy: So, both styles have their own benefits depending on one’s lifestyle.\nb. Huy: I feel the same, but home allows better work-life balance for many people.\nc. Tutor: Working from home is comfortable, but office teamwork keeps me motivated.\nd. Huy: Do you prefer working from the office or from home?\ne. Tutor: Indeed, the choice often reflects how people value connection versus independence.", options: ["d-b-c-a-e", "d-c-b-e-a", "a-b-d-c-e", "a-c-b-d-e"], correct: 1, explanation: "Cuộc trò chuyện: Hỏi (d) -> Trả lời (c) -> Phản hồi (b) -> Đồng tình nâng cao (e) -> Kết luận (a).", translation: "d. Huy: Bạn thích làm việc tại văn phòng hay tại nhà hơn?\nc. Gia sư: Làm việc tại nhà thì thoải mái, nhưng làm việc nhóm tại văn phòng giúp tôi có động lực.\nb. Huy: Tôi cũng cảm thấy vậy, nhưng làm việc tại nhà cho phép nhiều người cân bằng...\ne. Gia sư: Đúng vậy, sự lựa chọn thường phản ánh cách mọi người coi trọng sự kết nối...\na. Huy: Vậy là, cả hai phong cách đều có những lợi ích riêng..." },
+                    { id: 11, text: "a. When schools shifted to online learning, I initially believed I could breeze through courses without much effort.\nb. The transition to virtual classes during the pandemic challenged my self-discipline and motivation to study independently.\nc. This experience made me appreciate the value of in-person interaction and self-motivation in learning environments.\nd. However, I found myself constantly distracted and falling behind in almost every single subject I enrolled in.\ne. Consequently, I established a dedicated study space and created a strict daily routine to stay on track.", options: ["a-b-d-c-e", "b-a-d-e-c", "b-d-a-e-c", "c-b-a-d-e"], correct: 1, explanation: "Trình tự hợp lý: Nêu bối cảnh chung (b) -> Suy nghĩ ban đầu (a) -> Thực tế diễn ra trái ngược (d) -> Hành động khắc phục (e) -> Bài học rút ra (c).", translation: "b. Việc chuyển đổi sang lớp học ảo trong đại dịch đã thách thức tính tự giác...\na. Khi trường học chuyển sang học trực tuyến, ban đầu tôi tin rằng mình có thể dễ dàng vượt qua...\nd. Tuy nhiên, tôi nhận thấy bản thân liên tục bị phân tâm và tụt lại phía sau...\ne. Do đó, tôi đã thiết lập một không gian học tập chuyên dụng...\nc. Trải nghiệm này khiến tôi trân trọng hơn giá trị của tương tác trực tiếp..." }
+                ]
+            },
+            {
+                title: "Part 3: Guided Cloze Test - Urbanization",
+                instruction: "Read the following passage and mark the letter A, B, C or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 12 to 16.",
+                passage: "Urbanization has transformed societies worldwide since the Industrial Revolution began. Cities expanded as factories required laborers, and rural workers sought better wages and opportunities. Early urban centers grew around ports, railways, and industrial zones. (12) ____ . Local governments built infrastructure like sewage systems, electricity grids, and public schools to support rising populations. (13) ____ , inadequate planning left many neighborhoods vulnerable to flooding, disease, and overcrowding. Across Latin America and Southeast Asia, informal settlements appeared on hillsides and riverbanks. (14) ____ . Urban planners struggled to provide clean water, sanitation, and affordable housing fast enough. Existing infrastructure could not keep pace with demand, (15) ____ . Despite these challenges, cities remained magnets for migration because they offered education, healthcare, and jobs. Gradually, investments in metro systems, social housing, and parks improved living conditions, (16) ____ .",
+                passageTranslation: "Đô thị hóa đã biến đổi các xã hội trên toàn thế giới kể từ khi Cách mạng Công nghiệp bắt đầu. Các thành phố mở rộng khi các nhà máy cần lao động, và công nhân nông thôn tìm kiếm mức lương và cơ hội tốt hơn. Các trung tâm đô thị ban đầu phát triển xung quanh các cảng, đường sắt và khu công nghiệp. (12) Những thay đổi dân số này đã thay đổi cơ bản các mô hình định cư truyền thống, tạo ra sự tập trung nhân khẩu học chưa từng có ở các khu công nghiệp. Chính quyền địa phương xây dựng cơ sở hạ tầng như hệ thống thoát nước, lưới điện và trường học công để hỗ trợ dân số ngày càng tăng. (13) Tuy nhiên, việc quy hoạch không đầy đủ đã khiến nhiều khu dân cư dễ bị tổn thương bởi lũ lụt, dịch bệnh bùng phát và tình trạng quá tải nghiêm trọng. Khắp Mỹ Latinh và Đông Nam Á, các khu định cư không chính thức xuất hiện trên các sườn đồi và bờ sông. (14) Chính phủ gặp khó khăn trong việc mở rộng mạng lưới điện và cơ sở hạ tầng đường bộ đủ nhanh, khiến nhiều khu định cư không được phục vụ đầy đủ. Các nhà quy hoạch đô thị vật lộn để cung cấp nước sạch, hệ thống vệ sinh và nhà ở giá rẻ đủ nhanh. Cơ sở hạ tầng hiện có không thể theo kịp nhu cầu, (15) một hoàn cảnh khiến cả mạng lưới giao thông và các dịch vụ thiết yếu của thành phố trở nên quá tải nghiêm trọng. Bất chấp những thách thức này, các thành phố vẫn là nam châm thu hút di cư vì chúng cung cấp giáo dục, chăm sóc sức khỏe và việc làm. Dần dần, các khoản đầu tư vào hệ thống tàu điện ngầm, nhà ở xã hội và công viên đã cải thiện điều kiện sống, (16) nhờ đó cho phép cư dân ở các cấp độ kinh tế xã hội khác nhau tiếp cận các cơ hội thiết yếu và tiện nghi công cộng một cách công bằng hơn.",
+                questions: [
+                    {
+                        id: 12, text: "Question 12", options: [
+                            "These emerging metropolitan centers consequently attracting successive waves of migrants seeking employment and establishing close-knit communities nearby",
+                            "The resulting infrastructure development provided a blueprint for subsequent urban expansion strategies across industrializing regions",
+                            "Although initially concentrated in Europe, these phenomenons rapidly spread to other continents undergoing industrial transformation",
+                            "These population shifts fundamentally altered traditional settlement patterns, creating unprecedented demographic concentrations in industrial zones"
+                        ], correct: 3, explanation: "Câu trước mô tả sự mở rộng của thành phố và làn sóng di cư. Câu sau nói về phản ứng của chính quyền (xây dựng cơ sở hạ tầng). Câu D liên kết chặt chẽ ý “population shifts” dẫn đến nhu cầu về cơ sở hạ tầng trong câu sau."
+                    },
+                    {
+                        id: 13, text: "Question 13", options: [
+                            "Nevertheless, comprehensive zoning regulations and strict building codes protected most residential districts from environmental hazards",
+                            "However, inadequate planning left many neighborhoods vulnerable to flooding, disease outbreaks, and severe overcrowding",
+                            "Consequently, urban authorities implemented rigorous sanitation measures that gradually improved living conditions across affected areas",
+                            "Moreover, municipal governments prioritized infrastructure investment to prevent the emergence of unsanitary conditions"
+                        ], correct: 1, explanation: "Câu trước nói về việc xây dựng cơ sở hạ tầng (tích cực). Câu sau nói về sự xuất hiện của các khu định cư tồi tàn (tiêu cực). Cần một câu thể hiện sự tương phản (However) và giải thích vấn đề (inadequate planning)."
+                    },
+                    {
+                        id: 14, text: "Question 14", options: [
+                            "Governments struggled to extend electricity networks and road infrastructure rapidly enough, leaving numerous settlements underserved",
+                            "International investment in manufacturing sectors had created employment opportunities that attracted skilled workers from neighboring regions",
+                            "Educational institutions established vocational training programs to address the shortage of qualified construction workers",
+                            "Agricultural productivity has declined in surrounding rural areas as labor forces migrated toward urban employment centers"
+                        ], correct: 0, explanation: "Câu sau bắt đầu bằng 'Urban planners struggled to provide...'. Câu A tiếp tục mô tả những khó khăn tương tự trong việc cung cấp dịch vụ cơ sở hạ tầng khác (điện, đường), làm rõ mạch văn."
+                    },
+                    {
+                        id: 15, text: "Question 15", options: [
+                            "a development that marginally affected local transportation while significantly straining emergency response capabilities",
+                            "a circumstance that caused both transport networks and essential municipal services to become critically overburdened",
+                            "thereby enabling transport systems to function efficiently despite mounting pressure on public service provision",
+                            "consequently allowing infrastructure networks to expand proportionally with population growth throughout the region"
+                        ], correct: 1, explanation: "Câu trước 'Existing infrastructure could not keep pace with demand'. Cần một cụm mang nghĩa tiêu cực mô tả sự quá tải. Câu B 'critically overburdened' hoàn toàn phù hợp."
+                    },
+                    {
+                        id: 16, text: "Question 16", options: [
+                            "thereby enabling residents across different socioeconomic levels to access essential opportunities and public amenities more equitably",
+                            "although subsequent analyses have revealed that rural development initiatives had generated comparable improvements in living standards",
+                            "which confirmed that initial investment priorities should emphasize cultural preservation over infrastructure modernization",
+                            "thereby validating concerns that rapid urbanization would inevitably compromise environmental sustainability and community cohesion"
+                        ], correct: 0, explanation: "Câu trước nói về các khoản đầu tư đã cải thiện điều kiện sống (tích cực). Câu kết cần thể hiện kết quả tốt đẹp của sự cải thiện đó. Câu A chỉ ra kết quả mọi người tiếp cận được tiện ích công bằng hơn."
+                    }
+                ]
+            },
+            {
+                title: "Part 4: Guided Cloze Test - Thăng Long Festival 2025",
+                instruction: "Read the following announcement and mark the letter A, B, C or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 17 to 22.",
+                passage: "Thăng Long Festival 2025\nCelebrating Hanoi’s Thousand-Year Heritage\nThe capital city will come alive with cultural festivities from November 1st to 16th, 2025. This annual celebration features an impressive (17) ______ of activities spanning traditional performances, street parades, and interactive workshops across iconic venues.\nKey Highlights\nHoàn Kiếm Lake will transform into an open-air stage (18) ______ visitors can witness water puppet shows and folk music concerts. Meanwhile, the Temple of Literature will host calligraphy exhibitions and scholarly ceremonies (19) ______ back to ancient traditions. The organizing committee has (20) ______ together over thirty distinct programs designed to immerse participants in Hanoi’s rich historical tapestry.\nThis festival represents a remarkable opportunity for both locals and tourists to (21) ______ themselves in authentic Vietnamese culture. Attendance is free, though some special workshops may require advance (22) ______ .\nFor the complete schedule, visit https://thanglong-festival.vn/",
+                passageTranslation: "Thủ đô sẽ trở nên sống động với các lễ hội văn hóa từ ngày 1 đến 16 tháng 11 năm 2025. Lễ kỷ niệm thường niên này có một (17) loạt các hoạt động đa dạng ấn tượng, trải dài từ các buổi biểu diễn truyền thống, diễu hành đường phố đến các hội thảo tương tác tại các địa điểm biểu tượng.\nĐiểm nhấn chính\nHồ Hoàn Kiếm sẽ biến thành một sân khấu ngoài trời (18) nơi du khách có thể thưởng thức các buổi biểu diễn múa rối nước và hòa nhạc dân gian. Trong khi đó, Văn Miếu sẽ tổ chức các triển lãm thư pháp và các nghi lễ học thuật (19) có nguồn gốc từ những truyền thống cổ xưa. Ban tổ chức đã (20) tập hợp hơn ba mươi chương trình riêng biệt được thiết kế để đắm mình người tham gia vào tấm thảm lịch sử phong phú của Hà Nội.\nLễ hội này là một cơ hội đặc biệt cho cả người dân địa phương và du khách để (21) hòa mình vào nền văn hóa Việt Nam đích thực. Vé vào cửa miễn phí, mặc dù một số hội thảo đặc biệt có thể yêu cầu (22) đăng ký trước.",
+                questions: [
+                    { id: 17, text: "Question 17", options: ["variety", "collection", "magnitude", "selection"], correct: 0, explanation: "Cụm 'a variety of' là phổ biến nhất để chỉ nhiều loại hoạt động khác nhau." },
+                    { id: 18, text: "Question 18", options: ["at which", "in which", "where", "when"], correct: 2, explanation: "Mệnh đề quan hệ bổ nghĩa cho danh từ chỉ nơi chốn 'an open-air stage'. 'Where' là từ quan hệ tự nhiên nhất." },
+                    { id: 19, text: "Question 19", options: ["dating", "originated", "rooted", "stemmed"], correct: 0, explanation: "Cụm cố định để chỉ nguồn gốc lâu đời là 'date back to' (có từ, bắt nguồn từ). Các từ khác phải đi với 'from' hoặc 'in'." },
+                    { id: 20, text: "Question 20", options: ["gathering", "assembled", "brought", "compiled"], correct: 2, explanation: "Cụm động từ 'bring together' có nghĩa là tập hợp, quy tụ lại (các chương trình, ý tưởng)." },
+                    { id: 21, text: "Question 21", options: ["immerse", "immersing", "immersed", "immersion"], correct: 0, explanation: "Sau 'to' cần động từ nguyên thể. Cấu trúc cố định là 'immerse oneself in something' (đắm mình vào cái gì)." },
+                    { id: 22, text: "Question 22", options: ["registry", "registering", "register", "registration"], correct: 3, explanation: "Trước danh từ 'advance' (sớm, trước) cần một danh từ khác để tạo danh từ ghép. 'Advance registration' (đăng ký trước) là cụm cố định." }
+                ]
+            },
+            {
+                title: "Part 5: Reading Comprehension - Job Hugging",
+                instruction: "Read the passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions from 23 to 30.",
+                passage: "Job hugging describes employees clinging to their current roles for security in a cooled labor market. The practice has seen an uptick as “low-hire, low-fire” conditions dull the payoff of moving. If quit rates fall while openings stagnate, people stay put; if opportunities rebound, mobility may resume. Many workers now prioritize predictability over stretch roles, especially when salary bumps for switches are scarce. In this climate, staying can be rational – even if engagement lags – because risk looms larger than potential upside.\n\nMonster’s recent findings sketch the contours: three-quarters intend to remain through 2027, and 48% report staying out of fear or uncertainty. Major reasons include pay (27%) and job security (26%). A majority says the trend intensified this year and will grow in 2026. Older workers are seen as more likely to job hug, and 85% admit they’ve done it at least once. Survey methods were explicit: 1,004 employed U.S. workers were polled on October 9, 2025, and they answered scaled questions on motives and risk.\n\nStasis does not equal idleness. Many employees explore options passively while diversifying income. Some pursue “side stacking” – multiple side hustles – or adjacent gigs to buffer volatility, akin to “polyworking.” For many, security serves as an emotional safety net; loyalty now signals survival rather than gratification. Even high performers behave less like complacent insiders and more like cautious stewards: they will move if – and only if – an offer clears a higher bar for stability, compensation, and trajectory.\n\nFor organizations, a workforce that stays for safety rather than engagement can flatten initiative and innovation. Leaders should avoid managing by fear; in a “jobless growth” moment, fear may retain bodies while eroding morale and future agility. If companies invest in development, clarity, and credible mobility, retention becomes chosen – not coerced. Otherwise, once conditions ease, pent-up departures could surge, revealing that apparent loyalty was merely prolonged risk management.",
+                passageTranslation: "“Ôm việc” (Job hugging) mô tả việc nhân viên bám víu vào vị trí hiện tại của họ để đảm bảo an toàn trong một thị trường lao động đã nguội lạnh. Thực tế này đã gia tăng khi điều kiện “ít tuyển, ít sa thải” làm giảm lợi ích của việc chuyển việc. Nếu tỷ lệ bỏ việc giảm trong khi các vị trí tuyển dụng trì trệ, mọi người sẽ ở yên; nếu cơ hội phục hồi, sự dịch chuyển có thể tiếp tục. Nhiều công nhân hiện nay ưu tiên sự dự đoán được hơn là những vai trò đòi hỏi cao, đặc biệt là khi mức tăng lương cho việc chuyển đổi khan hiếm. Trong bối cảnh này, việc ở lại có thể là hợp lý – ngay cả khi sự gắn kết giảm sút – bởi vì rủi ro hiện ra lớn hơn tiềm năng tăng trưởng.\n\nNhững phát hiện gần đây của Monster phác họa bức tranh: ba phần tư dự định ở lại đến năm 2027, và 48% báo cáo ở lại vì sợ hãi hoặc không chắc chắn. Lý do chính bao gồm lương (27%) và an toàn công việc (26%). Đa số cho rằng xu hướng này đã gia tăng trong năm nay và sẽ phát triển vào năm 2026. Công nhân lớn tuổi được cho là có nhiều khả năng ôm việc hơn, và 85% thừa nhận họ đã làm điều đó ít nhất một lần. Phương pháp khảo sát rõ ràng: 1.004 công nhân Mỹ có việc làm đã được thăm dò vào ngày 9 tháng 10 năm 2025, và họ đã trả lời các câu hỏi theo thang điểm về động cơ và rủi ro.\n\nTrạng thái tĩnh không đồng nghĩa với sự nhàn rỗi. Nhiều nhân viên thụ động khám phá các lựa chọn trong khi đa dạng hóa thu nhập. Một số theo đuổi “xếp chồng công việc phụ” – nhiều công việc làm thêm – hoặc các công việc liên quan để đệm cho sự biến động. Đối với nhiều người, an toàn đóng vai trò như một mạng lưới an toàn cảm xúc; lòng trung thành giờ đây báo hiệu sự sinh tồn hơn là sự thỏa mãn. Ngay cả những người làm việc hiệu suất cao cũng hành xử ít giống những người trong cuộc tự mãn mà giống những người quản lý thận trọng hơn: họ sẽ chuyển việc nếu – và chỉ nếu – một lời đề nghị vượt qua một ngưỡng cao hơn về sự ổn định, đãi ngộ và quỹ đạo phát triển.\n\nĐối với các tổ chức, một lực lượng lao động ở lại vì an toàn thay vì sự gắn kết có thể làm giảm sự chủ động và đổi mới. Các nhà lãnh đạo nên tránh quản lý bằng nỗi sợ hãi; trong thời điểm “tăng trưởng không việc làm”, nỗi sợ có thể giữ chân người lao động nhưng đồng thời xói mòn tinh thần. Nếu các công ty đầu tư vào phát triển, sự rõ ràng và cơ hội thăng tiến đáng tin cậy, việc giữ chân nhân tài sẽ trở thành một lựa chọn – không phải bị ép buộc. Nếu không, một khi điều kiện thuận lợi hơn, làn sóng nghỉ việc bị dồn nén có thể bùng nổ, cho thấy rằng lòng trung thành bề ngoài chỉ đơn thuần là việc quản lý rủi ro kéo dài.",
+                questions: [
+                    { id: 23, text: "Which of the following is NOT mentioned in paragraph 2 as a reason workers stay put?", options: ["job security", "pay and benefits", "fear and economic uncertainty", "a shorter commute"], correct: 3, explanation: "Đoạn 2 liệt kê: 'Major reasons include pay (27%) and job security (26%)' và '48% report staying out of fear or uncertainty'. Không có nhắc đến 'a shorter commute' (quãng đường đi làm ngắn hơn)." },
+                    { id: 24, text: "The word uptick in paragraph 1 can be best replaced by ______?", options: ["increase", "setback", "plateau", "distraction"], correct: 0, explanation: "'Uptick' mang nghĩa là sự gia tăng, đồng nghĩa với 'increase'." },
+                    { id: 25, text: "The word complacent in paragraph 3 is OPPOSITE in meaning to ______.", options: ["indifferent", "vigilant", "contented", "self-satisfied"], correct: 1, explanation: "'Complacent' nghĩa là tự mãn, bằng lòng thụ động. Trái nghĩa của nó là 'vigilant' (cảnh giác, thận trọng)." },
+                    { id: 26, text: "The word they in paragraph 2 refers to ______.", options: ["employers evaluating loyalty", "older workers in management", "the surveyed employees", "job openings nationwide"], correct: 2, explanation: "Câu gốc: '1,004 employed U.S. workers were polled... and they answered...'. 'They' thay thế cho những người lao động được khảo sát (the surveyed employees)." },
+                    {
+                        id: 27, text: "Which of the following best paraphrases the underlined sentence in paragraph 3?\n(For many, security serves as an emotional safety net; loyalty now signals survival rather than gratification.)", options: [
+                            "Many workers prioritize security as psychological insurance, with loyalty now indicating risk mitigation over job satisfaction.",
+                            "People treat stability as emotional protection; loyalty reflects coping with risk, not chasing enjoyment.",
+                            "Stability functions as emotional reassurance, transforming loyalty from an expression of fulfillment into a defensive posture.",
+                            "For many, job security provides emotional comfort, making loyalty a symptom of economic anxiety rather than engagement."
+                        ], correct: 0, explanation: "So sánh 'security' với 'emotional safety net' (mạng lưới an toàn cảm xúc/tâm lý) và 'loyalty' với 'survival rather than gratification' (sự sinh tồn thay vì sự hài lòng/thỏa mãn). Câu A diễn giải chính xác và trang trọng nhất."
+                    },
+                    {
+                        id: 28, text: "Which of the following is TRUE according to paragraph 2?", options: [
+                            "Fewer than one-third expect to stay in their jobs for the next two years.",
+                            "Most respondents were unemployed and speculating about re-entry conditions.",
+                            "The survey lacked a defined date and offered only open-ended narrative responses.",
+                            "A poll on October 9, 2025 surveyed 1,004 employed Americans about retention motives and risk tolerance."
+                        ], correct: 3, explanation: "Khớp hoàn toàn với thông tin trong đoạn 2: '1,004 employed U.S. workers were polled on October 9, 2025... answered scaled questions on motives and risk'."
+                    },
+                    { id: 29, text: "Which paragraph mentions that older workers are more likely to job hug?", options: ["Paragraph 1", "Paragraph 2", "Paragraph 3", "Paragraph 4"], correct: 1, explanation: "Đoạn 2 có câu: 'Older workers are seen as more likely to job hug...'." },
+                    { id: 30, text: "Which paragraph mentions employees layering side hustles or similar strategies to diversify income?", options: ["Paragraph 1", "Paragraph 2", "Paragraph 3", "Paragraph 4"], correct: 2, explanation: "Đoạn 3 có câu: 'Some pursue side stacking – multiple side hustles – or adjacent gigs to buffer volatility...'." }
+                ]
+            },
+            {
+                title: "Part 6: Reading Comprehension - Robot Tax",
+                instruction: "Read the passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions from 31 to 40.",
+                passage: "Once a sci-fi curio, automation now permeates daily life – from driverless vehicles to voice assistants and parcel drones – while public coffers quietly thin out. Robot tax is a policy idea meant to recoup revenue as firms substitute human labour with automated systems. It typically envisions two routes: a per-“robot employee” levy mirroring Income Tax, or a higher Corporation Tax rate on enlarged profits generated by automation. [I] The receipts, its advocates argue, could bankroll reskilling and buffer the social dislocation that abrupt technological shifts often intensify.\n\nSupporters say the measure answers two entwined problems: rising unemployment linked to mechanised efficiency and the erosion of wage-based tax bases that fund social care and education. Bill Gates popularised the notion as a brake to soften automation’s precipitous pace so communities can adapt. He further contends that innovation must not offload costs onto vulnerable groups and that governments should squarely address this issue rather than let markets alone arbitrate the transition. [II] In short, taxation would buy time – and tools – for a fairer adjustment.\n\nTo date, only one country has taken a concrete step. South Korea in 2017 modified its corporate tax rules to dampen incentives for automation rather than impose a per-machine levy. Calls for similar policies arise periodically in Canada, the US, the UK and the EU, yet no jurisdiction has advanced beyond debate, suggesting persistent uncertainty about scope, design, and downstream effects. [III]\n\nProponents tout multiple upsides: clawing back forgone Income Tax, curbing profit-shifting by multinationals, slowing job losses, and even underwriting a modest universal basic income. Detractors reply that the tax may be unnecessary, productivity-sapping, and conceptually fuzzy – what exactly counts as a “robot”? An extortionate levy, they warn, could chill innovation and raise prices. [IV] Alternatives on the table include boosting Corporation Tax, increasing Capital Gains Tax, or applying higher VAT to purchases of automation technology, thereby raising revenue without a bespoke “robot” label.",
+                passageTranslation: "Từng là một món đồ công nghệ viễn tưởng, tự động hóa giờ đã thấm sâu vào đời sống hàng ngày – từ xe không người lái đến trợ lý giọng nói và drone giao hàng – trong khi ngân khố công cộng âm thầm vơi dần. Thuế robot là một ý tưởng chính sách nhằm thu hồi doanh thu khi các công ty thay thế lao động con người bằng hệ thống tự động. Nó thường hình dung hai con đường: một mức thuế trên mỗi “nhân viên robot” tương tự như Thuế Thu nhập, hoặc một mức thuế Công ty cao hơn đánh vào lợi nhuận tăng thêm do tự động hóa tạo ra. [I] Các khoản thu này, những người ủng hộ lập luận, có thể tài trợ cho việc đào tạo lại kỹ năng và đệm cho sự xáo trộn xã hội mà những thay đổi công nghệ đột ngột thường làm trầm trọng thêm.\n\nNhững người ủng hộ cho rằng biện pháp này giải quyết hai vấn đề đan xen: tỷ lệ thất nghiệp gia tăng liên quan đến hiệu quả cơ giới hóa và sự xói mòn cơ sở thuế dựa trên tiền lương vốn tài trợ cho chăm sóc xã hội và giáo dục. Bill Gates đã phổ biến khái niệm này như một chiếc phanh để làm dịu tốc độ chóng mặt của tự động hóa, giúp cộng đồng có thể thích nghi. Ông tiếp tục lập luận rằng đổi mới không được đẩy chi phí lên các nhóm dễ bị tổn thương và các chính phủ nên giải quyết thẳng thắn vấn đề này thay vì để thị trường một mình phân xử sự chuyển đổi. [II] Nói ngắn gọn, việc đánh thuế sẽ mua thời gian – và công cụ – cho một sự điều chỉnh công bằng hơn.\n\nCho đến nay, chỉ có một quốc gia đã thực hiện một bước cụ thể. Hàn Quốc vào năm 2017 đã sửa đổi quy tắc thuế công ty của mình để làm giảm động lực cho tự động hóa thay vì áp đặt một mức thuế trên mỗi máy. Các lời kêu gọi chính sách tương tự nảy sinh định kỳ ở Canada, Mỹ, Anh và EU, nhưng chưa có khu vực pháp lý nào tiến xa hơn tranh luận, cho thấy sự không chắc chắn dai dẳng về phạm vi, thiết kế và tác động hạ nguồn. [III]\n\nNhững người ủng hộ ca ngợi nhiều mặt tích cực: thu hồi lại Thuế Thu nhập đã bị mất, kiềm chế việc chuyển lợi nhuận của các công ty đa quốc gia, làm chậm mất việc làm, và thậm chí bảo lãnh cho một khoản thu nhập cơ bản phổ thông khiêm tốn. Những người chỉ trích đáp lại rằng loại thuế này có thể không cần thiết, làm giảm năng suất, và mơ hồ về mặt khái niệm – chính xác cái gì được tính là một “robot”? Một mức thuế cắt cổ, họ cảnh báo, có thể làm nguội lạnh đổi mới và đẩy giá lên. [IV] Các lựa chọn thay thế đang được cân nhắc bao gồm tăng Thuế Công ty, tăng Thuế Thu nhập Vốn, hoặc áp dụng VAT cao hơn cho việc mua công nghệ tự động hóa, nhờ đó tăng doanh thu mà không cần dán nhãn “robot” đặc biệt.",
+                questions: [
+                    {
+                        id: 31, text: "According to paragraph 1, robot tax proposes either ______?", options: [
+                            "tax each robot like income, or increase corporation tax on profits.",
+                            "tax workers directly, or reduce tariffs on imported industrial machinery.",
+                            "apply payroll levies to managers, or subsidise robotic capital purchases.",
+                            "impose VAT on wages, or abolish corporate income taxation entirely."
+                        ], correct: 0, explanation: "Đoạn 1 nêu rõ: 'It typically envisions two routes: a per-robot employee levy mirroring Income Tax, or a higher Corporation Tax rate on enlarged profits generated by automation.'"
+                    },
+                    { id: 32, text: "The word extortionate in paragraph 4 mostly means ______.", options: ["excessively expensive", "marginally fair", "moderately cheap", "slightly negotiable"], correct: 0, explanation: "'Extortionate' có nghĩa là quá đắt, cắt cổ (về giá cả, thuế…). Đồng nghĩa với 'excessively expensive'." },
+                    {
+                        id: 33, text: "Which of the following best summarises paragraph 2?", options: [
+                            "It claims automation will soon eliminate all jobs and public services entirely.",
+                            "It argues governments should slow automation’s pace and fund humane adjustment.",
+                            "It predicts charities, not states, must manage technological dislocation and retraining.",
+                            "It explains why consumers, through higher prices, will finance all transition costs."
+                        ], correct: 1, explanation: "Đoạn 2 nói về lý do ủng hộ thuế robot: làm chậm lại (slow the pace) và tài trợ cho việc điều chỉnh (fund humane adjustment)."
+                    },
+                    {
+                        id: 34, text: "What is the intended use of revenue raised by a robot tax?", options: [
+                            "Retraining programmes and employment support for workers displaced by automation nationwide, and reskilling grants",
+                            "Marketing budgets to promote consumer adoption of new robotic household assistants exclusively",
+                            "Shareholder dividends to offset dilution from capital-intensive automation investments only",
+                            "General defence spending increases, regardless of automation’s labour-market disruptions"
+                        ], correct: 0, explanation: "Đoạn 1 nêu: 'The receipts... could bankroll reskilling and buffer the social dislocation'. Tức là hỗ trợ đào tạo lại và việc làm cho lao động."
+                    },
+                    {
+                        id: 35, text: "What key difficulty hampers policy design for a robot tax?", options: [
+                            "Defining what counts as a robot",
+                            "Tracking every hourly wage payment",
+                            "Determining global oil price trends",
+                            "Forecasting quarterly retail demand"
+                        ], correct: 0, explanation: "Đoạn 4 nêu khó khăn: '...conceptually fuzzy – what exactly counts as a robot?' (mơ hồ về khái niệm - cái gì chính xác được tính là robot)."
+                    },
+                    { id: 36, text: "The phrase this issue in paragraph 2 refers to ______.", options: ["job displacement", "tax havens", "UBI", "drones"], correct: 0, explanation: "'This issue' chỉ vấn đề được nói đến ngay trước đó: 'innovation must not offload costs onto vulnerable groups'. Chi phí chính ở đây là việc mất việc làm do tự động hóa (job displacement)." },
+                    {
+                        id: 37, text: "Which of the following best paraphrases the underlined sentence in paragraph 3?\n(South Korea in 2017 modified its corporate tax rules to dampen incentives for automation rather than impose a per-machine levy.)", options: [
+                            "Lawmakers introduced payroll surcharges on robotic deployment, calculating obligations proportional to machine-hours, subsequently offering rebates if displaced workers secured equivalent employment.",
+                            "Korea prohibited factory automation technologies, compelling manufacturers to dismantle automated lines and immediately reconstitute human labor forces to reclaim tax deductions.",
+                            "Rather than establishing unit-level fiscal assessments, Korean policymakers diminished preferential deductions subsidizing mechanization, attenuating substitution incentives without machine-specific enumeration systems.",
+                            "Regulatory authorities established import quotas on industrial robots, collecting per-unit customs duties, with revenues earmarked for regional manufacturing subsidies and incentives."
+                        ], correct: 2, explanation: "Hàn Quốc sửa đổi luật thuế để làm giảm ưu đãi cho cơ giới hóa thay vì đánh thuế trực tiếp lên từng máy. Phương án C diễn giải chính xác và trang trọng ý này."
+                    },
+                    {
+                        id: 38, text: "Which of the following can be inferred from the passage?", options: [
+                            "If widely adopted, a robot tax could partly offset fiscal losses while policymakers phase in retraining, though precise definitions and design remain politically contested.",
+                            "Because South Korea taxed each robot directly, other countries will copy its levy, proving that machine-level charges are the simplest path to implementation.",
+                            "Universal basic income is already funded by robot taxes in multiple jurisdictions, demonstrating immediate consensus about the policy’s fairness and macroeconomic efficiency.",
+                            "Firms are legally obliged to replace all human workers with robots once profits surpass a threshold, making revenue replacement the sole objective of modern taxation."
+                        ], correct: 0, explanation: "Suy luận hợp lý: thuế robot có thể bù đắp tổn thất tài chính và hỗ trợ đào tạo lại, nhưng vẫn còn nhiều tranh cãi về định nghĩa và cách triển khai."
+                    },
+                    { id: 39, text: "Where in the passage does the following sentence best fit?\n(Critics warn that any levy could blur boundaries between ordinary software and autonomous systems, creating compliance confusion for both taxpayers and administrators.)", options: ["[I]", "[II]", "[III]", "[IV]"], correct: 3, explanation: "Vị trí [IV] trong đoạn 4, nơi tập trung bàn về những mặt hạn chế và chỉ trích, đặc biệt là ngay sau ý nói về việc 'định nghĩa robot còn mơ hồ'." },
+                    {
+                        id: 40, text: "Which of the following best summarises the passage?", options: [
+                            "The text defines robot tax, surveys its rationale and one real-world variant, weighs pros and cons, and sketches standard fiscal alternatives to a bespoke levy.",
+                            "The text offers technical formulas for calculating robot taxes, with detailed schedules for every sector and penalties for firms delaying compliance with automation audits.",
+                            "The text chronicles the complete failure of automation, concluding that innovation generally reduces profits and permanently suppresses living standards across industrial economies.",
+                            "The text argues that only universal basic income can solve automation, dismissing taxation as ineffective and politically impossible in all contemporary democracies."
+                        ], correct: 0, explanation: "Tóm tắt đầy đủ cấu trúc: Định nghĩa thuế robot, nêu lý do ủng hộ, ví dụ ở Hàn Quốc, phân tích ưu nhược điểm, và đưa ra các lựa chọn thay thế."
+                    }
+                ]
+            }
+        ];
+
+        // State quản lý
+        const state = {
+            answers: {},
+            isSubmitted: false,
+            score: 0,
+            currentPartIndex: 0,
+            showPassageTranslation: false,
+            expandedExplanations: {}
+        };
+
+        const totalQuestions = quizData.reduce((acc, curr) => acc + curr.questions.length, 0);
+        const allQuestions = quizData.flatMap(s => s.questions);
+
+        // Hàm render giao diện chính
+        function renderApp() {
+            const app = document.getElementById('app');
+            const answeredCount = Object.keys(state.answers).length;
+            const currentSection = quizData[state.currentPartIndex];
+
+            // Lưu vị trí cuộn
+            const qContainer = document.getElementById('questions-container');
+            const scrollPos = qContainer ? qContainer.scrollTop : 0;
+
+            let html = `
+                <!-- Header -->
+                <div id="main-header" class="flex-none bg-white border-b border-slate-200 shadow-sm px-4 py-3 flex justify-between items-center z-30">
+                    <div>
+                        <h1 class="text-xl font-bold text-blue-700 flex items-center gap-2">
+                            <i class="fa-regular fa-file-lines text-blue-600"></i>
+                            Đề Thi Thử Số 06 - Tiếng Anh
+                        </h1>
+                        <p class="text-sm text-slate-500">Mã đề: 1126 | Thời gian làm bài: 50 phút</p>
+                    </div>
+                    ${!state.isSubmitted ? `
+                    <div class="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full border border-blue-200 hidden md:block">
+                        Đã làm: ${answeredCount} / ${totalQuestions}
+                    </div>
+                    ` : `
+                    <div class="text-sm font-bold bg-green-100 text-green-800 px-4 py-2 rounded-full border border-green-300 flex items-center gap-2">
+                        <i class="fa-solid fa-award"></i> Điểm: ${state.score} / ${totalQuestions}
+                    </div>
+                    `}
+                </div>
+
+                <!-- Main Body -->
+                <div class="flex-1 flex flex-col min-h-0 w-full max-w-[1600px] mx-auto px-2 md:px-6 py-1.5 md:py-2 gap-2">
+                    
+                    ${state.isSubmitted ? `
+                    <div class="flex-none bg-white p-4 rounded-xl border border-green-200 shadow-sm flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-4 animate-in fade-in duration-500">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-circle-check text-green-500 text-4xl"></i>
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-800">Hoàn thành bài thi!</h2>
+                                <p class="text-slate-600 text-sm">
+                                    Số câu đúng: <strong class="text-green-600 text-lg">${state.score}</strong> / ${totalQuestions} &nbsp;—&nbsp; 
+                                    <span class="italic hidden md:inline">Nhấn "Xem giải thích chi tiết" ở mỗi câu để tự học nhé.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="resetQuiz()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow font-medium">
+                            Làm lại bài thi
+                        </button>
+                    </div>
+                    ` : ''}
+
+                    <div class="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden min-h-0 relative">
+                        <div class="flex-none bg-slate-50 px-3 py-1.5 md:px-4 md:py-2 border-b border-slate-200 flex justify-between items-center">
+                            <div>
+                                <h2 class="text-sm md:text-base font-bold text-blue-900">${currentSection.title}</h2>
+                                ${currentSection.instruction ? `<p class="text-[11px] md:text-xs text-slate-600 mt-0.5 italic line-clamp-1">${currentSection.instruction}</p>` : ''}
+                            </div>
+                            <span class="flex-none text-[11px] md:text-xs font-bold text-slate-700 bg-white border border-slate-300 px-2 py-1 rounded shadow-sm whitespace-nowrap ml-2">
+                                Phần ${state.currentPartIndex + 1}/${quizData.length}
+                            </span>
+                        </div>
+                        
+                        <!-- CHIA CỘT DỌC TẠI ĐÂY -->
+                        <div class="flex-1 flex flex-col md:flex-row min-h-0">
+                            ${currentSection.passage ? `
+                            <div id="passage-container" class="flex-none w-full h-[40%] md:h-full md:w-[55%] lg:w-[60%] overflow-y-auto bg-slate-50/80 border-b-[3px] md:border-b-0 md:border-r-[3px] border-blue-200 p-4 md:p-6 lg:p-8 shadow-inner">
+                                <div class="text-slate-800 leading-relaxed whitespace-pre-wrap text-[15px] md:text-base font-medium text-justify ${state.showPassageTranslation ? 'italic' : ''}">
+                                    ${state.showPassageTranslation ? currentSection.passageTranslation : currentSection.passage}
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            <div id="questions-container" class="flex-1 w-full ${currentSection.passage ? 'md:w-[45%] lg:w-[40%]' : 'w-full'} overflow-y-auto p-4 md:p-6 lg:p-8 bg-white">
+                                <div class="max-w-5xl mx-auto space-y-5">
+                                    ${currentSection.questions.map(q => renderQuestion(q)).join('')}
+
+                                    ${!state.isSubmitted && state.currentPartIndex === quizData.length - 1 ? `
+                                    <div class="flex justify-center pt-8 pb-8">
+                                        <button onclick="calculateScore()" ${answeredCount === 0 ? 'disabled class="opacity-50 px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl shadow-lg flex items-center gap-2 text-lg cursor-not-allowed"' : 'class="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 text-lg"'} >
+                                            <i class="fa-solid fa-circle-check"></i> Nộp Bài Ngay
+                                        </button>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-none flex justify-between items-center bg-slate-50 px-3 py-1.5 md:px-4 md:py-2 border-t border-slate-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                            <button onclick="changePart(${Math.max(0, state.currentPartIndex - 1)})" ${state.currentPartIndex === 0 ? 'disabled' : ''} class="px-3 py-1 md:px-4 md:py-1.5 bg-white text-slate-700 border border-slate-300 rounded hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-xs md:text-sm flex items-center gap-1.5 shadow-sm">
+                                &larr; Quay lại
+                            </button>
+                            <button onclick="changePart(${Math.min(quizData.length - 1, state.currentPartIndex + 1)})" ${state.currentPartIndex === quizData.length - 1 ? 'disabled' : ''} class="px-3 py-1 md:px-4 md:py-1.5 bg-blue-600 text-white border border-blue-600 rounded hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition font-bold text-xs md:text-sm flex items-center gap-1.5 shadow-sm">
+                                Tiếp theo &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Navigation -->
+                <div class="flex-none bg-white border-t border-slate-200 shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.1)] z-50 px-2 py-1.5 md:px-4 md:py-2 relative">
+                    <div class="max-w-[1600px] mx-auto">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs md:text-sm font-bold text-slate-700 uppercase tracking-wide">Tiến độ (${answeredCount}/${totalQuestions})</span>
+                            ${!state.isSubmitted ? `
+                            <button onclick="calculateScore()" ${answeredCount === 0 ? 'disabled class="opacity-50 px-4 py-1 bg-blue-600 text-white text-xs md:text-sm font-bold rounded shadow cursor-not-allowed"' : 'class="px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-bold rounded shadow transition-colors"'} >
+                                Nộp Bài
+                            </button>
+                            ` : ''}
+                        </div>
+                        <div class="flex gap-1.5 overflow-x-auto pb-1 custom-scrollbar items-center">
+                            ${allQuestions.map(q => {
+                const isAnswered = state.answers[q.id] !== undefined;
+                let btnClass = "shrink-0 w-7 h-7 md:w-8 md:h-8 rounded text-xs md:text-sm font-bold flex items-center justify-center transition-all border cursor-pointer ";
+
+                if (!state.isSubmitted) {
+                    btnClass += isAnswered
+                        ? "bg-blue-600 text-white border-blue-600 shadow-sm"
+                        : "bg-slate-50 text-slate-600 border-slate-300 hover:bg-slate-200";
+                } else {
+                    const isCorrect = state.answers[q.id] === q.correct;
+                    btnClass += isCorrect
+                        ? "bg-green-500 text-white border-green-500 shadow-sm"
+                        : "bg-red-500 text-white border-red-500 shadow-sm";
+                }
+
+                return `<button onclick="scrollToQuestion(${q.id})" class="${btnClass}" title="Đi tới câu ${q.id}">${q.id}</button>`;
+            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            app.innerHTML = html;
+
+            // Phục hồi scroll
+            const newQContainer = document.getElementById('questions-container');
+            if (newQContainer) newQContainer.scrollTop = scrollPos;
+        }
+
+        // Render từng câu hỏi
+        function renderQuestion(q) {
+            const isAnswered = state.answers[q.id] !== undefined;
+            const isCorrect = state.answers[q.id] === q.correct;
+            const showExp = state.expandedExplanations[q.id];
+
+            let containerClass = `p-4 md:p-5 rounded-xl border transition-all `;
+            if (state.isSubmitted) {
+                containerClass += isCorrect ? 'bg-green-50/50 border-green-200' : 'bg-red-50/50 border-red-200';
+            } else {
+                containerClass += isAnswered ? 'bg-slate-50 border-blue-200' : 'bg-white border-slate-200 hover:border-slate-300';
+            }
+
+            let optionsHtml = q.options.map((option, optIdx) => {
+                const isSelected = state.answers[q.id] === optIdx;
+                const isOptionCorrect = optIdx === q.correct;
+
+                let optionClass = "flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer ";
+                let iconHtml = '';
+
+                if (!state.isSubmitted) {
+                    optionClass += isSelected
+                        ? "bg-blue-50 border-blue-400 shadow-sm"
+                        : "bg-white border-slate-200 hover:bg-slate-50";
+                } else {
+                    optionClass += "cursor-default ";
+                    if (isOptionCorrect) {
+                        optionClass += "bg-green-100 border-green-500 font-medium ";
+                        iconHtml = `<i class="fa-solid fa-check text-green-600 mt-1"></i>`;
+                    } else if (isSelected && !isOptionCorrect) {
+                        optionClass += "bg-red-100 border-red-400 ";
+                        iconHtml = `<i class="fa-solid fa-xmark text-red-500 mt-1"></i>`;
+                    } else {
+                        optionClass += "bg-white/50 border-slate-200 opacity-60 ";
+                    }
+                }
+
+                let circleClass = `w-6 h-6 shrink-0 rounded-full border-2 flex items-center justify-center text-xs font-bold mt-0.5 transition-colors bg-white `;
+                if (isSelected) {
+                    circleClass += (state.isSubmitted && !isOptionCorrect) ? 'border-red-500 text-red-500' : 'border-blue-500 text-blue-500';
+                } else {
+                    circleClass += 'border-slate-300 text-slate-400';
+                }
+                if (state.isSubmitted && isOptionCorrect) circleClass += ' border-green-600 text-green-600';
+
+                return `
+                    <label class="${optionClass}">
+                        <input type="radio" name="question-${q.id}" class="hidden" ${isSelected ? 'checked' : ''} ${state.isSubmitted ? 'disabled' : ''} onchange="handleOptionChange(${q.id}, ${optIdx})">
+                        <div class="${circleClass}">${String.fromCharCode(65 + optIdx)}</div>
+                        <span class="flex-1 text-slate-700 leading-relaxed pt-[2px] text-sm md:text-base text-justify">${option}</span>
+                        ${iconHtml}
+                    </label>
+                `;
+            }).join('');
+
+            let errorHtml = (state.isSubmitted && !isCorrect) ? `
+                <div class="mt-4 flex items-start gap-2 text-sm text-red-700 bg-red-100/50 p-3 rounded-lg border border-red-200">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5 text-lg"></i>
+                    <p>Bạn đã chọn sai. Đáp án đúng là <strong>${String.fromCharCode(65 + q.correct)}</strong>.</p>
+                </div>
+            ` : '';
+
+            let explanationHtml = '';
+            if (state.isSubmitted && q.explanation) {
+                explanationHtml = `
+                    <div class="mt-5 border-t border-slate-200/60 pt-4">
+                        <button onclick="toggleExplanation(${q.id})" class="flex items-center gap-2 text-sm font-bold transition-colors ${showExp ? 'text-indigo-700' : 'text-blue-600 hover:text-blue-800'}">
+                            <i class="fa-solid fa-book-open"></i>
+                            ${showExp ? 'Ẩn giải thích' : 'Xem giải thích chi tiết'}
+                            <i class="fa-solid ${showExp ? 'fa-chevron-up' : 'fa-chevron-down'} ml-1"></i>
+                        </button>
+                        
+                        ${showExp ? `
+                        <div class="mt-4 bg-indigo-50/70 p-4 md:p-5 rounded-xl border border-indigo-100 text-sm text-slate-800 shadow-inner">
+                            <div class="whitespace-pre-wrap leading-relaxed text-justify">${q.explanation}</div>
+                            ${q.translation ? `
+                            <div class="mt-4 pt-4 border-t border-indigo-200/60">
+                                <div class="flex items-center gap-1.5 font-bold text-indigo-900 mb-2">
+                                    <i class="fa-solid fa-language"></i> Bản dịch:
+                                </div>
+                                <div class="whitespace-pre-wrap leading-relaxed italic text-slate-700 text-justify">${q.translation}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            // Tiền xử lý chữ Question X để tránh lặp từ
+            let rawText = q.text || '';
+            let prefix = 'Question ' + q.id;
+            if (rawText.startsWith(prefix)) {
+                rawText = rawText.substring(prefix.length).replace(/^[\\.\\:\\-\\s]+/, '').trim();
+            }
+            let questionTextHtml = `<p class="text-slate-800 whitespace-pre-wrap mb-4 text-sm md:text-base leading-relaxed text-justify"><strong>Question ${q.id}.</strong> ${rawText}</p>`;
+
+            return `
+                <div id="question-${q.id}" class="${containerClass}">
+                    <div class="w-full">
+                        ${questionTextHtml}
+                        <div class="space-y-2.5">
+                            ${optionsHtml}
+                        </div>
+                        ${errorHtml}
+                        ${explanationHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Event Handlers
+        window.handleOptionChange = (qId, optIdx) => {
+            if (state.isSubmitted) return;
+            state.answers[qId] = optIdx;
+            renderApp();
+        };
+
+        window.calculateScore = () => {
+            let currentScore = 0;
+            quizData.forEach(section => {
+                section.questions.forEach(q => {
+                    if (state.answers[q.id] === q.correct) {
+                        currentScore += 1;
+                    }
+                });
+            });
+            state.score = currentScore;
+            state.isSubmitted = true;
+            renderApp();
+        };
+
+        window.changePart = (newIndex) => {
+            state.currentPartIndex = newIndex;
+            state.showPassageTranslation = false; // Reset dịch khi đổi bài
+            renderApp();
+            setTimeout(() => {
+                const qContainer = document.getElementById('questions-container');
+                if (qContainer) qContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                const pContainer = document.getElementById('passage-container');
+                if (pContainer) pContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 50);
+        };
+
+        window.resetQuiz = () => {
+            if (confirm('Bạn có chắc chắn muốn làm lại từ đầu? Mọi đáp án hiện tại sẽ bị xóa.')) {
+                state.answers = {};
+                state.isSubmitted = false;
+                state.score = 0;
+                state.expandedExplanations = {};
+                changePart(0);
+            }
+        };
+
+        window.togglePassageTranslation = () => {
+            state.showPassageTranslation = !state.showPassageTranslation;
+            renderApp();
+        };
+
+        window.toggleExplanation = (qId) => {
+            state.expandedExplanations[qId] = !state.expandedExplanations[qId];
+            renderApp();
+        };
+
+        window.performScroll = (id) => {
+            const container = document.getElementById('questions-container');
+            const el = document.getElementById(`question-${id}`);
+
+            if (container && el) {
+                const containerTop = container.getBoundingClientRect().top;
+                const elTop = el.getBoundingClientRect().top;
+                const currentScroll = container.scrollTop;
+                const targetScroll = currentScroll + (elTop - containerTop) - 16;
+
+                container.scrollTo({
+                    top: targetScroll,
+                    behavior: "smooth"
+                });
+            }
+        };
+
+        window.scrollToQuestion = (id) => {
+            const targetPartIndex = quizData.findIndex(section =>
+                section.questions.some(q => q.id === id)
+            );
+
+            if (targetPartIndex !== -1 && targetPartIndex !== state.currentPartIndex) {
+                state.currentPartIndex = targetPartIndex;
+                state.showPassageTranslation = false;
+                renderApp();
+                setTimeout(() => performScroll(id), 100);
+            } else {
+                performScroll(id);
+            }
+        };
+
+        // Khởi chạy lần đầu
+        renderApp();
+
+        // ==========================================
+        // TÍNH NĂNG QUÉT KHỐI - TỰ ĐỘNG DỊCH VÀ ĐỌC TO (GIỌNG NỮ MIỀN NAM)
+        // ==========================================
+
+        // Nạp danh sách các giọng nói có sẵn trên hệ thống
+        let availableVoices = [];
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                availableVoices = window.speechSynthesis.getVoices();
+            }
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+            loadVoices();
+        }
+
+        document.addEventListener('mouseup', handleSelection);
+        document.addEventListener('touchend', (e) => {
+            setTimeout(() => handleSelection(e), 150);
+        });
+
+        async function handleSelection() {
+            const selection = window.getSelection();
+            const text = selection.toString().trim();
+
+            if (text.length > 0 && text.length < 1500) {
+                try {
+                    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(text)}`);
+                    const data = await res.json();
+                    const currentViText = data[0].map(item => item[0]).join('');
+                    speakText(currentViText);
+                } catch (err) {
+                    console.error("Lỗi dịch thuật:", err);
+                }
+            } else if (text.length === 0) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+            }
+        }
+
+        // Hàm sử dụng Web Speech API để tìm và đọc giọng miền Nam
+        function speakText(text) {
+            if (!text || !('speechSynthesis' in window)) return;
+
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+
+            if (availableVoices.length === 0) loadVoices();
+
+            const viVoices = availableVoices.filter(v => v.lang.includes('vi'));
+            let selectedVoice = null;
+
+            if (viVoices.length > 0) {
+                selectedVoice = viVoices.find(v =>
+                    v.name.includes('HoaiMy') ||
+                    v.name.includes('Linh') ||
+                    v.name.toLowerCase().includes('southern') ||
+                    v.name.toLowerCase().includes('nam')
+                );
+
+                if (!selectedVoice) {
+                    selectedVoice = viVoices[0];
+                }
+                utterance.voice = selectedVoice;
+            } else {
+                utterance.lang = 'vi-VN';
+            }
+
+            utterance.rate = 1.5; // Tốc độ đọc nhanh hơn (1.5x)
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+
+</html>
