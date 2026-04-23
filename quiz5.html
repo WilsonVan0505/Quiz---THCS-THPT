@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Từ Vựng Vũ Trụ - Đề 05</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animations */
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+                box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .animate-twinkle {
+            animation: twinkle ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .animate-float-fast {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-float-slow {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .animate-float-slower {
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes shootingStar {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 1;
+                width: 0;
+            }
+
+            30% {
+                width: 100px;
+            }
+
+            100% {
+                transform: translateX(-1000px) translateY(1000px) rotate(-45deg);
+                opacity: 0;
+                width: 0;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 1));
+            animation: shootingStar 6s linear infinite;
+        }
+
+        /* UI Styles */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Markdown Bold Styling */
+        .question-text strong {
+            color: #a78bfa;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        /* Prevent scrolling on body when not needed */
+        body {
+            overflow-x: hidden;
+            background-color: black;
+        }
+
+        /* Đảm bảo class hidden luôn hoạt động kể cả khi Tailwind load chậm */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="text-white font-sans min-h-screen relative flex items-center justify-center p-4">
+
+    <!-- Vũ trụ Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-950 to-black"></div>
+
+        <!-- Stars Container -->
+        <div id="stars-container"></div>
+
+        <!-- Hành tinh -->
+        <div class="absolute top-[10%] left-[5%] text-6xl opacity-80 animate-float-slow">🌎</div>
+        <div class="absolute top-[60%] right-[10%] text-7xl opacity-60 animate-float-slower">🪐</div>
+        <div class="absolute top-[20%] right-[20%] text-4xl opacity-90 animate-float-fast">🌕</div>
+        <div class="absolute bottom-[10%] left-[15%] text-5xl opacity-70 animate-float-slow"
+            style="animation-delay: 2s;">☄️</div>
+
+        <!-- Sao băng -->
+        <div class="absolute top-0 right-0 w-full h-full">
+            <div class="shooting-star top-[20%] left-[80%]" style="animation-delay: 1s;"></div>
+            <div class="shooting-star top-[40%] left-[60%]" style="animation-delay: 5s;"></div>
+            <div class="shooting-star top-[10%] left-[30%]" style="animation-delay: 9s;"></div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="relative z-10 w-full max-w-3xl transition-all duration-500">
+
+        <!-- START SCREEN -->
+        <div id="screen-start"
+            class="glass-panel rounded-3xl p-10 text-center transform hover:scale-105 transition-transform duration-300">
+            <h1
+                class="text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
+                Chuyến Du Hành Từ Vựng
+            </h1>
+            <p class="text-xl text-gray-300 mb-8">
+                Chinh phục 77 từ vựng và cấu trúc quan trọng trong Đề 05. Sẵn sàng bay vào không gian chưa? 🚀
+            </p>
+            <button onclick="startGame()"
+                class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-full text-xl shadow-[0_0_20px_rgba(139,92,246,0.5)] hover:shadow-[0_0_30px_rgba(139,92,246,0.8)] transition-all cursor-pointer">
+                Bắt Đầu Khám Phá
+            </button>
+        </div>
+
+        <!-- PLAYING SCREEN -->
+        <div id="screen-playing" class="glass-panel rounded-3xl p-6 md:p-10 hidden">
+            <!-- Header: Progress & Score -->
+            <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
+                <span id="progress-text" class="text-cyan-300 font-semibold tracking-wider">
+                    CÂU HỎI 1 / 77
+                </span>
+                <span id="score-text"
+                    class="bg-purple-900/50 border border-purple-500/50 px-4 py-1 rounded-full text-purple-200 font-bold">
+                    Điểm: 0
+                </span>
+            </div>
+
+            <!-- Question -->
+            <div class="mb-8">
+                <h2 id="question-text"
+                    class="text-2xl md:text-3xl font-medium leading-relaxed question-text text-white"></h2>
+            </div>
+
+            <!-- Options Container -->
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <!-- Buttons will be injected here by JS -->
+            </div>
+
+            <!-- Explanation & Next Button -->
+            <div id="explanation-container" class="transition-all duration-500 overflow-hidden max-h-0 opacity-0">
+                <div class="bg-indigo-950/60 border border-indigo-500/30 rounded-2xl p-5 mb-6">
+                    <p class="text-indigo-200 mb-2">
+                        <span class="font-bold text-white">Gợi ý/Giải thích:</span> <span id="hint-text"></span>
+                    </p>
+                    <p id="rationale-text" class="hidden">
+                        <span class="font-bold text-white">Chi tiết:</span> <span id="rationale-content"></span>
+                    </p>
+                </div>
+
+                <button id="btn-next" onclick="nextQuestion()"
+                    class="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-2xl text-xl shadow-lg transition-all flex justify-center items-center gap-2 cursor-pointer">
+                    Tiếp Tục Chuyến Bay 🛸
+                </button>
+            </div>
+        </div>
+
+        <!-- END SCREEN -->
+        <div id="screen-end"
+            class="glass-panel rounded-3xl p-10 text-center transform hover:scale-105 transition-transform duration-300 hidden">
+            <div class="text-7xl mb-6">🏆</div>
+            <h1
+                class="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">
+                Nhiệm Vụ Hoàn Thành!
+            </h1>
+            <p class="text-2xl text-white mb-2">
+                Điểm số của bạn: <span id="final-score" class="font-bold text-cyan-400">0 / 77</span>
+            </p>
+            <p id="final-message" class="text-lg text-gray-400 mb-8"></p>
+
+            <button onclick="startGame()"
+                class="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-full text-xl transition-all flex items-center justify-center gap-2 mx-auto cursor-pointer">
+                🔄 Chơi lại từ đầu
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Logic JavaScript -->
+    <script>
+        // Data 77 câu hỏi
+        const quizData = [
+            { questionNumber: 1, question: "Nghĩa của từ **implementation** là gì?", answerOptions: [{ text: "hiệu quả, năng suất", rationale: "Nghĩa của 'efficiency'.", isCorrect: false }, { text: "sự triển khai, thực hiện", rationale: "Chính xác!", isCorrect: true }, { text: "nâng cao, cải thiện", rationale: "Nghĩa của 'enhance'.", isCorrect: false }, { text: "toàn thể công dân", rationale: "Nghĩa của 'citizenry'.", isCorrect: false }], hint: "Hành động đưa một kế hoạch vào thực tế." },
+            { questionNumber: 2, question: "Từ **state-of-the-art** mang ý nghĩa nào?", answerOptions: [{ text: "hiện đại nhất, tiên tiến nhất", rationale: "Chính xác!", isCorrect: true }, { text: "đột phá, tiên phong", rationale: "Nghĩa của 'groundbreaking'.", isCorrect: false }, { text: "then chốt, mấu chốt", rationale: "Nghĩa của 'pivotal'.", isCorrect: false }, { text: "độc quyền, thuộc sở hữu riêng", rationale: "Nghĩa của 'proprietary'.", isCorrect: false }], hint: "Thường dùng để chỉ công nghệ tối tân." },
+            { questionNumber: 3, question: "Nghĩa của động từ **enhance** là:", answerOptions: [{ text: "xuất hiện, nổi lên", rationale: "Nghĩa của 'emerge'.", isCorrect: false }, { text: "làm quen với", rationale: "Nghĩa của 'familiarize'.", isCorrect: false }, { text: "khuếch đại, tăng cường", rationale: "Nghĩa của 'amplify'.", isCorrect: false }, { text: "nâng cao, cải thiện", rationale: "Chính xác!", isCorrect: true }], hint: "Làm cho một thứ gì đó trở nên tốt hơn hoặc giá trị hơn." },
+            { questionNumber: 4, question: "Từ **efficiency** có nghĩa là gì?", answerOptions: [{ text: "pháp luật, luật lệ", rationale: "Nghĩa của 'legislation'.", isCorrect: false }, { text: "hiệu quả, năng suất", rationale: "Chính xác!", isCorrect: true }, { text: "sự kháng cự, chống đối", rationale: "Nghĩa của 'resistance'.", isCorrect: false }, { text: "khả năng đọc viết", rationale: "Nghĩa của 'literacy'.", isCorrect: false }], hint: "Khả năng làm việc nhanh chóng và đạt kết quả tốt." },
+            { questionNumber: 5, question: "Tính từ **dedicated** mang nghĩa là:", answerOptions: [{ text: "tận tâm, chuyên dụng", rationale: "Chính xác!", isCorrect: true }, { text: "bắt buộc", rationale: "Nghĩa của 'compulsory'.", isCorrect: false }, { text: "tuân thủ", rationale: "Nghĩa của 'compliant'.", isCorrect: false }, { text: "thận trọng, khôn ngoan", rationale: "Nghĩa của 'prudent'.", isCorrect: false }], hint: "Dành toàn bộ thời gian, công sức cho một việc gì đó." },
+            { questionNumber: 6, question: "Nghĩa của từ **familiarize** là gì?", answerOptions: [{ text: "tiêu chuẩn hóa", rationale: "Nghĩa của 'standardize'.", isCorrect: false }, { text: "hệ thống hóa", rationale: "Nghĩa của 'codify'.", isCorrect: false }, { text: "làm quen với", rationale: "Chính xác!", isCorrect: true }, { text: "khẳng định", rationale: "Nghĩa của 'affirm'.", isCorrect: false }], hint: "Hành động giúp ai đó hoặc bản thân biết rõ về một thứ mới." },
+            { questionNumber: 7, question: "Động từ **emerge** có nghĩa là:", answerOptions: [{ text: "quy cho, gán cho", rationale: "Nghĩa của 'attribute'.", isCorrect: false }, { text: "xuất hiện, nổi lên", rationale: "Chính xác!", isCorrect: true }, { text: "xói mòn, làm suy yếu", rationale: "Nghĩa của 'erode'.", isCorrect: false }, { text: "tận dụng, khai thác", rationale: "Nghĩa của 'leverage'.", isCorrect: false }], hint: "Từ chỗ bị che khuất hiện ra cho mọi người thấy." },
+            { questionNumber: 8, question: "Nghĩa của từ **citizenry** là gì?", answerOptions: [{ text: "liên minh", rationale: "Nghĩa của 'coalition'.", isCorrect: false }, { text: "quyền tự chủ", rationale: "Nghĩa của 'autonomy'.", isCorrect: false }, { text: "sự đáng tin cậy", rationale: "Nghĩa của 'credibility'.", isCorrect: false }, { text: "toàn thể công dân", rationale: "Chính xác!", isCorrect: true }], hint: "Danh từ tập hợp chỉ tất cả những người dân của một quốc gia." },
+            { questionNumber: 9, question: "Từ **literacy** có nghĩa là:", answerOptions: [{ text: "khả năng đọc viết, sự hiểu biết", rationale: "Chính xác!", isCorrect: true }, { text: "sự minh bạch", rationale: "Nghĩa của 'transparency'.", isCorrect: false }, { text: "sự tiết lộ, công bố", rationale: "Nghĩa của 'disclosure'.", isCorrect: false }, { text: "sự vận động, ủng hộ", rationale: "Nghĩa của 'advocacy'.", isCorrect: false }], hint: "Kỹ năng cơ bản nhất để tiếp thu kiến thức học thuật." },
+            { questionNumber: 10, question: "Tính từ **inadequate** mang nghĩa nào?", answerOptions: [{ text: "không đầy đủ, thiếu", rationale: "Chính xác!", isCorrect: true }, { text: "hạn chế", rationale: "Nghĩa của 'restrictive'.", isCorrect: false }, { text: "dễ đọc, rõ ràng", rationale: "Nghĩa của 'legible'.", isCorrect: false }, { text: "toàn diện", rationale: "Nghĩa của 'comprehensive'.", isCorrect: false }], hint: "Tiền tố 'in-' mang nghĩa phủ định của 'đầy đủ, thích hợp'." },
+            { questionNumber: 11, question: "Nghĩa của từ **resistance** là gì?", answerOptions: [{ text: "sự kháng cự, chống đối", rationale: "Chính xác!", isCorrect: true }, { text: "sự độc quyền", rationale: "Nghĩa của 'monopoly'.", isCorrect: false }, { text: "đà, động lực", rationale: "Nghĩa của 'momentum'.", isCorrect: false }, { text: "phương pháp luận", rationale: "Nghĩa của 'methodology'.", isCorrect: false }], hint: "Hành động chống lại một sự thay đổi hoặc một thế lực nào đó." },
+            { questionNumber: 12, question: "Từ **obstacle** có nghĩa là:", answerOptions: [{ text: "nền tảng, đá tảng", rationale: "Nghĩa của 'cornerstone'.", isCorrect: false }, { text: "trở ngại, chướng ngại vật", rationale: "Chính xác!", isCorrect: true }, { text: "điều kiện tiên quyết", rationale: "Nghĩa của 'prerequisite'.", isCorrect: false }, { text: "chương trình giảng dạy", rationale: "Nghĩa của 'curriculum'.", isCorrect: false }], hint: "Vật cản đường khiến bạn khó đạt được mục tiêu." },
+            { questionNumber: 13, question: "Động từ **advocate** mang ý nghĩa nào?", answerOptions: [{ text: "pha loãng, làm giảm", rationale: "Nghĩa của 'dilute'.", isCorrect: false }, { text: "bắt buộc, ủy quyền", rationale: "Nghĩa của 'mandate'.", isCorrect: false }, { text: "ủng hộ, biện hộ", rationale: "Chính xác!", isCorrect: true }, { text: "trả thù lao, trả công", rationale: "Nghĩa của 'remunerate'.", isCorrect: false }], hint: "Lên tiếng bảo vệ hoặc khuyên dùng một ý tưởng nào đó." },
+            { questionNumber: 14, question: "Tính từ **compulsory** có nghĩa là gì?", answerOptions: [{ text: "có thể chứng minh được", rationale: "Nghĩa của 'demonstrable'.", isCorrect: false }, { text: "mạnh mẽ, có hiệu lực", rationale: "Nghĩa của 'potent'.", isCorrect: false }, { text: "bắt buộc", rationale: "Chính xác!", isCorrect: true }, { text: "thận trọng, khôn ngoan", rationale: "Nghĩa của 'prudent'.", isCorrect: false }], hint: "Một điều luật hoặc quy định mà bạn không thể chọn làm hay không làm." },
+            { questionNumber: 15, question: "Nghĩa của từ **legislation** là:", answerOptions: [{ text: "sự bất đối xứng", rationale: "Nghĩa của 'asymmetry'.", isCorrect: false }, { text: "pháp luật, luật lệ", rationale: "Chính xác!", isCorrect: true }, { text: "sự kiên trì", rationale: "Nghĩa của 'persistence'.", isCorrect: false }, { text: "sự minh bạch", rationale: "Nghĩa của 'transparency'.", isCorrect: false }], hint: "Các đạo luật được ban hành bởi cơ quan lập pháp." },
+            { questionNumber: 16, question: "Động từ **standardize** có nghĩa là gì?", answerOptions: [{ text: "tiêu chuẩn hóa", rationale: "Chính xác!", isCorrect: true }, { text: "hệ thống hóa, pháp điển hóa", rationale: "Nghĩa của 'codify'.", isCorrect: false }, { text: "khẳng định", rationale: "Nghĩa của 'affirm'.", isCorrect: false }, { text: "tạo khuynh hướng sẵn", rationale: "Nghĩa của 'predispose'.", isCorrect: false }], hint: "Làm cho mọi thứ trở nên giống nhau theo một quy chuẩn." },
+            { questionNumber: 17, question: "Từ **cornerstone** mang nghĩa là:", answerOptions: [{ text: "nền tảng, đá tảng", rationale: "Chính xác!", isCorrect: true }, { text: "điều kiện tiên quyết", rationale: "Nghĩa của 'prerequisite'.", isCorrect: false }, { text: "sự đáng tin cậy", rationale: "Nghĩa của 'credibility'.", isCorrect: false }, { text: "liên minh", rationale: "Nghĩa của 'coalition'.", isCorrect: false }], hint: "Hòn đá đặt ở góc nền móng, biểu tượng cho sự cơ bản và thiết yếu." },
+            { questionNumber: 18, question: "Nghĩa của từ **prerequisite** là gì?", answerOptions: [{ text: "phương pháp luận", rationale: "Nghĩa của 'methodology'.", isCorrect: false }, { text: "quyền tự chủ", rationale: "Nghĩa của 'autonomy'.", isCorrect: false }, { text: "điều kiện tiên quyết", rationale: "Chính xác!", isCorrect: true }, { text: "sự tiết lộ, công bố", rationale: "Nghĩa của 'disclosure'.", isCorrect: false }], hint: "Chữ 'pre' chỉ một thứ phải có trước khi làm việc khác." },
+            { questionNumber: 19, question: "Động từ **leverage** có nghĩa là:", answerOptions: [{ text: "quy cho, gán cho", rationale: "Nghĩa của 'attribute'.", isCorrect: false }, { text: "khuếch đại, tăng cường", rationale: "Nghĩa của 'amplify'.", isCorrect: false }, { text: "tận dụng, khai thác", rationale: "Chính xác!", isCorrect: true }, { text: "xói mòn, làm suy yếu", rationale: "Nghĩa của 'erode'.", isCorrect: false }], hint: "Sử dụng thứ gì đó để tạo ra sức bật hoặc lợi thế tối đa." },
+            { questionNumber: 20, question: "Từ **credibility** có nghĩa là gì?", answerOptions: [{ text: "sự đáng tin cậy", rationale: "Chính xác!", isCorrect: true }, { text: "sự kháng cự, chống đối", rationale: "Nghĩa của 'resistance'.", isCorrect: false }, { text: "sự độc quyền", rationale: "Nghĩa của 'monopoly'.", isCorrect: false }, { text: "toàn thể công dân", rationale: "Nghĩa của 'citizenry'.", isCorrect: false }], hint: "Phẩm chất khiến người khác tin tưởng vào bạn." },
+            { questionNumber: 21, question: "Động từ **predispose** mang nghĩa là:", answerOptions: [{ text: "tạo khuynh hướng sẵn", rationale: "Chính xác!", isCorrect: true }, { text: "trả thù lao, trả công", rationale: "Nghĩa của 'remunerate'.", isCorrect: false }, { text: "bắt buộc, ủy quyền", rationale: "Nghĩa của 'mandate'.", isCorrect: false }, { text: "pha loãng, làm giảm", rationale: "Nghĩa của 'dilute'.", isCorrect: false }], hint: "Làm cho ai đó có xu hướng hành động hoặc suy nghĩ theo một cách nhất định." },
+            { questionNumber: 22, question: "Nghĩa của động từ **remunerate** là gì?", answerOptions: [{ text: "nâng cao, cải thiện", rationale: "Nghĩa của 'enhance'.", isCorrect: false }, { text: "khẳng định", rationale: "Nghĩa của 'affirm'.", isCorrect: false }, { text: "trả thù lao, trả công", rationale: "Chính xác!", isCorrect: true }, { text: "làm quen với", rationale: "Nghĩa của 'familiarize'.", isCorrect: false }], hint: "Trả tiền cho dịch vụ hoặc công việc ai đó đã làm." },
+            { questionNumber: 23, question: "Tính từ **demonstrable** có nghĩa là:", answerOptions: [{ text: "mạnh mẽ, có hiệu lực", rationale: "Nghĩa của 'potent'.", isCorrect: false }, { text: "có thể chứng minh được", rationale: "Chính xác!", isCorrect: true }, { text: "độc quyền, thuộc sở hữu riêng", rationale: "Nghĩa của 'proprietary'.", isCorrect: false }, { text: "đột phá, tiên phong", rationale: "Nghĩa của 'groundbreaking'.", isCorrect: false }], hint: "Một điều có thể được thể hiện hoặc làm rõ bằng chứng cứ." },
+            { questionNumber: 24, question: "Từ **pivotal** mang ý nghĩa nào?", answerOptions: [{ text: "dễ đọc, rõ ràng", rationale: "Nghĩa của 'legible'.", isCorrect: false }, { text: "tuân thủ", rationale: "Nghĩa của 'compliant'.", isCorrect: false }, { text: "then chốt, mấu chốt", rationale: "Chính xác!", isCorrect: true }, { text: "thận trọng, khôn ngoan", rationale: "Nghĩa của 'prudent'.", isCorrect: false }], hint: "Đóng vai trò như một trục xoay trung tâm, vô cùng quan trọng." },
+            { questionNumber: 25, question: "Động từ **dilute** có nghĩa là gì?", answerOptions: [{ text: "pha loãng, làm giảm", rationale: "Chính xác!", isCorrect: true }, { text: "khuếch đại, tăng cường", rationale: "Nghĩa của 'amplify'.", isCorrect: false }, { text: "hệ thống hóa, pháp điển hóa", rationale: "Nghĩa của 'codify'.", isCorrect: false }, { text: "xói mòn, làm suy yếu", rationale: "Nghĩa của 'erode'.", isCorrect: false }], hint: "Làm cho một chất lỏng nhạt đi hoặc làm giảm sức mạnh của một thứ gì đó." },
+            { questionNumber: 26, question: "Tính từ **potent** có nghĩa là:", answerOptions: [{ text: "hạn chế", rationale: "Nghĩa của 'restrictive'.", isCorrect: false }, { text: "toàn diện", rationale: "Nghĩa của 'comprehensive'.", isCorrect: false }, { text: "tận tâm, chuyên dụng", rationale: "Nghĩa của 'dedicated'.", isCorrect: false }, { text: "mạnh mẽ, có hiệu lực", rationale: "Chính xác!", isCorrect: true }], hint: "Có tác động rất lớn lên cơ thể hoặc tâm trí." },
+            { questionNumber: 27, question: "Nghĩa của từ **legible** là gì?", answerOptions: [{ text: "dễ đọc, rõ ràng", rationale: "Chính xác!", isCorrect: true }, { text: "hiện đại nhất, tiên tiến nhất", rationale: "Nghĩa của 'state-of-the-art'.", isCorrect: false }, { text: "không đầy đủ, thiếu", rationale: "Nghĩa của 'inadequate'.", isCorrect: false }, { text: "tuân thủ", rationale: "Nghĩa của 'compliant'.", isCorrect: false }], hint: "Dùng để miêu tả chữ viết tay hoặc văn bản in ấn nhìn rất rõ nét." },
+            { questionNumber: 28, question: "Động từ **attribute** mang nghĩa là:", answerOptions: [{ text: "ủng hộ, biện hộ", rationale: "Nghĩa của 'advocate'.", isCorrect: false }, { text: "quy cho, gán cho", rationale: "Chính xác!", isCorrect: true }, { text: "tiêu chuẩn hóa", rationale: "Nghĩa của 'standardize'.", isCorrect: false }, { text: "khẳng định", rationale: "Nghĩa của 'affirm'.", isCorrect: false }], hint: "Cho rằng một điều gì đó là kết quả của một nguyên nhân cụ thể." },
+            { questionNumber: 29, question: "Từ **codify** có nghĩa là gì?", answerOptions: [{ text: "hệ thống hóa, pháp điển hóa", rationale: "Chính xác!", isCorrect: true }, { text: "tận dụng, khai thác", rationale: "Nghĩa của 'leverage'.", isCorrect: false }, { text: "bắt buộc, ủy quyền", rationale: "Nghĩa của 'mandate'.", isCorrect: false }, { text: "tạo khuynh hướng sẵn", rationale: "Nghĩa của 'predispose'.", isCorrect: false }], hint: "Sắp xếp các đạo luật hoặc quy tắc thành một hệ thống." },
+            { questionNumber: 30, question: "Danh từ **disclosure** mang ý nghĩa nào?", answerOptions: [{ text: "sự minh bạch", rationale: "Nghĩa của 'transparency'.", isCorrect: false }, { text: "sự tiết lộ, công bố", rationale: "Chính xác!", isCorrect: true }, { text: "sự bất đối xứng", rationale: "Nghĩa của 'asymmetry'.", isCorrect: false }, { text: "sự vận động, ủng hộ", rationale: "Nghĩa của 'advocacy'.", isCorrect: false }], hint: "Hành động đưa thông tin bí mật ra ánh sáng." },
+            { questionNumber: 31, question: "Động từ **amplify** có nghĩa là:", answerOptions: [{ text: "khuếch đại, tăng cường", rationale: "Chính xác!", isCorrect: true }, { text: "pha loãng, làm giảm", rationale: "Nghĩa của 'dilute'.", isCorrect: false }, { text: "xói mòn, làm suy yếu", rationale: "Nghĩa của 'erode'.", isCorrect: false }, { text: "quy cho, gán cho", rationale: "Nghĩa của 'attribute'.", isCorrect: false }], hint: "Làm cho âm thanh to hơn hoặc một hiệu ứng mạnh hơn." },
+            { questionNumber: 32, question: "Tính từ **compliant** mang nghĩa là gì?", answerOptions: [{ text: "bắt buộc", rationale: "Nghĩa của 'compulsory'.", isCorrect: false }, { text: "độc quyền, thuộc sở hữu riêng", rationale: "Nghĩa của 'proprietary'.", isCorrect: false }, { text: "tuân thủ", rationale: "Chính xác!", isCorrect: true }, { text: "thận trọng, khôn ngoan", rationale: "Nghĩa của 'prudent'.", isCorrect: false }], hint: "Đồng ý tuân theo các luật lệ hoặc quy định." },
+            { questionNumber: 33, question: "Động từ **affirm** có nghĩa là:", answerOptions: [{ text: "khẳng định", rationale: "Chính xác!", isCorrect: true }, { text: "xuất hiện, nổi lên", rationale: "Nghĩa của 'emerge'.", isCorrect: false }, { text: "trả thù lao, trả công", rationale: "Nghĩa của 'remunerate'.", isCorrect: false }, { text: "tiêu chuẩn hóa", rationale: "Nghĩa của 'standardize'.", isCorrect: false }], hint: "Nói một cách chắc chắn rằng một điều gì đó là đúng." },
+            { questionNumber: 34, question: "Từ **proprietary** mang ý nghĩa nào?", answerOptions: [{ text: "độc quyền, thuộc sở hữu riêng", rationale: "Chính xác!", isCorrect: true }, { text: "có thể chứng minh được", rationale: "Nghĩa của 'demonstrable'.", isCorrect: false }, { text: "toàn diện", rationale: "Nghĩa của 'comprehensive'.", isCorrect: false }, { text: "hạn chế", rationale: "Nghĩa của 'restrictive'.", isCorrect: false }], hint: "Một sản phẩm thuộc về bản quyền của một cá nhân hay công ty." },
+            { questionNumber: 35, question: "Nghĩa của từ **restrictive** là gì?", answerOptions: [{ text: "mạnh mẽ, có hiệu lực", rationale: "Nghĩa của 'potent'.", isCorrect: false }, { text: "tận tâm, chuyên dụng", rationale: "Nghĩa của 'dedicated'.", isCorrect: false }, { text: "hạn chế", rationale: "Chính xác!", isCorrect: true }, { text: "không đầy đủ, thiếu", rationale: "Nghĩa của 'inadequate'.", isCorrect: false }], hint: "Đặt ra các ranh giới ngăn cản sự tự do." },
+            { questionNumber: 36, question: "Danh từ **monopoly** có nghĩa là:", answerOptions: [{ text: "sự kháng cự, chống đối", rationale: "Nghĩa của 'resistance'.", isCorrect: false }, { text: "sự độc quyền", rationale: "Chính xác!", isCorrect: true }, { text: "liên minh", rationale: "Nghĩa của 'coalition'.", isCorrect: false }, { text: "sự đáng tin cậy", rationale: "Nghĩa của 'credibility'.", isCorrect: false }], hint: "Tình trạng một công ty nắm giữ toàn bộ thị trường." },
+            { questionNumber: 37, question: "Trạng từ **prematurely** mang nghĩa là gì?", answerOptions: [{ text: "sớm, trước thời hạn", rationale: "Chính xác!", isCorrect: true }, { text: "nói ngắn gọn", rationale: "Nghĩa của 'in short'.", isCorrect: false }, { text: "đặc biệt, nhất là", rationale: "Nghĩa của 'not least'.", isCorrect: false }, { text: "trên hết, quan trọng nhất", rationale: "Nghĩa của 'above all'.", isCorrect: false }], hint: "Chữ 'pre' chỉ sự việc xảy ra trước khi chín muồi hoặc đến lúc." },
+            { questionNumber: 38, question: "Động từ **erode** có nghĩa là:", answerOptions: [{ text: "pha loãng, làm giảm", rationale: "Nghĩa của 'dilute'.", isCorrect: false }, { text: "khuếch đại, tăng cường", rationale: "Nghĩa của 'amplify'.", isCorrect: false }, { text: "xói mòn, làm suy yếu", rationale: "Chính xác!", isCorrect: true }, { text: "tận dụng, khai thác", rationale: "Nghĩa của 'leverage'.", isCorrect: false }], hint: "Hiện tượng đất đá bị nước cuốn trôi dần dần." },
+            { questionNumber: 39, question: "Từ **autonomy** mang ý nghĩa nào?", answerOptions: [{ text: "phương pháp luận", rationale: "Nghĩa của 'methodology'.", isCorrect: false }, { text: "quyền tự chủ", rationale: "Chính xác!", isCorrect: true }, { text: "sự minh bạch", rationale: "Nghĩa của 'transparency'.", isCorrect: false }, { text: "sự bất đối xứng", rationale: "Nghĩa của 'asymmetry'.", isCorrect: false }], hint: "Quyền tự đưa ra các quyết định độc lập." },
+            { questionNumber: 40, question: "Nghĩa của từ **asymmetry** là gì?", answerOptions: [{ text: "sự bất đối xứng", rationale: "Chính xác!", isCorrect: true }, { text: "hiệu quả, năng suất", rationale: "Nghĩa của 'efficiency'.", isCorrect: false }, { text: "sự tiết lộ, công bố", rationale: "Nghĩa của 'disclosure'.", isCorrect: false }, { text: "sự kiên trì", rationale: "Nghĩa của 'persistence'.", isCorrect: false }], hint: "Hai bên không cân bằng hoặc không giống nhau." },
+            { questionNumber: 41, question: "Động từ **mandate** có nghĩa là:", answerOptions: [{ text: "ủng hộ, biện hộ", rationale: "Nghĩa của 'advocate'.", isCorrect: false }, { text: "hệ thống hóa, pháp điển hóa", rationale: "Nghĩa của 'codify'.", isCorrect: false }, { text: "bắt buộc, ủy quyền", rationale: "Chính xác!", isCorrect: true }, { text: "quy cho, gán cho", rationale: "Nghĩa của 'attribute'.", isCorrect: false }], hint: "Lệnh từ cấp trên hoặc cơ quan nhà nước yêu cầu làm gì đó." },
+            { questionNumber: 42, question: "Danh từ **transparency** mang nghĩa là gì?", answerOptions: [{ text: "sự minh bạch", rationale: "Chính xác!", isCorrect: true }, { text: "khả năng đọc viết", rationale: "Nghĩa của 'literacy'.", isCorrect: false }, { text: "sự đáng tin cậy", rationale: "Nghĩa của 'credibility'.", isCorrect: false }, { text: "đà, động lực", rationale: "Nghĩa của 'momentum'.", isCorrect: false }], hint: "Sự rõ ràng, dễ hiểu và không che giấu thông tin." },
+            { questionNumber: 43, question: "Từ **prudent** có nghĩa là:", answerOptions: [{ text: "then chốt, mấu chốt", rationale: "Nghĩa của 'pivotal'.", isCorrect: false }, { text: "thận trọng, khôn ngoan", rationale: "Chính xác!", isCorrect: true }, { text: "có thể chứng minh được", rationale: "Nghĩa của 'demonstrable'.", isCorrect: false }, { text: "đột phá, tiên phong", rationale: "Nghĩa của 'groundbreaking'.", isCorrect: false }], hint: "Cẩn thận tính toán để tránh những rủi ro trong tương lai." },
+            { questionNumber: 44, question: "Nghĩa của từ **persistence** là gì?", answerOptions: [{ text: "sự kháng cự, chống đối", rationale: "Nghĩa của 'resistance'.", isCorrect: false }, { text: "liên minh", rationale: "Nghĩa của 'coalition'.", isCorrect: false }, { text: "sự vận động, ủng hộ", rationale: "Nghĩa của 'advocacy'.", isCorrect: false }, { text: "sự kiên trì", rationale: "Chính xác!", isCorrect: true }], hint: "Tiếp tục làm việc dù gặp nhiều khó khăn, không bỏ cuộc." },
+            { questionNumber: 45, question: "Từ **coalition** mang ý nghĩa nào?", answerOptions: [{ text: "liên minh", rationale: "Chính xác!", isCorrect: true }, { text: "toàn thể công dân", rationale: "Nghĩa của 'citizenry'.", isCorrect: false }, { text: "quyền tự chủ", rationale: "Nghĩa của 'autonomy'.", isCorrect: false }, { text: "pháp luật, luật lệ", rationale: "Nghĩa của 'legislation'.", isCorrect: false }], hint: "Sự kết hợp giữa nhiều đảng phái hoặc tổ chức vì mục tiêu chung." },
+            { questionNumber: 46, question: "Nghĩa của danh từ **advocacy** là:", answerOptions: [{ text: "chương trình giảng dạy", rationale: "Nghĩa của 'curriculum'.", isCorrect: false }, { text: "sự tiết lộ, công bố", rationale: "Nghĩa của 'disclosure'.", isCorrect: false }, { text: "sự vận động, ủng hộ", rationale: "Chính xác!", isCorrect: true }, { text: "trở ngại, chướng ngại vật", rationale: "Nghĩa của 'obstacle'.", isCorrect: false }], hint: "Hành động công khai ủng hộ một chính sách hoặc ý tưởng." },
+            { questionNumber: 47, question: "Từ **momentum** có nghĩa là gì?", answerOptions: [{ text: "đà, động lực", rationale: "Chính xác!", isCorrect: true }, { text: "nền tảng, đá tảng", rationale: "Nghĩa của 'cornerstone'.", isCorrect: false }, { text: "phương pháp luận", rationale: "Nghĩa của 'methodology'.", isCorrect: false }, { text: "sự bất đối xứng", rationale: "Nghĩa của 'asymmetry'.", isCorrect: false }], hint: "Sức mạnh đẩy một quá trình tiếp tục diễn ra nhanh hơn." },
+            { questionNumber: 48, question: "Tính từ **groundbreaking** mang nghĩa là:", answerOptions: [{ text: "hiện đại nhất, tiên tiến nhất", rationale: "Nghĩa của 'state-of-the-art'.", isCorrect: false }, { text: "toàn diện", rationale: "Nghĩa của 'comprehensive'.", isCorrect: false }, { text: "đột phá, tiên phong", rationale: "Chính xác!", isCorrect: true }, { text: "bắt buộc", rationale: "Nghĩa của 'compulsory'.", isCorrect: false }], hint: "Hành động phá vỡ nền tảng cũ để mở ra kỷ nguyên mới." },
+            { questionNumber: 49, question: "Nghĩa của từ **comprehensive** là gì?", answerOptions: [{ text: "dễ đọc, rõ ràng", rationale: "Nghĩa của 'legible'.", isCorrect: false }, { text: "toàn diện", rationale: "Chính xác!", isCorrect: true }, { text: "tận tâm, chuyên dụng", rationale: "Nghĩa của 'dedicated'.", isCorrect: false }, { text: "tuân thủ", rationale: "Nghĩa của 'compliant'.", isCorrect: false }], hint: "Bao quát tất cả mọi thứ hoặc mọi khía cạnh." },
+            { questionNumber: 50, question: "Từ **curriculum** có nghĩa là:", answerOptions: [{ text: "phương pháp luận", rationale: "Nghĩa của 'methodology'.", isCorrect: false }, { text: "chương trình giảng dạy", rationale: "Chính xác!", isCorrect: true }, { text: "điều kiện tiên quyết", rationale: "Nghĩa của 'prerequisite'.", isCorrect: false }, { text: "sự đáng tin cậy", rationale: "Nghĩa của 'credibility'.", isCorrect: false }], hint: "Danh sách các môn học được dạy ở trường." },
+            { questionNumber: 51, question: "Danh từ **methodology** mang ý nghĩa nào?", answerOptions: [{ text: "sự minh bạch", rationale: "Nghĩa của 'transparency'.", isCorrect: false }, { text: "pháp luật, luật lệ", rationale: "Nghĩa của 'legislation'.", isCorrect: false }, { text: "phương pháp luận", rationale: "Chính xác!", isCorrect: true }, { text: "quyền tự chủ", rationale: "Nghĩa của 'autonomy'.", isCorrect: false }], hint: "Hệ thống các phương pháp nghiên cứu trong một lĩnh vực." },
+            { questionNumber: 52, question: "Cụm từ **switch over to** có nghĩa là gì?", answerOptions: [{ text: "gây ra, mang lại", rationale: "Nghĩa của 'bring about'.", isCorrect: false }, { text: "chuyển đổi sang", rationale: "Chính xác!", isCorrect: true }, { text: "chăm sóc, trông nom", rationale: "Nghĩa của 'look after'.", isCorrect: false }, { text: "dồn vào, hướng vào", rationale: "Nghĩa của 'corral into'.", isCorrect: false }], hint: "Thay đổi từ một hệ thống này sang hệ thống khác." },
+            { questionNumber: 53, question: "Nghĩa của cụm **an array of** là:", answerOptions: [{ text: "một loạt, nhiều loại", rationale: "Chính xác!", isCorrect: true }, { text: "bước ngoặt", rationale: "Nghĩa của 'a turning point'.", isCorrect: false }, { text: "tại nguồn", rationale: "Nghĩa của 'at the source'.", isCorrect: false }, { text: "nói ngắn gọn", rationale: "Nghĩa của 'in short'.", isCorrect: false }], hint: "Một số lượng lớn các tùy chọn được sắp xếp ra." },
+            { questionNumber: 54, question: "Cụm từ **familiarize oneself with** mang nghĩa là gì?", answerOptions: [{ text: "làm quen với", rationale: "Chính xác!", isCorrect: true }, { text: "vận động ủng hộ", rationale: "Nghĩa của 'advocate for'.", isCorrect: false }, { text: "tự định giá", rationale: "Nghĩa của \"name one's price\".", isCorrect: false }, { text: "chỉ trích công khai", rationale: "Nghĩa của 'call out'.", isCorrect: false }], hint: "Tự mình tìm hiểu về một thứ gì đó để trở nên quen thuộc." },
+            { questionNumber: 55, question: "Nghĩa của cụm từ **at the source** là:", answerOptions: [{ text: "tại nguồn", rationale: "Chính xác!", isCorrect: true }, { text: "đặc biệt, nhất là", rationale: "Nghĩa của 'not least'.", isCorrect: false }, { text: "trên hết, quan trọng nhất", rationale: "Nghĩa của 'above all'.", isCorrect: false }, { text: "với hậu quả có thể đoán trước", rationale: "Nghĩa của 'with predictable fallout'.", isCorrect: false }], hint: "Ngay tại nơi mà mọi thứ bắt đầu xuất phát." },
+            { questionNumber: 56, question: "Cụm từ **a turning point** có nghĩa là gì?", answerOptions: [{ text: "một loạt, nhiều loại", rationale: "Nghĩa của 'an array of'.", isCorrect: false }, { text: "bước ngoặt", rationale: "Chính xác!", isCorrect: true }, { text: "ở vị thế để", rationale: "Nghĩa của 'be positioned to'.", isCorrect: false }, { text: "lọc để tìm", rationale: "Nghĩa của 'filter for'.", isCorrect: false }], hint: "Một thời điểm mang tính quyết định làm thay đổi lịch sử." },
+            { questionNumber: 57, question: "Nghĩa của cụm **convert trust into action** là:", answerOptions: [{ text: "khắc phục sự bất cân xứng", rationale: "Nghĩa của 'redress the asymmetry'.", isCorrect: false }, { text: "mở rộng những gì hiệu quả", rationale: "Nghĩa của 'scale what works'.", isCorrect: false }, { text: "biến niềm tin thành hành động", rationale: "Chính xác!", isCorrect: true }, { text: "để dành chỗ cho", rationale: "Nghĩa của 'leave room for'.", isCorrect: false }], hint: "Sử dụng sự tin tưởng của khán giả để khiến họ làm một việc cụ thể." },
+            { questionNumber: 58, question: "Cụm từ **predisposed to** mang ý nghĩa nào?", answerOptions: [{ text: "có khuynh hướng sẵn", rationale: "Chính xác!", isCorrect: true }, { text: "phụ thuộc vào", rationale: "Nghĩa của 'hinge on'.", isCorrect: false }, { text: "gây ra, mang lại", rationale: "Nghĩa của 'bring about'.", isCorrect: false }, { text: "khai thác, tận dụng", rationale: "Nghĩa của 'tap into'.", isCorrect: false }], hint: "Mang tính định hướng hoặc có sẵn cảm tình về một điều gì đó." },
+            { questionNumber: 59, question: "Nghĩa của cụm từ **hinge on** là gì?", answerOptions: [{ text: "dành riêng, để sang một bên", rationale: "Nghĩa của 'set aside'.", isCorrect: false }, { text: "chăm sóc, trông nom", rationale: "Nghĩa của 'look after'.", isCorrect: false }, { text: "phụ thuộc vào", rationale: "Chính xác!", isCorrect: true }, { text: "vận động, đấu tranh cho", rationale: "Nghĩa của 'agitate for'.", isCorrect: false }], hint: "Giống như bản lề của một cánh cửa, mọi thứ xoay quanh nó." },
+            { questionNumber: 60, question: "Cụm **scale what works** có nghĩa là:", answerOptions: [{ text: "mở rộng những gì hiệu quả", rationale: "Chính xác!", isCorrect: true }, { text: "biến niềm tin thành hành động", rationale: "Nghĩa của 'convert trust into action'.", isCorrect: false }, { text: "khắc phục sự bất cân xứng", rationale: "Nghĩa của 'redress the asymmetry'.", isCorrect: false }, { text: "tự định giá", rationale: "Nghĩa của \"name one's price\".", isCorrect: false }], hint: "Phát triển lớn hơn những phương pháp đã chứng minh được sự thành công." },
+            { questionNumber: 61, question: "Nghĩa của cụm từ **leave room for** là gì?", answerOptions: [{ text: "lọc để tìm", rationale: "Nghĩa của 'filter for'.", isCorrect: false }, { text: "để dành chỗ cho", rationale: "Chính xác!", isCorrect: true }, { text: "chỉ trích công khai", rationale: "Nghĩa của 'call out'.", isCorrect: false }, { text: "dồn vào, hướng vào", rationale: "Nghĩa của 'corral into'.", isCorrect: false }], hint: "Không lấp đầy tất cả mà tạo không gian cho những điều khác." },
+            { questionNumber: 62, question: "Cụm từ **name one's price** mang nghĩa là:", answerOptions: [{ text: "tự định giá", rationale: "Chính xác!", isCorrect: true }, { text: "vận động ủng hộ", rationale: "Nghĩa của 'advocate for'.", isCorrect: false }, { text: "khai thác, tận dụng", rationale: "Nghĩa của 'tap into'.", isCorrect: false }, { text: "gây ra, mang lại", rationale: "Nghĩa của 'bring about'.", isCorrect: false }], hint: "Một đặc quyền của kẻ độc quyền, tự do nói ra số tiền mình muốn." },
+            { questionNumber: 63, question: "Nghĩa của cụm **redress the asymmetry** là gì?", answerOptions: [{ text: "khắc phục sự bất cân xứng", rationale: "Chính xác!", isCorrect: true }, { text: "mở rộng những gì hiệu quả", rationale: "Nghĩa của 'scale what works'.", isCorrect: false }, { text: "chuyển đổi sang", rationale: "Nghĩa của 'switch over to'.", isCorrect: false }, { text: "biến niềm tin thành hành động", rationale: "Nghĩa của 'convert trust into action'.", isCorrect: false }], hint: "Hành động lấy lại sự công bằng giữa hai bên không tương xứng." },
+            { questionNumber: 64, question: "Cụm từ **call out** có nghĩa là:", answerOptions: [{ text: "dành riêng, để sang một bên", rationale: "Nghĩa của 'set aside'.", isCorrect: false }, { text: "chỉ trích công khai", rationale: "Chính xác!", isCorrect: true }, { text: "chăm sóc, trông nom", rationale: "Nghĩa của 'look after'.", isCorrect: false }, { text: "làm quen với", rationale: "Nghĩa của 'familiarize oneself with'.", isCorrect: false }], hint: "Lên tiếng vạch trần một sai phạm cho mọi người biết." },
+            { questionNumber: 65, question: "Nghĩa của cụm từ **set aside** là gì?", answerOptions: [{ text: "dành riêng, để sang một bên", rationale: "Chính xác!", isCorrect: true }, { text: "lọc để tìm", rationale: "Nghĩa của 'filter for'.", isCorrect: false }, { text: "dồn vào, hướng vào", rationale: "Nghĩa của 'corral into'.", isCorrect: false }, { text: "vận động, đấu tranh cho", rationale: "Nghĩa của 'agitate for'.", isCorrect: false }], hint: "Hành động tiết kiệm hoặc cất giữ một thứ cho mục đích đặc biệt." },
+            { questionNumber: 66, question: "Cụm từ **bring about** mang nghĩa là:", answerOptions: [{ text: "gây ra, mang lại", rationale: "Chính xác!", isCorrect: true }, { text: "khai thác, tận dụng", rationale: "Nghĩa của 'tap into'.", isCorrect: false }, { text: "phụ thuộc vào", rationale: "Nghĩa của 'hinge on'.", isCorrect: false }, { text: "vận động ủng hộ", rationale: "Nghĩa của 'advocate for'.", isCorrect: false }], hint: "Là nguyên nhân khiến một sự thay đổi xảy ra." },
+            { questionNumber: 67, question: "Nghĩa của cụm **tap into** là gì?", answerOptions: [{ text: "để dành chỗ cho", rationale: "Nghĩa của 'leave room for'.", isCorrect: false }, { text: "khai thác, tận dụng", rationale: "Chính xác!", isCorrect: true }, { text: "tự định giá", rationale: "Nghĩa của \"name one's price\".", isCorrect: false }, { text: "chỉ trích công khai", rationale: "Nghĩa của 'call out'.", isCorrect: false }], hint: "Kết nối và sử dụng một nguồn lực sẵn có (tài năng, cảm xúc...)." },
+            { questionNumber: 68, question: "Cụm từ **look after** có nghĩa là:", answerOptions: [{ text: "chăm sóc, trông nom", rationale: "Chính xác!", isCorrect: true }, { text: "ở vị thế để", rationale: "Nghĩa của 'be positioned to'.", isCorrect: false }, { text: "dồn vào, hướng vào", rationale: "Nghĩa của 'corral into'.", isCorrect: false }, { text: "chuyển đổi sang", rationale: "Nghĩa của 'switch over to'.", isCorrect: false }], hint: "Hành động bảo vệ và đáp ứng nhu cầu của ai đó (ví dụ như trẻ nhỏ)." },
+            { questionNumber: 69, question: "Nghĩa của cụm từ **be positioned to** là gì?", answerOptions: [{ text: "ở vị thế để", rationale: "Chính xác!", isCorrect: true }, { text: "có khuynh hướng sẵn", rationale: "Nghĩa của 'predisposed to'.", isCorrect: false }, { text: "vận động, đấu tranh cho", rationale: "Nghĩa của 'agitate for'.", isCorrect: false }, { text: "với hậu quả có thể đoán trước", rationale: "Nghĩa của 'with predictable fallout'.", isCorrect: false }], hint: "Được đặt vào một vị trí thuận lợi để thực hiện một việc gì đó." },
+            { questionNumber: 70, question: "Cụm từ **advocate for** mang ý nghĩa nào?", answerOptions: [{ text: "vận động ủng hộ", rationale: "Chính xác!", isCorrect: true }, { text: "khắc phục sự bất cân xứng", rationale: "Nghĩa của 'redress the asymmetry'.", isCorrect: false }, { text: "gây ra, mang lại", rationale: "Nghĩa của 'bring about'.", isCorrect: false }, { text: "lọc để tìm", rationale: "Nghĩa của 'filter for'.", isCorrect: false }], hint: "Hỗ trợ công khai cho một lý tưởng hay sự thay đổi xã hội." },
+            { questionNumber: 71, question: "Nghĩa của cụm **in short** là gì?", answerOptions: [{ text: "nói ngắn gọn", rationale: "Chính xác!", isCorrect: true }, { text: "đặc biệt, nhất là", rationale: "Nghĩa của 'not least'.", isCorrect: false }, { text: "trên hết, quan trọng nhất", rationale: "Nghĩa của 'above all'.", isCorrect: false }, { text: "tại nguồn", rationale: "Nghĩa của 'at the source'.", isCorrect: false }], hint: "Cụm từ thường dùng để tóm tắt lại nội dung." },
+            { questionNumber: 72, question: "Cụm từ **not least** có nghĩa là:", answerOptions: [{ text: "bước ngoặt", rationale: "Nghĩa của 'a turning point'.", isCorrect: false }, { text: "đặc biệt, nhất là", rationale: "Chính xác!", isCorrect: true }, { text: "một loạt, nhiều loại", rationale: "Nghĩa của 'an array of'.", isCorrect: false }, { text: "nói ngắn gọn", rationale: "Nghĩa của 'in short'.", isCorrect: false }], hint: "Nhấn mạnh một lý do quan trọng trong số nhiều lý do." },
+            { questionNumber: 73, question: "Nghĩa của cụm từ **filter for** là gì?", answerOptions: [{ text: "lọc để tìm", rationale: "Chính xác!", isCorrect: true }, { text: "khai thác, tận dụng", rationale: "Nghĩa của 'tap into'.", isCorrect: false }, { text: "dành riêng, để sang một bên", rationale: "Nghĩa của 'set aside'.", isCorrect: false }, { text: "chỉ trích công khai", rationale: "Nghĩa của 'call out'.", isCorrect: false }], hint: "Chọn lọc qua các tiêu chí để có được đối tượng phù hợp nhất." },
+            { questionNumber: 74, question: "Cụm từ **above all** mang nghĩa là:", answerOptions: [{ text: "trên hết, quan trọng nhất", rationale: "Chính xác!", isCorrect: true }, { text: "đặc biệt, nhất là", rationale: "Nghĩa của 'not least'.", isCorrect: false }, { text: "tại nguồn", rationale: "Nghĩa của 'at the source'.", isCorrect: false }, { text: "ở vị thế để", rationale: "Nghĩa của 'be positioned to'.", isCorrect: false }], hint: "Điều quan trọng hơn bất cứ thứ gì khác vừa được đề cập." },
+            { questionNumber: 75, question: "Nghĩa của cụm **corral into** là gì?", answerOptions: [{ text: "dồn vào, hướng vào", rationale: "Chính xác!", isCorrect: true }, { text: "vận động, đấu tranh cho", rationale: "Nghĩa của 'agitate for'.", isCorrect: false }, { text: "phụ thuộc vào", rationale: "Nghĩa của 'hinge on'.", isCorrect: false }, { text: "để dành chỗ cho", rationale: "Nghĩa của 'leave room for'.", isCorrect: false }], hint: "Hình ảnh lùa đàn gia súc vào chuồng, buộc phải đi theo một hướng." },
+            { questionNumber: 76, question: "Cụm từ **agitate for** có nghĩa là:", answerOptions: [{ text: "chăm sóc, trông nom", rationale: "Nghĩa của 'look after'.", isCorrect: false }, { text: "vận động, đấu tranh cho", rationale: "Chính xác!", isCorrect: true }, { text: "vận động ủng hộ", rationale: "Nghĩa tương tự với 'advocate for'.", isCorrect: false }, { text: "khắc phục sự bất cân xứng", rationale: "Nghĩa của 'redress the asymmetry'.", isCorrect: false }], hint: "Đấu tranh chính trị hoặc xã hội một cách mạnh mẽ." },
+            { questionNumber: 77, question: "Nghĩa của cụm từ **with predictable fallout** là gì?", answerOptions: [{ text: "với hậu quả có thể đoán trước", rationale: "Chính xác!", isCorrect: true }, { text: "mở rộng những gì hiệu quả", rationale: "Nghĩa của 'scale what works'.", isCorrect: false }, { text: "biến niềm tin thành hành động", rationale: "Nghĩa của 'convert trust into action'.", isCorrect: false }, { text: "tự định giá", rationale: "Nghĩa của \"name one's price\".", isCorrect: false }], hint: "Biết trước được những rắc rối sẽ xảy ra do một hành động nào đó." }
+        ];
+
+        // Tạo Background Sao Lấp Lánh
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'absolute rounded-full bg-white opacity-0 animate-twinkle';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                const size = `${Math.random() * 3 + 1}px`;
+                star.style.width = size;
+                star.style.height = size;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(star);
+            }
+        }
+
+        // Trạng thái Game
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+        let currentShuffledOptions = [];
+
+        // DOM Elements
+        const screenStart = document.getElementById('screen-start');
+        const screenPlaying = document.getElementById('screen-playing');
+        const screenEnd = document.getElementById('screen-end');
+
+        const progressText = document.getElementById('progress-text');
+        const scoreText = document.getElementById('score-text');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationContainer = document.getElementById('explanation-container');
+        const hintText = document.getElementById('hint-text');
+        const rationaleText = document.getElementById('rationale-text');
+        const rationaleContent = document.getElementById('rationale-content');
+        const btnNext = document.getElementById('btn-next');
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function formatMarkdownBold(text) {
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            hasAnswered = false;
+
+            screenStart.classList.add('hidden');
+            screenEnd.classList.add('hidden');
+            screenPlaying.classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            hasAnswered = false;
+            const currentQ = quizData[currentQuestionIndex];
+
+            // Cập nhật UI
+            progressText.innerText = `CÂU HỎI ${currentQuestionIndex + 1} / ${quizData.length}`;
+            scoreText.innerText = `Điểm: ${score}`;
+            questionText.innerHTML = formatMarkdownBold(currentQ.question);
+
+            // Xáo trộn đáp án
+            currentShuffledOptions = shuffleArray(currentQ.answerOptions);
+
+            // Tạo nút đáp án
+            optionsContainer.innerHTML = '';
+            currentShuffledOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "text-left p-5 rounded-2xl border transition-all duration-300 text-lg bg-white/5 border-white/10 hover:bg-white/10 hover:border-purple-400 cursor-pointer";
+                btn.innerText = option.text;
+                btn.onclick = () => handleAnswer(index, option.isCorrect);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Ẩn phần giải thích
+            explanationContainer.classList.remove('max-h-96', 'opacity-100');
+            explanationContainer.classList.add('max-h-0', 'opacity-0');
+            rationaleText.classList.add('hidden');
+
+            // Cập nhật text nút Next
+            if (currentQuestionIndex < quizData.length - 1) {
+                btnNext.innerHTML = 'Tiếp Tục Chuyến Bay 🛸';
+            } else {
+                btnNext.innerHTML = 'Hoàn Thành Nhiệm Vụ 🏆';
+            }
+        }
+
+        function handleAnswer(selectedIndex, isCorrect) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+
+            const currentQ = quizData[currentQuestionIndex];
+
+            if (isCorrect) {
+                score++;
+                scoreText.innerText = `Điểm: ${score}`;
+            }
+
+            // Cập nhật style cho các nút đáp án
+            const buttons = optionsContainer.children;
+            currentShuffledOptions.forEach((option, index) => {
+                const btn = buttons[index];
+                btn.disabled = true;
+                btn.className = "text-left p-5 rounded-2xl border transition-all duration-300 text-lg ";
+
+                if (option.isCorrect) {
+                    btn.className += "bg-green-500/20 border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.4)] text-white";
+                } else if (index === selectedIndex && !option.isCorrect) {
+                    btn.className += "bg-red-500/20 border-red-400 text-red-200";
+                } else {
+                    btn.className += "bg-white/5 border-white/5 opacity-50";
+                }
+            });
+
+            // Hiện giải thích
+            hintText.innerText = currentQ.hint;
+            rationaleContent.innerText = currentShuffledOptions[selectedIndex].rationale;
+            rationaleText.className = isCorrect ? "text-green-400 block mt-2" : "text-yellow-400 block mt-2";
+
+            explanationContainer.classList.remove('max-h-0', 'opacity-0');
+            explanationContainer.classList.add('max-h-96', 'opacity-100');
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            screenPlaying.classList.add('hidden');
+            screenEnd.classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+
+            const finalMessage = document.getElementById('final-message');
+            if (score >= 70) {
+                finalMessage.innerText = "Bạn đích thực là phi hành gia ngôn ngữ tài ba!";
+            } else if (score >= 40) {
+                finalMessage.innerText = "Kiến thức của bạn bay khá xa rồi đấy, hãy rèn luyện thêm nhé!";
+            } else {
+                finalMessage.innerText = "Không sao cả, vũ trụ còn rộng lớn để chúng ta khám phá lại từ đầu.";
+            }
+        }
+
+        // Khởi tạo trực tiếp thay vì dùng window.onload để tương thích Preview
+        createStars();
+
+    </script>
+</body>
+
+</html>
