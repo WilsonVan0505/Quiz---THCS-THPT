@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Từ Vựng Vũ Trụ - Đề 002</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animations */
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+                box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .animate-twinkle {
+            animation: twinkle ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .animate-float-fast {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-float-slow {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .animate-float-slower {
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes shootingStar {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 1;
+                width: 0;
+            }
+
+            30% {
+                width: 100px;
+            }
+
+            100% {
+                transform: translateX(-1000px) translateY(1000px) rotate(-45deg);
+                opacity: 0;
+                width: 0;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 1));
+            animation: shootingStar 6s linear infinite;
+        }
+
+        /* UI Styles */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Markdown Bold Styling */
+        .question-text strong {
+            color: #a78bfa;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        /* Prevent scrolling on body when not needed */
+        body {
+            overflow-x: hidden;
+            background-color: black;
+        }
+
+        /* Đảm bảo class hidden luôn hoạt động kể cả khi Tailwind load chậm */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="text-white font-sans min-h-screen relative flex items-center justify-center p-4">
+
+    <!-- Vũ trụ Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-950 to-black"></div>
+
+        <!-- Stars Container -->
+        <div id="stars-container"></div>
+
+        <!-- Hành tinh -->
+        <div class="absolute top-[10%] left-[5%] text-6xl opacity-80 animate-float-slow">🌎</div>
+        <div class="absolute top-[60%] right-[10%] text-7xl opacity-60 animate-float-slower">🪐</div>
+        <div class="absolute top-[20%] right-[20%] text-4xl opacity-90 animate-float-fast">🌕</div>
+        <div class="absolute bottom-[10%] left-[15%] text-5xl opacity-70 animate-float-slow"
+            style="animation-delay: 2s;">☄️</div>
+
+        <!-- Sao băng -->
+        <div class="absolute top-0 right-0 w-full h-full">
+            <div class="shooting-star top-[20%] left-[80%]" style="animation-delay: 1s;"></div>
+            <div class="shooting-star top-[40%] left-[60%]" style="animation-delay: 5s;"></div>
+            <div class="shooting-star top-[10%] left-[30%]" style="animation-delay: 9s;"></div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="relative z-10 w-full max-w-3xl transition-all duration-500">
+
+        <!-- START SCREEN -->
+        <div id="screen-start"
+            class="glass-panel rounded-3xl p-10 text-center transform hover:scale-105 transition-transform duration-300">
+            <h1
+                class="text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
+                Chuyến Du Hành Từ Vựng
+            </h1>
+            <p class="text-xl text-gray-300 mb-8">
+                Khám phá Công nghệ lượng tử & Vũ trụ sâu thẳm. Chinh phục toàn bộ <span id="total-count"
+                    class="font-bold text-white"></span> từ vựng của Đề 002! 🚀
+            </p>
+            <button onclick="startGame()"
+                class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-full text-xl shadow-[0_0_20px_rgba(139,92,246,0.5)] hover:shadow-[0_0_30px_rgba(139,92,246,0.8)] transition-all cursor-pointer">
+                Bắt Đầu Khám Phá
+            </button>
+        </div>
+
+        <!-- PLAYING SCREEN -->
+        <div id="screen-playing" class="glass-panel rounded-3xl p-6 md:p-10 hidden">
+            <!-- Header: Progress & Score -->
+            <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
+                <span id="progress-text" class="text-cyan-300 font-semibold tracking-wider">
+                    CÂU HỎI 1
+                </span>
+                <span id="score-text"
+                    class="bg-purple-900/50 border border-purple-500/50 px-4 py-1 rounded-full text-purple-200 font-bold">
+                    Điểm: 0
+                </span>
+            </div>
+
+            <!-- Question -->
+            <div class="mb-8">
+                <h2 id="question-text"
+                    class="text-2xl md:text-3xl font-medium leading-relaxed question-text text-white"></h2>
+            </div>
+
+            <!-- Options Container -->
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <!-- Buttons will be injected here by JS -->
+            </div>
+
+            <!-- Explanation & Next Button -->
+            <div id="explanation-container" class="transition-all duration-500 overflow-hidden max-h-0 opacity-0">
+                <div class="bg-indigo-950/60 border border-indigo-500/30 rounded-2xl p-5 mb-6">
+                    <p class="text-indigo-200 mb-2">
+                        <span class="font-bold text-white">Gợi ý:</span> <span id="hint-text"></span>
+                    </p>
+                    <p id="rationale-text" class="hidden">
+                        <span class="font-bold text-white">Chi tiết:</span> <span id="rationale-content"></span>
+                    </p>
+                </div>
+
+                <button id="btn-next" onclick="nextQuestion()"
+                    class="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-2xl text-xl shadow-lg transition-all flex justify-center items-center gap-2 cursor-pointer">
+                    Tiếp Tục Chuyến Bay 🛸
+                </button>
+            </div>
+        </div>
+
+        <!-- END SCREEN -->
+        <div id="screen-end"
+            class="glass-panel rounded-3xl p-10 text-center transform hover:scale-105 transition-transform duration-300 hidden">
+            <div class="text-7xl mb-6">🏆</div>
+            <h1
+                class="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">
+                Nhiệm Vụ Hoàn Thành!
+            </h1>
+            <p class="text-2xl text-white mb-2">
+                Điểm số của bạn: <span id="final-score" class="font-bold text-cyan-400"></span>
+            </p>
+            <p id="final-message" class="text-lg text-gray-400 mb-8"></p>
+
+            <button onclick="startGame()"
+                class="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-full text-xl transition-all flex items-center justify-center gap-2 mx-auto cursor-pointer">
+                🔄 Chơi lại từ đầu
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Logic JavaScript -->
+    <script>
+        // Database 173 Từ vựng & Cụm từ của Đề 002
+        const rawVocab = [
+            ["quantum", "lượng tử (thuộc về lượng tử)", "Thuộc về cấp độ nhỏ nhất của vật lý."],
+            ["breakthrough", "đột phá; thành tựu lớn", "Một phát hiện hay thành tựu vượt bậc."],
+            ["intractable", "khó giải quyết; khó kiểm soát", "Rất khó để xử lý hay giải quyết."],
+            ["revolutionize", "cách mạng hóa; thay đổi hoàn toàn", "Làm thay đổi một cách triệt để."],
+            ["unprecedented", "chưa từng có; vô tiền khoáng hậu", "Chưa từng xảy ra trong quá khứ."],
+            ["entanglement", "vướng víu lượng tử (vật lý); sự vướng mắc", "Trạng thái các hạt liên kết chặt chẽ với nhau."],
+            ["cryogenic", "(thuộc về) nhiệt độ cực thấp", "Liên quan đến nhiệt độ rất lạnh."],
+            ["curriculum", "chương trình học; khóa học", "Các môn học được giảng dạy tại trường."],
+            ["appreciate", "đánh giá cao; nhận thức rõ", "Hiểu rõ giá trị hoặc cảm kích điều gì."],
+            ["interplanetary", "giữa các hành tinh", "Di chuyển hoặc xảy ra giữa các hành tinh."],
+            ["propulsion", "hệ thống đẩy; lực đẩy", "Lực hoặc hệ thống đẩy một vật thể đi tới."],
+            ["resilience", "khả năng phục hồi; sức bền", "Khả năng chịu đựng và vượt qua khó khăn."],
+            ["cutting-edge", "tiên tiến nhất; hiện đại nhất", "Công nghệ hoặc kỹ thuật mới nhất."],
+            ["terraform", "biến đổi khí hậu (của một hành tinh) để phù hợp với sự sống của con người", "Tạo ra môi trường giống Trái Đất trên hành tinh khác."],
+            ["consciousness", "ý thức", "Trạng thái nhận thức và cảm nhận."],
+            ["augmentation", "sự tăng cường; sự mở rộng", "Việc làm tăng thêm hoặc cải thiện một cái gì đó."],
+            ["biocompatibility", "khả năng tương thích sinh học", "Khả năng tồn tại hòa hợp với cơ thể sống."],
+            ["ethical", "(thuộc về) đạo đức", "Liên quan đến các nguyên tắc đúng/sai."],
+            ["neuroplasticity", "tính dẻo thần kinh (khả năng não bộ thay đổi cấu trúc và chức năng)", "Khả năng thay đổi và thích nghi của bộ não."],
+            ["nootropic", "thuốc tăng cường nhận thức (thường gọi là \"thuốc thông minh\")", "Chất giúp cải thiện khả năng hoạt động của não."],
+            ["disparity", "sự chênh lệch; sự khác biệt lớn", "Sự khác nhau rõ rệt (thường về mặt kinh tế/xã hội)."],
+            ["meritocratic", "dựa trên tài năng; công bằng (trong đó thành công được quyết định bởi khả năng và nỗ lực)", "Hệ thống đề cao năng lực cá nhân."],
+            ["vertical", "thẳng đứng", "Hướng từ trên xuống dưới hoặc ngược lại."],
+            ["sustainability", "tính bền vững; khả năng duy trì", "Khả năng tồn tại lâu dài mà không phá hủy tài nguyên."],
+            ["automation", "tự động hóa", "Sử dụng máy móc thay thế sức người."],
+            ["profitability", "khả năng sinh lời; lợi nhuận", "Khả năng tạo ra tiền lãi."],
+            ["contend", "cho rằng; lập luận rằng", "Đưa ra ý kiến hoặc tranh luận."],
+            ["amplify", "khuếch đại; làm tăng thêm", "Làm cho lớn hơn hoặc mạnh hơn."],
+            ["democratize", "dân chủ hóa; làm cho mọi người đều có thể tiếp cận được", "Mở rộng quyền truy cập cho tất cả mọi người."],
+            ["efficacy", "hiệu quả; tính hiệu nghiệm", "Khả năng tạo ra kết quả như mong muốn."],
+            ["paradigmatic", "mang tính mẫu mực; có tính khuôn mẫu", "Đóng vai trò như một mô hình chuẩn."],
+            ["computational", "(thuộc về) tính toán; liên quan đến máy tính", "Liên quan đến việc sử dụng máy vi tính."],
+            ["methodology", "phương pháp luận; cách thức", "Hệ thống các phương pháp trong một lĩnh vực."],
+            ["cryptography", "mật mã học", "Khoa học về bảo mật thông tin."],
+            ["phenomenon", "hiện tượng", "Một sự việc hoặc hiện tượng đáng chú ý."],
+            ["qubit", "bit lượng tử", "Đơn vị thông tin cơ bản trong máy tính lượng tử."],
+            ["simultaneously", "đồng thời; cùng lúc", "Xảy ra ở cùng một thời điểm."],
+            ["exponential", "theo cấp số nhân; tăng rất nhanh", "Sự gia tăng với tốc độ cực kỳ nhanh."],
+            ["optimization", "sự tối ưu hóa", "Quá trình làm cho một thứ trở nên tốt nhất."],
+            ["imminent", "sắp xảy ra; gần kề", "Điều gì đó chắc chắn sẽ diễn ra rất sớm."],
+            ["undertake", "đảm nhận; tiến hành", "Chấp nhận bắt đầu làm một công việc."],
+            ["algorithm", "thuật toán", "Tập hợp các bước để giải quyết vấn đề toán học/máy tính."],
+            ["decoherence", "mất tính kết hợp lượng tử (vật lý)", "Sự mất đi trạng thái lượng tử."],
+            ["widespread", "phổ biến rộng rãi; lan rộng", "Được lan truyền ra phạm vi lớn."],
+            ["adoption", "sự chấp nhận; sự áp dụng", "Việc bắt đầu sử dụng một cái mới."],
+            ["astronomical", "(thuộc về) thiên văn học; cực lớn", "Liên quan đến vũ trụ, hoặc số lượng khổng lồ."],
+            ["renaissance", "sự phục hưng; thời kỳ phục hưng", "Sự sống lại hoặc phát triển rực rỡ trở lại."],
+            ["paradigm", "mô hình; hệ hình", "Một hệ thống tư duy hoặc ví dụ điển hình."],
+            ["comprehensive", "toàn diện; bao quát", "Bao gồm tất cả hoặc gần như mọi thứ."],
+            ["cosmic", "(thuộc về) vũ trụ", "Thuộc về không gian bao la ngoài Trái Đất."],
+            ["endeavor", "nỗ lực; cố gắng", "Sự thử sức hoặc nỗ lực đạt được mục đích."],
+            ["contemporary", "đương thời; hiện đại", "Thuộc về thời điểm hiện tại."],
+            ["sophisticated", "tinh vi; phức tạp", "Được thiết kế rất hiện đại và tinh xảo."],
+            ["aerospace", "hàng không vũ trụ", "Ngành công nghiệp về máy bay và tàu vũ trụ."],
+            ["groundbreaking", "đột phá; tiên phong", "Mở ra một kỷ nguyên hoặc khám phá mới."],
+            ["expertise", "chuyên môn; kỹ năng chuyên sâu", "Kiến thức và kỹ năng đặc biệt trong một lĩnh vực."],
+            ["colonization", "sự thuộc địa hóa; sự định cư", "Việc thiết lập sự sống ở một vùng đất hoặc hành tinh mới."],
+            ["prioritize", "ưu tiên", "Đặt lên hàng đầu để giải quyết trước."],
+            ["asteroid", "tiểu hành tinh", "Các khối đá nhỏ xoay quanh Mặt Trời."],
+            ["instantaneously", "ngay lập tức; tức thì", "Xảy ra ngay chớp mắt, không có độ trễ."],
+            ["vary", "thay đổi; biến đổi", "Trở nên khác biệt theo từng tình huống."],
+            ["dramatically", "đáng kể; kịch tính", "Thay đổi một cách mạnh mẽ, rõ rệt."],
+            ["stakeholder", "các bên liên quan; cổ đông", "Người hoặc nhóm có quyền lợi gắn liền với tổ chức."],
+            ["significance", "tầm quan trọng; ý nghĩa", "Sức ảnh hưởng hoặc ý nghĩa của một việc."],
+            ["terrestrial", "(thuộc về) trái đất; trên cạn", "Liên quan đến hành tinh chúng ta đang sống."],
+            ["exclusively", "duy nhất; độc quyền", "Chỉ dành riêng cho một đối tượng hay mục đích."],
+            ["embedded", "gắn liền; nằm sâu", "Được chèn hoặc cấy sâu vào bên trong."],
+            ["telecommunication", "viễn thông", "Ngành truyền thông tin qua khoảng cách xa."],
+            ["doctoral", "(thuộc về) tiến sĩ", "Cấp bậc học thuật cao nhất trong đại học."],
+            ["consultation", "sự tham vấn; buổi tư vấn", "Quá trình xin ý kiến chuyên gia."],
+            ["insight", "sự hiểu biết sâu sắc; cái nhìn sâu sắc", "Sự thấu hiểu bản chất của vấn đề."],
+            ["perplexed", "bối rối; hoang mang", "Không hiểu rõ, cảm thấy rắc rối."],
+            ["integrate", "tích hợp; hợp nhất", "Kết hợp các phần lại thành một tổng thể."],
+            ["protocol", "giao thức; quy tắc", "Hệ thống các luật lệ hoặc định dạng quy chuẩn."],
+            ["stringent", "nghiêm ngặt; khắt khe", "Rất chặt chẽ, không có sự nới lỏng."],
+            ["budgetary", "(thuộc về) ngân sách", "Liên quan đến việc thu chi tiền bạc."],
+            ["sustain", "duy trì; chống đỡ", "Giữ cho một việc tiếp tục diễn ra."],
+            ["compromise", "sự thỏa hiệp; làm tổn hại", "Sự nhượng bộ, hoặc làm giảm giá trị/an toàn."],
+            ["scarcity", "sự khan hiếm", "Tình trạng thiếu hụt trầm trọng."],
+            ["exponentially", "theo cấp số nhân; tăng/giảm rất nhanh", "Sự biến đổi ở mức độ cực lớn."],
+            ["nevertheless", "tuy nhiên; mặc dù vậy", "Từ nối dùng để chỉ sự trái ngược."],
+            ["ecosystem", "hệ sinh thái", "Môi trường sống của các sinh vật tương tác nhau."],
+            ["philosophical", "(thuộc về) triết học; mang tính triết lý", "Liên quan đến các lý luận về sự tồn tại, đạo đức."],
+            ["implication", "hàm ý; hệ quả", "Những tác động hoặc ý nghĩa ẩn sâu."],
+            ["laboratory", "phòng thí nghiệm", "Nơi tiến hành các nghiên cứu khoa học."],
+            ["interdisciplinary", "liên ngành", "Sự kết hợp giữa hai hay nhiều lĩnh vực học thuật."],
+            ["pioneering", "tiên phong; khai phá", "Người đi đầu trong một lĩnh vực."],
+            ["bioengineering", "kỹ thuật sinh học", "Ngành kết hợp sinh học và kỹ thuật."],
+            ["synthetic", "tổng hợp; nhân tạo", "Được tạo ra bởi con người, không có trong tự nhiên."],
+            ["organism", "sinh vật", "Một thực thể sống."],
+            ["hostile", "khắc nghiệt; thù địch", "Không thân thiện, khó sinh tồn."],
+            ["extraterrestrial", "ngoài trái đất; ngoại trái đất", "Đến từ bên ngoài vũ trụ."],
+            ["regrettably", "đáng tiếc là", "Thể hiện sự hối tiếc về một điều gì đó."],
+            ["evolve", "tiến hóa; phát triển", "Phát triển dần dần theo thời gian."],
+            ["regulate", "điều chỉnh; quy định", "Kiểm soát bằng các luật lệ."],
+            ["biotechnological", "(thuộc về) công nghệ sinh học", "Áp dụng công nghệ vào các hệ thống sinh học."],
+            ["deploy", "triển khai; bố trí", "Đưa vào sử dụng thực tế."],
+            ["transformative", "có khả năng thay đổi lớn; mang tính chuyển đổi", "Gây ra sự lột xác hoặc biến đổi hoàn toàn."],
+            ["augment", "tăng cường; mở rộng", "Làm cho lớn hơn hoặc tốt hơn."],
+            ["validation", "sự xác nhận; sự chứng thực", "Hành động kiểm tra để chứng minh sự thật."],
+            ["intervention", "sự can thiệp", "Việc chen vào để thay đổi tình hình."],
+            ["biochemical", "sinh hóa", "Sự kết hợp giữa sinh học và hóa học."],
+            ["scrutiny", "sự xem xét kỹ lưỡng; sự giám sát chặt chẽ", "Việc kiểm tra rất cẩn thận."],
+            ["bioethicist", "nhà đạo đức sinh học", "Chuyên gia nghiên cứu luân lý trong sinh học."],
+            ["authenticity", "tính xác thực; sự chân thật", "Tính chất đúng với nguyên bản, không giả mạo."],
+            ["neurological", "(thuộc về) thần kinh", "Liên quan đến hệ thần kinh và não bộ."],
+            ["legitimate", "hợp pháp; chính đáng", "Được pháp luật hoặc quy tắc công nhận."],
+            ["elective", "tự chọn; không bắt buộc", "Môn học hoặc quyết định phụ thuộc vào sở thích."],
+            ["decline", "sự suy giảm; suy thoái", "Sự giảm bớt về số lượng hoặc chất lượng."],
+            ["manipulation", "sự thao túng; sự điều khiển", "Hành động điều khiển ai/cái gì theo ý mình."],
+            ["controversial", "gây tranh cãi", "Tạo ra nhiều ý kiến trái chiều."],
+            ["transcranial", "xuyên sọ", "Liên quan đến việc xuyên qua hộp sọ."],
+            ["stimulation", "sự kích thích", "Tạo ra động lực hoặc hoạt động."],
+            ["consolidation", "sự củng cố; sự hợp nhất", "Làm cho mạnh thêm hoặc gom lại với nhau."],
+            ["profound", "sâu sắc; uyên thâm", "Có chiều sâu, rất lớn hoặc quan trọng."],
+            ["artificial", "nhân tạo; giả tạo", "Do con người làm ra, không tự nhiên."],
+            ["modification", "sự điều chỉnh; sự thay đổi", "Việc sửa đổi để phù hợp hơn."],
+            ["disadvantaged", "bất lợi; có hoàn cảnh khó khăn", "Chịu thiệt thòi so với người khác."],
+            ["exacerbate", "làm trầm trọng thêm", "Làm cho tình huống xấu đi."],
+            ["principle", "nguyên tắc; quy tắc", "Đạo lý hoặc luật lệ cơ bản."],
+            ["proponent", "người ủng hộ; người đề xướng", "Người đứng ra bảo vệ một ý tưởng."],
+            ["disability", "khuyết tật", "Tình trạng hạn chế về thể chất hoặc tinh thần."],
+            ["revolution", "cuộc cách mạng", "Sự thay đổi vĩ đại trong một lĩnh vực."],
+            ["emergence", "sự xuất hiện; sự nổi lên", "Việc một điều gì đó bắt đầu được biết đến."],
+            ["cultivation", "sự trồng trọt; canh tác", "Quá trình gieo trồng và chăm sóc cây cối."],
+            ["sustainable", "bền vững; có thể duy trì", "Có khả năng kéo dài mà không gây hại."],
+            ["yield", "năng suất; sản lượng", "Số lượng sản phẩm thu hoạch được."],
+            ["obstacle", "trở ngại; chướng ngại vật", "Thứ cản bước tiến."],
+            ["consumption", "sự tiêu thụ", "Việc sử dụng năng lượng hoặc hàng hóa."],
+            ["photosynthesis", "quang hợp", "Quá trình cây xanh tạo ra chất hữu cơ nhờ ánh sáng."],
+            ["nutrient", "chất dinh dưỡng", "Chất giúp sinh vật sinh trưởng và phát triển."],
+            ["sterile", "vô trùng; khử trùng", "Sạch vi khuẩn hoàn toàn."],
+            ["viability", "khả năng tồn tại; tính khả thi", "Khả năng thực hiện được thành công."],
+            ["robotic", "(thuộc về) rô bốt", "Liên quan đến máy móc tự động."],
+            ["infrastructure", "cơ sở hạ tầng", "Hệ thống nền tảng thiết yếu."],
+            ["superior", "vượt trội; cao cấp", "Tốt hơn hẳn so với phần còn lại."],
+            ["incentive", "khuyến khích; động lực", "Phần thưởng thúc đẩy hành động."],
+            ["discourse", "diễn ngôn; cuộc tranh luận", "Sự trao đổi ý kiến sâu sắc."],
+            ["preservation", "sự bảo tồn; sự gìn giữ", "Việc bảo vệ để không bị phá hủy."],
+            ["conclusively", "một cách thuyết phục; rõ ràng", "Đưa ra kết luận cuối cùng, không thể chối cãi."],
+            ["incompatible", "không tương thích; xung khắc", "Không thể hoạt động cùng nhau."],
+            ["equity", "sự công bằng; vốn chủ sở hữu", "Tính công bằng, không thiên vị."],
+            ["implement", "thi hành; thực hiện", "Đưa một kế hoạch vào thực tiễn."],
+            ["therapeutic", "(thuộc về) trị liệu; có tính chữa bệnh", "Giúp phục hồi hoặc chữa lành bệnh."],
+            ["transform", "biến đổi; chuyển đổi", "Làm thay đổi hình dáng hoặc tính chất."],
+            ["advance", "tiến bộ; nâng cao", "Sự di chuyển lên phía trước hoặc phát triển."],
+            ["alter", "thay đổi; biến đổi", "Tạo ra một sự khác biệt nhỏ."],
+            ["examine", "kiểm tra; khám xét; nghiên cứu", "Xem xét cẩn thận từng chi tiết."],
+
+            // Cụm từ
+            ["paradigmatic breakthrough", "bước đột phá mang tính mẫu mực/mô hình", "Sự phát triển phá vỡ khuôn mẫu cũ."],
+            ["intractable computational problems", "các vấn đề tính toán khó giải quyết", "Những bài toán máy tính không thể giải dễ dàng."],
+            ["widespread technological adoption", "việc áp dụng công nghệ rộng rãi", "Khi nhiều người cùng sử dụng một công cụ mới."],
+            ["deep space exploration", "khám phá không gian sâu", "Du hành vũ trụ vượt ra ngoài quỹ đạo gần."],
+            ["groundbreaking scientific experiments", "các thí nghiệm khoa học đột phá", "Nghiên cứu mang lại phát hiện chưa từng có."],
+            ["crucial scientific data", "dữ liệu khoa học quan trọng", "Thông tin thiết yếu để nghiên cứu thành công."],
+            ["budgetary limitations", "hạn chế về ngân sách", "Việc thiếu hụt hoặc bị giới hạn tiền bạc."],
+            ["philosophical implications", "ý nghĩa/hàm ý triết học", "Tác động đến nhận thức về tồn tại và con người."],
+            ["personal identity", "bản sắc cá nhân", "Cái tôi và những đặc điểm riêng biệt của một người."],
+            ["self-sustaining ecosystems", "hệ sinh thái tự duy trì", "Môi trường sống không cần tác động bên ngoài."],
+            ["transformative potential", "tiềm năng biến đổi/chuyển hóa", "Khả năng tạo ra thay đổi to lớn trong tương lai."],
+            ["ethical and safety considerations", "các cân nhắc về đạo đức và an toàn", "Sự tính toán về rủi ro và đúng sai."],
+            ["sustainable food production", "sản xuất lương thực bền vững", "Trồng trọt, chăn nuôi không hủy hoại môi trường."],
+            ["energy consumption", "tiêu thụ năng lượng", "Lượng điện hoặc nhiên liệu được sử dụng."],
+            ["play a fundamental role", "đóng một vai trò cơ bản/nền tảng", "Góp phần cốt lõi tạo nên sự thành công."],
+            ["neuroplasticity manipulation", "thao túng tính dẻo của thần kinh (khả năng thay đổi của não)", "Can thiệp làm thay đổi cấu trúc não bộ."],
+            ["social inequality concerns", "mối lo ngại về bất bình đẳng xã hội", "Sự lo lắng về khoảng cách giàu nghèo."],
+            ["long-term neurological consequences", "hậu quả thần kinh lâu dài", "Tác động vĩnh viễn đến cấu trúc não bộ."],
+            ["focus on", "tập trung vào", "Dồn mọi sự chú ý vào một điểm."],
+            ["gather up", "thu thập/gom lại", "Thu gom thông tin hoặc đồ vật."],
+            ["expand beyond", "mở rộng vượt ra ngoài", "Phát triển vượt qua giới hạn cũ."],
+            ["extend far beyond", "vượt xa/mở rộng ra rất xa", "Tác động đến một phạm vi vô cùng lớn."],
+            ["face scrutiny", "đối mặt với sự xem xét kỹ lưỡng/kiểm tra gắt gao", "Bị giám sát và đánh giá nghiêm ngặt."],
+            ["distinguish between", "phân biệt giữa", "Nhận ra sự khác nhau giữa hai thứ."],
+            ["raise questions about", "đặt ra câu hỏi về", "Làm nảy sinh sự nghi ngờ hoặc tò mò."]
+        ];
+
+        // Khởi tạo hiển thị tổng số câu
+        document.getElementById('total-count').innerText = rawVocab.length;
+
+        // Sinh Quiz Động và Xáo trộn
+        const quizData = rawVocab.map((item, index) => {
+            const correctMeaning = item[1];
+            let wrongMeanings = [];
+
+            // Random 3 đáp án nhiễu khác với đáp án đúng
+            while (wrongMeanings.length < 3) {
+                const randomItem = rawVocab[Math.floor(Math.random() * rawVocab.length)];
+                if (randomItem[1] !== correctMeaning && !wrongMeanings.includes(randomItem[1])) {
+                    wrongMeanings.push(randomItem[1]);
+                }
+            }
+
+            const options = [
+                { text: correctMeaning, rationale: "Tuyệt vời, đây là đáp án chính xác!", isCorrect: true },
+                { text: wrongMeanings[0], rationale: "Đáp án sai, đây là nghĩa của một từ khác trong bài.", isCorrect: false },
+                { text: wrongMeanings[1], rationale: "Đáp án sai, đây là nghĩa của một từ khác trong bài.", isCorrect: false },
+                { text: wrongMeanings[2], rationale: "Đáp án sai, đây là nghĩa của một từ khác trong bài.", isCorrect: false }
+            ];
+
+            return {
+                questionNumber: index + 1,
+                question: `Nghĩa của từ/cụm từ **${item[0]}** là gì?`,
+                answerOptions: options,
+                hint: item[2]
+            };
+        });
+
+        // Tạo Background Sao Lấp Lánh
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'absolute rounded-full bg-white opacity-0 animate-twinkle';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                const size = `${Math.random() * 3 + 1}px`;
+                star.style.width = size;
+                star.style.height = size;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(star);
+            }
+        }
+
+        // Trạng thái Game
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+        let currentShuffledOptions = [];
+
+        // DOM Elements
+        const screenStart = document.getElementById('screen-start');
+        const screenPlaying = document.getElementById('screen-playing');
+        const screenEnd = document.getElementById('screen-end');
+
+        const progressText = document.getElementById('progress-text');
+        const scoreText = document.getElementById('score-text');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationContainer = document.getElementById('explanation-container');
+        const hintText = document.getElementById('hint-text');
+        const rationaleText = document.getElementById('rationale-text');
+        const rationaleContent = document.getElementById('rationale-content');
+        const btnNext = document.getElementById('btn-next');
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function formatMarkdownBold(text) {
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            hasAnswered = false;
+
+            screenStart.classList.add('hidden');
+            screenEnd.classList.add('hidden');
+            screenPlaying.classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            hasAnswered = false;
+            const currentQ = quizData[currentQuestionIndex];
+
+            // Cập nhật UI
+            progressText.innerText = `CÂU HỎI ${currentQuestionIndex + 1} / ${quizData.length}`;
+            scoreText.innerText = `Điểm: ${score}`;
+            questionText.innerHTML = formatMarkdownBold(currentQ.question);
+
+            // Xáo trộn đáp án
+            currentShuffledOptions = shuffleArray(currentQ.answerOptions);
+
+            // Tạo nút đáp án
+            optionsContainer.innerHTML = '';
+            currentShuffledOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "text-left p-5 rounded-2xl border transition-all duration-300 text-lg bg-white/5 border-white/10 hover:bg-white/10 hover:border-purple-400 cursor-pointer";
+                btn.innerText = option.text;
+                btn.onclick = () => handleAnswer(index, option.isCorrect);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Ẩn phần giải thích
+            explanationContainer.classList.remove('max-h-96', 'opacity-100');
+            explanationContainer.classList.add('max-h-0', 'opacity-0');
+            rationaleText.classList.add('hidden');
+
+            // Cập nhật text nút Next
+            if (currentQuestionIndex < quizData.length - 1) {
+                btnNext.innerHTML = 'Tiếp Tục Chuyến Bay 🛸';
+            } else {
+                btnNext.innerHTML = 'Hoàn Thành Nhiệm Vụ 🏆';
+            }
+        }
+
+        function handleAnswer(selectedIndex, isCorrect) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+
+            const currentQ = quizData[currentQuestionIndex];
+
+            if (isCorrect) {
+                score++;
+                scoreText.innerText = `Điểm: ${score}`;
+            }
+
+            // Cập nhật style cho các nút đáp án
+            const buttons = optionsContainer.children;
+            currentShuffledOptions.forEach((option, index) => {
+                const btn = buttons[index];
+                btn.disabled = true;
+                btn.className = "text-left p-5 rounded-2xl border transition-all duration-300 text-lg ";
+
+                if (option.isCorrect) {
+                    btn.className += "bg-green-500/20 border-green-400 shadow-[0_0_15px_rgba(74,222,128,0.4)] text-white";
+                } else if (index === selectedIndex && !option.isCorrect) {
+                    btn.className += "bg-red-500/20 border-red-400 text-red-200";
+                } else {
+                    btn.className += "bg-white/5 border-white/5 opacity-50";
+                }
+            });
+
+            // Hiện giải thích
+            hintText.innerText = currentQ.hint;
+            rationaleContent.innerText = currentShuffledOptions[selectedIndex].rationale;
+            rationaleText.className = isCorrect ? "text-green-400 block mt-2" : "text-yellow-400 block mt-2";
+
+            explanationContainer.classList.remove('max-h-0', 'opacity-0');
+            explanationContainer.classList.add('max-h-96', 'opacity-100');
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            screenPlaying.classList.add('hidden');
+            screenEnd.classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+
+            const finalMessage = document.getElementById('final-message');
+            if (score >= quizData.length * 0.9) {
+                finalMessage.innerText = "Tuyệt vời! Bạn đích thực là tinh hoa của kỹ thuật sinh học và vũ trụ!";
+            } else if (score >= quizData.length * 0.5) {
+                finalMessage.innerText = "Kiến thức của bạn bay khá xa rồi đấy, tiếp tục rèn luyện để đạt đột phá nhé!";
+            } else {
+                finalMessage.innerText = "Hành trình chinh phục không gian luôn cần thời gian, đừng nản chí nhé.";
+            }
+        }
+
+        // Khởi tạo hiệu ứng ngôi sao
+        createStars();
+
+    </script>
+</body>
+
+</html>
+```
