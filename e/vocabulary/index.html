@@ -168,35 +168,47 @@
         // để tạo thêm thư mục mới. Hệ thống sẽ tự động vẽ ra giao diện.
         const vocabularyData = [
             {
-                folder: "reviseG12/Topic 1LifeStories",                 
-                name: "Topic 1: Life Stories",             
-                description: "Từ vựng chuyên sâu về chủ đề Life Stories.",
-                icon: "book-open",             
-                colorClass: "text-green-600 bg-green-100",  
-                hoverClass: "group-hover:bg-green-600 group-hover:text-white", 
-                files: [                             
-                    { path: "lifestories1.html", name: "Life Stories - Part 1" },
-                    { path: "lifestories2.html", name: "Life Stories - Part 2" },
-                    { path: "lifestories3.html", name: "Life Stories - Part 3" },
-                    { path: "lifestories4.html", name: "Life Stories - Part 4" },
-                    { path: "lifestories5.html", name: "Life Stories - Part 5" }
-                ]
-            },
-            {
-                folder: "reviseG12/Topic2CulturalDiversity",
-                name: "Topic 2: Cultural Diversity",
-                description: "Từ vựng về sự đa dạng văn hóa.",
-                icon: "globe",
-                colorClass: "text-orange-600 bg-orange-100",
-                hoverClass: "group-hover:bg-orange-600 group-hover:text-white",
-                files: [
-                    { path: "culturaldiversity1.html", name: "Cultural Diversity - Part 1" },
-                    { path: "culturaldiversity2.html", name: "Cultural Diversity - Part 2" },
-                    { path: "culturaldiversity3.html", name: "Cultural Diversity - Part 3" },
-                    { path: "culturaldiversity4.html", name: "Cultural Diversity - Part 4" },
-                    { path: "culturaldiversity5.html", name: "Cultural Diversity - Part 5" },
-                    { path: "culturaldiversity6.html", name: "Cultural Diversity - Part 6" },
-                    { path: "culturaldiversity7.html", name: "Cultural Diversity - Part 7" }
+                name: "Revise Grade 12",
+                description: "Chương trình ôn tập toàn diện cho học sinh lớp 12.",
+                icon: "book-open-check",
+                colorClass: "text-green-600 bg-green-100",
+                hoverClass: "group-hover:bg-green-600 group-hover:text-white",
+                type: "category",
+                items: [
+                    {
+                        folder: "reviseG12/Topic1LifeStories",                 
+                        name: "Topic 1: Life Stories",             
+                        description: "Từ vựng chuyên sâu về chủ đề Life Stories.",
+                        icon: "book-open",             
+                        colorClass: "text-emerald-600 bg-emerald-100",  
+                        hoverClass: "group-hover:bg-emerald-600 group-hover:text-white", 
+                        type: "folder",
+                        files: [                             
+                            { path: "lifestories1.html", name: "Life Stories - Part 1" },
+                            { path: "lifestories2.html", name: "Life Stories - Part 2" },
+                            { path: "lifestories3.html", name: "Life Stories - Part 3" },
+                            { path: "lifestories4.html", name: "Life Stories - Part 4" },
+                            { path: "lifestories5.html", name: "Life Stories - Part 5" }
+                        ]
+                    },
+                    {
+                        folder: "reviseG12/Topic2CulturalDiversity",
+                        name: "Topic 2: Cultural Diversity",
+                        description: "Từ vựng về sự đa dạng văn hóa.",
+                        icon: "globe",
+                        colorClass: "text-orange-600 bg-orange-100",
+                        hoverClass: "group-hover:bg-orange-600 group-hover:text-white",
+                        type: "folder",
+                        files: [
+                            { path: "culturaldiversity1.html", name: "Cultural Diversity - Part 1" },
+                            { path: "culturaldiversity2.html", name: "Cultural Diversity - Part 2" },
+                            { path: "culturaldiversity3.html", name: "Cultural Diversity - Part 3" },
+                            { path: "culturaldiversity4.html", name: "Cultural Diversity - Part 4" },
+                            { path: "culturaldiversity5.html", name: "Cultural Diversity - Part 5" },
+                            { path: "culturaldiversity6.html", name: "Cultural Diversity - Part 6" },
+                            { path: "culturaldiversity7.html", name: "Cultural Diversity - Part 7" }
+                        ]
+                    }
                 ]
             },
             {
@@ -206,21 +218,74 @@
                 icon: "award",
                 colorClass: "text-blue-600 bg-blue-100",
                 hoverClass: "group-hover:bg-blue-600 group-hover:text-white",
-                files: []
+                type: "folder",
+                files: [
+                    { path: "DNR06.html", name: "DNR 06" },
+                    { path: "quiz5.html", name: "Quiz 5" }
+                ]
             }
         ];
 
         // ======= LOGIC HIỂN THỊ ========
         const appContainer = document.getElementById('appContainer');
 
-        function renderFolderList() {
+        function renderMainCategories() {
             let html = `
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 slide-in">
             `;
             
-            vocabularyData.forEach((folder, index) => {
+            vocabularyData.forEach((item, index) => {
+                const handler = item.type === 'category' ? `renderSubfolders(${index})` : `renderFileList(${index})`;
+                const countText = item.type === 'category' ? `${item.items.length} chủ đề` : `${item.files.length} bài học`;
+
                 html += `
-                    <div onclick="renderFileList(${index})" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden cursor-pointer">
+                    <div onclick="${handler}" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 shadow-sm ${item.colorClass} ${item.hoverClass}">
+                            <i data-lucide="${item.icon}" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-800 transition-colors group-hover:text-primary">${item.name}</h3>
+                        <p class="text-gray-500 mb-4">${item.description}</p>
+                        <div class="flex items-center text-sm font-medium text-gray-400">
+                            <i data-lucide="folder-open" class="w-4 h-4 mr-2"></i> ${countText}
+                        </div>
+                        <div class="absolute top-6 right-6 w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0 translate-x-4">
+                            <i data-lucide="arrow-right" class="w-5 h-5 text-gray-600 group-hover:text-primary"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            appContainer.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function renderSubfolders(catIndex) {
+            const category = vocabularyData[catIndex];
+            
+            let html = `
+                <div class="slide-in">
+                    <button onclick="renderMainCategories()" class="mb-8 inline-flex items-center text-gray-500 hover:text-primary transition-colors font-semibold group px-4 py-2 rounded-lg hover:bg-primary/5">
+                        <i data-lucide="arrow-left" class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"></i>
+                        Quay lại danh mục
+                    </button>
+                    
+                    <div class="bg-white rounded-3xl p-8 border border-gray-150 shadow-sm mb-8 flex items-center gap-6">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center ${category.colorClass}">
+                            <i data-lucide="${category.icon}" class="w-10 h-10"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold mb-2 text-gray-800">${category.name}</h2>
+                            <p class="text-gray-500 text-lg">${category.description}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+
+            category.items.forEach((folder, fIndex) => {
+                html += `
+                    <div onclick="renderFileList(${catIndex}, ${fIndex})" class="hover-card bg-white rounded-2xl p-6 border border-gray-150 relative group overflow-hidden cursor-pointer">
                         <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 shadow-sm ${folder.colorClass} ${folder.hoverClass}">
                             <i data-lucide="${folder.icon}" class="w-8 h-8"></i>
                         </div>
@@ -236,19 +301,33 @@
                 `;
             });
             
-            html += `</div>`;
+            html += `
+                    </div>
+                </div>
+            `;
+            
             appContainer.innerHTML = html;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             lucide.createIcons();
         }
 
-        function renderFileList(folderIndex) {
-            const folder = vocabularyData[folderIndex];
+        function renderFileList(catIndex, folderIndex = null) {
+            let folder;
+            let backAction;
+            
+            if (folderIndex !== null) {
+                folder = vocabularyData[catIndex].items[folderIndex];
+                backAction = `renderSubfolders(${catIndex})`;
+            } else {
+                folder = vocabularyData[catIndex];
+                backAction = `renderMainCategories()`;
+            }
             
             let html = `
                 <div class="slide-in">
-                    <button onclick="renderFolderList()" class="mb-8 inline-flex items-center text-gray-500 hover:text-primary transition-colors font-semibold group px-4 py-2 rounded-lg hover:bg-primary/5">
+                    <button onclick="${backAction}" class="mb-8 inline-flex items-center text-gray-500 hover:text-primary transition-colors font-semibold group px-4 py-2 rounded-lg hover:bg-primary/5">
                         <i data-lucide="arrow-left" class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"></i>
-                        Quay lại danh sách
+                        Quay lại
                     </button>
                     
                     <div class="bg-white rounded-3xl p-8 border border-gray-150 shadow-sm mb-8 flex items-center gap-6">
@@ -321,7 +400,7 @@
 
         // Khởi tạo giao diện lần đầu tiên
         document.addEventListener('DOMContentLoaded', () => {
-            renderFolderList();
+            renderMainCategories();
         });
     </script>
 </body>
