@@ -7225,21 +7225,20 @@
 
             const content = `
                 <div class="relative w-full max-w-2xl px-5 py-6 md:px-8 md:py-8 card-crystal rounded-[3rem] md:rounded-[4rem] flex flex-col items-center text-white transform scale-95 transition-transform duration-700 my-auto" id="summary-pill">
-                    <h2 class="text-2xl md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-cyan-300 mb-5 drop-shadow-md text-center">Bảng Tổng Kết</h2>
-                    
+                    <div class="w-full flex items-baseline justify-between mb-4 px-1">
+                        <span class="text-white/50 text-xs md:text-sm tracking-wide">${timeStr} &middot; ${dateStr}</span>
+                        <h2 class="text-xl md:text-2xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-cyan-300 drop-shadow-md">Bảng Tổng Kết</h2>
+                    </div>
+
                     ${badgesHTML ? `
-                    <div class="flex flex-col items-center mb-5 crystal-pill p-4 rounded-[2.5rem] w-full text-center">
+                    <div class="flex flex-col items-center mb-4 crystal-pill p-4 rounded-[2.5rem] w-full text-center">
                         <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold mb-3">Huy Hiệu Hoàn Thành</span>
                         <div class="flex items-center justify-center gap-6">
                             ${badgesHTML}
                         </div>
                     </div>` : ''}
 
-                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-sm md:text-base font-semibold mb-5">
-                        <div class="flex flex-col gap-1 crystal-pill p-3 md:p-4 rounded-[2rem] text-center justify-center">
-                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Thời gian hiện tại</span>
-                            <span class="text-md md:text-lg tracking-wide">${timeStr} - ${dateStr}</span>
-                        </div>
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-sm md:text-base font-semibold mb-4">
                         <div class="flex flex-col gap-1 crystal-pill p-3 md:p-4 rounded-[2rem] text-center justify-center">
                             <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Thời gian học</span>
                             <span class="text-md md:text-lg tracking-wide font-timer">${learningTime}</span>
@@ -7250,13 +7249,16 @@
                             <span class="text-md md:text-lg"><span class="font-black text-yellow-300 text-xl">${totalScore}</span> pts <span class="text-white/30 mx-2">|</span> <span class="text-green-300 text-xl">${correctCount}</span><span class="text-white/60"> / ${originalFlashcardsCount} từ</span></span>
                         </div>
 
-                        <div class="flex flex-col gap-1 crystal-pill p-3 md:p-4 rounded-[2rem] text-center justify-center">
-                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Do you use these words today?</span>
-                            <span class="text-base tracking-wide text-emerald-300 italic">${yesNoAnswer}</span>
-                        </div>
-                        <div class="flex flex-col gap-1 crystal-pill p-3 md:p-4 rounded-[2rem] text-center justify-center overflow-hidden">
-                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Where will you use these words?</span>
-                            <span class="text-base tracking-wide text-emerald-300 italic truncate w-full" title="${whereAnswer}">${whereAnswer}</span>
+                        <div class="crystal-pill p-4 rounded-[2rem] md:col-span-2 flex flex-col gap-3">
+                            <div class="flex items-start gap-3">
+                                <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold w-[45%] text-right pt-0.5 leading-relaxed shrink-0">Do you use these words today?</span>
+                                <span class="text-base text-emerald-300 italic font-semibold">${yesNoAnswer}</span>
+                            </div>
+                            <div class="w-full h-px bg-white/10"></div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold w-[45%] text-right pt-0.5 leading-relaxed shrink-0">Where will you use these words?</span>
+                                <span class="text-base text-emerald-300 italic font-semibold flex-1 break-words" title="${whereAnswer}">${whereAnswer}</span>
+                            </div>
                         </div>
 
                         <div class="flex flex-col gap-1 crystal-pill p-3 md:p-4 rounded-[2rem] md:col-span-2 text-center justify-center">
@@ -7265,14 +7267,14 @@
                         </div>
                     </div>
 
-                    <div class="w-full flex flex-col items-center info-crystal py-4 px-2 rounded-[2.5rem] mt-1 mb-2">
-                        <span class="text-[0.65rem] md:text-xs text-white uppercase tracking-widest font-bold mb-1 opacity-90">Danh hiệu</span>
-                        <span class="text-3xl md:text-4xl font-black uppercase tracking-widest ${titleColor} drop-shadow-2xl" style="animation: crystal-shine 3s infinite;">
+                    <div class="w-full flex flex-col items-center info-crystal py-5 px-2 rounded-[2.5rem] mt-1 mb-2">
+                        <span class="text-[0.65rem] md:text-xs text-white/70 uppercase tracking-widest font-bold mb-2">Danh hiệu</span>
+                        <span class="text-4xl md:text-5xl font-black uppercase tracking-widest text-white" style="text-shadow: 0 0 18px rgba(255,255,255,0.95), 0 0 35px rgba(255,255,255,0.6), 0 0 55px rgba(192,132,252,0.85), 0 0 80px rgba(139,92,246,0.5); animation: crystal-shine 3s infinite;">
                             ${titleName}
                         </span>
                     </div>
 
-                    <button id="summary-close-btn" class="mt-4 btn-crystal w-full md:w-2/3 py-3.5 rounded-full font-bold text-base md:text-lg uppercase tracking-widest shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:scale-105 transition-transform duration-300">
+                    <button id="summary-close-btn" class="mt-3 btn-crystal w-full md:w-2/3 py-3.5 rounded-full font-bold text-base md:text-lg uppercase tracking-widest shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:scale-105 transition-transform duration-300">
                         Hoàn Thành
                     </button>
                 </div>
