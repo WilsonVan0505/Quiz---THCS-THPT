@@ -6537,8 +6537,8 @@
             if (cardsFlippedCount >= 3) {
                 const rBtn = document.getElementById('restart-btn');
                 if (rBtn) {
-                    rBtn.innerHTML = `<span style="margin-right:8px;">🔮</span><span>Restart Ritual</span>`;
-                    rBtn.onclick = () => resetQuiz();
+                    rBtn.innerHTML = `<span style="margin-right:8px;">🔮</span><span>View Summary</span>`;
+                    rBtn.onclick = () => showFinalSummary(activeSessionOrb, window.finalChosenOrb);
                     rBtn.style.background = "linear-gradient(135deg, #7c3aed, #4f46e5)";
                     rBtn.style.boxShadow = "0 0 30px rgba(139, 92, 246, 0.6)";
                     rBtn.classList.add('animate-bounce');
@@ -6894,7 +6894,8 @@
                                         if (isClosing) return;
                                         isClosing = true;
                                         cleanup3D();
-                                        resetQuiz();
+                                        window.finalChosenOrb = chosenOrbData;
+                                        showFinalSummary(magic, chosenOrbData);
                                         setTimeout(() => {
                                             oldOnClick();
                                         }, 1000);
@@ -7177,6 +7178,101 @@
                         </span>
                     </div>
                 </div>`;
+        }
+
+        window.finalChosenOrb = null;
+
+        function showFinalSummary(orb1, orb2) {
+            const existing = document.getElementById('final-summary-overlay');
+            if (existing) existing.remove();
+
+            const sumOverlay = document.createElement('div');
+            sumOverlay.id = 'final-summary-overlay';
+            sumOverlay.className = "fixed inset-0 z-[100000] flex flex-col items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md opacity-0 transition-opacity duration-1000 overflow-y-auto no-scrollbar";
+            document.body.appendChild(sumOverlay);
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+            const correctCount = originalFlashcardsCount - reviewWordsList.length;
+            const reviewWordsText = reviewWordsList.length > 0 ? reviewWordsList.join(', ') : "Không có";
+            
+            const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+            const s = (secondsElapsed % 60).toString().padStart(2, '0');
+            const learningTime = `${m}:${s}`;
+
+            let titleName = "";
+            let titleColor = "";
+            if (totalScore < 70) { titleName = "Học lại"; titleColor = "text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]"; }
+            else if (totalScore < 80) { titleName = "Khá"; titleColor = "text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]"; }
+            else if (totalScore < 90) { titleName = "Giỏi"; titleColor = "text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]"; }
+            else if (totalScore <= 100) { titleName = "Xuất sắc"; titleColor = "text-blue-400 drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]"; }
+            else { titleName = "Ưu tú"; titleColor = "text-purple-400 drop-shadow-[0_0_10px_rgba(192,132,252,0.8)]"; }
+
+            let badgesHTML = '';
+            if (orb1) badgesHTML += buildOrbHTML(orb1, '60px', false);
+            if (orb2) badgesHTML += buildOrbHTML(orb2, '60px', false);
+
+            const content = `
+                <div class="relative w-full max-w-2xl px-6 py-8 md:px-10 md:py-10 bg-gradient-to-br from-indigo-900/80 to-purple-900/80 border-[1.5px] border-fuchsia-400/60 rounded-[3rem] md:rounded-[4rem] shadow-[0_0_50px_rgba(192,132,252,0.5),inset_0_0_30px_rgba(255,255,255,0.15)] backdrop-blur-xl flex flex-col items-center text-white transform scale-95 transition-transform duration-700 my-auto" id="summary-pill">
+                    <h2 class="text-2xl md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-cyan-300 mb-6 drop-shadow-md text-center">Bảng Tổng Kết</h2>
+                    
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 text-sm md:text-base font-semibold">
+                        <div class="flex flex-col gap-1.5 bg-white/5 p-4 rounded-3xl border border-white/10 shadow-inner">
+                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Thời gian hiện tại</span>
+                            <span class="text-md md:text-lg tracking-wide">${timeStr} - ${dateStr}</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-white/5 p-4 rounded-3xl border border-white/10 shadow-inner">
+                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Thời gian học</span>
+                            <span class="text-md md:text-lg tracking-wide font-timer">${learningTime}</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-white/5 p-4 rounded-3xl border border-white/10 shadow-inner">
+                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Điểm số / Số từ đúng</span>
+                            <span class="text-md md:text-lg"><span class="font-black text-yellow-300">${totalScore}</span> pts <span class="text-white/30 mx-1">|</span> <span class="text-green-300">${correctCount}</span><span class="text-white/60">/${originalFlashcardsCount} từ</span></span>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-white/5 p-4 rounded-3xl border border-white/10 shadow-inner">
+                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Danh hiệu</span>
+                            <span class="text-lg md:text-xl font-black uppercase tracking-widest ${titleColor}">${titleName}</span>
+                        </div>
+                        <div class="flex flex-col gap-1.5 bg-white/5 p-4 rounded-3xl border border-white/10 shadow-inner md:col-span-2 text-center md:text-left">
+                            <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold">Số từ cần Review (${reviewWordsList.length})</span>
+                            <span class="text-rose-300 italic font-medium leading-relaxed">${reviewWordsText}</span>
+                        </div>
+                    </div>
+
+                    ${badgesHTML ? `
+                    <div class="flex flex-col items-center mt-6 bg-white/5 p-4 rounded-3xl border border-white/10 w-full shadow-inner">
+                        <span class="text-fuchsia-300/80 text-[0.65rem] md:text-xs uppercase tracking-widest font-bold mb-3">Huy Hiệu Hoàn Thành</span>
+                        <div class="flex items-center justify-center gap-6">
+                            ${badgesHTML}
+                        </div>
+                    </div>` : ''}
+
+                    <button id="summary-close-btn" class="mt-8 btn-crystal w-full md:w-2/3 py-3.5 rounded-full font-bold text-base md:text-lg uppercase tracking-widest shadow-[0_0_25px_rgba(168,85,247,0.6)]">
+                        Hoàn Thành
+                    </button>
+                </div>
+            `;
+            
+            sumOverlay.innerHTML = content;
+
+            document.getElementById('summary-close-btn').onclick = () => {
+                resetQuiz();
+                sumOverlay.style.transition = 'opacity 0.6s ease';
+                sumOverlay.style.opacity = '0';
+                setTimeout(() => sumOverlay.remove(), 700);
+            };
+
+            playSuccessSound();
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    sumOverlay.style.opacity = '1';
+                    document.getElementById('summary-pill').classList.remove('scale-95');
+                    document.getElementById('summary-pill').classList.add('scale-100');
+                });
+            });
         }
 
         // ==========================================
