@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakery Vocabulary Quiz</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts cho chủ đề Bếp bánh -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            background-color: #FDFBF7;
+        }
+
+        /* Animations cho chủ đề làm bánh */
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 2rem;
+            animation: float-up linear infinite;
+            z-index: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Hiệu ứng rung lắc khi chọn sai */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-6px);
+            }
+
+            40% {
+                transform: translateX(6px);
+            }
+
+            60% {
+                transform: translateX(-6px);
+            }
+
+            80% {
+                transform: translateX(6px);
+            }
+        }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* UI Styles - Light Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+            box-shadow: 0 10px 40px -10px rgba(120, 53, 15, 0.15);
+        }
+
+        /* Markdown Bold Styling */
+        .question-text strong {
+            color: #b45309;
+            font-weight: 700;
+            font-size: 1.15em;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fef3c7;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d97706;
+        }
+    </style>
+</head>
+
+<body class="text-amber-950 min-h-screen relative flex items-center justify-center p-4">
+
+    <!-- Background Ẩm thực / Bánh mì -->
+    <div id="background-layer" class="fixed inset-0 overflow-hidden" style="z-index: 0; pointer-events: none;">
+        <div class="absolute inset-0 bg-gradient-to-br from-[#FFF8E7] via-[#FDF5E6] to-[#F5E6D3]"></div>
+        <div id="floating-container"></div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div id="main-content" class="relative w-full max-w-3xl transition-all duration-500"
+        style="z-index: 10; pointer-events: auto;">
+
+        <!-- START SCREEN -->
+        <div id="screen-start"
+            class="glass-panel rounded-3xl p-6 md:p-10 text-center transform hover:scale-105 transition-transform duration-300">
+            <div class="text-5xl md:text-6xl mb-4">👨‍🍳🌾🥐</div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-amber-900 serif-font">
+                Lò Bánh Từ Vựng
+            </h1>
+            <p class="text-lg md:text-xl text-amber-800/80 mb-8">
+                Ôn tập toàn bộ <span id="total-count" class="font-bold text-amber-600"></span> thuật ngữ cốt lõi! 🍞
+            </p>
+            <button id="btn-start"
+                class="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold rounded-full text-lg md:text-xl shadow-[0_4px_14px_0_rgba(217,119,6,0.39)] hover:shadow-[0_6px_20px_rgba(217,119,6,0.23)] transition-all cursor-pointer">
+                Bật Lò Lên! 🔥
+            </button>
+            <div class="mt-6 md:mt-8 text-xs md:text-sm text-amber-900/60 font-medium">© Copyright 2026 by Hoang Truong
+                English</div>
+        </div>
+
+        <!-- PLAYING SCREEN -->
+        <div id="screen-playing" class="glass-panel rounded-3xl p-6 md:p-10 hidden">
+            <!-- Header: Progress & Score -->
+            <div class="flex justify-between items-center mb-6 border-b border-amber-200 pb-4">
+                <span id="progress-text"
+                    class="text-orange-600 font-bold tracking-wider uppercase text-sm md:text-base">
+                    CÂU HỎI 1
+                </span>
+                <span id="score-text"
+                    class="bg-amber-100 border border-amber-300 px-3 md:px-4 py-1 rounded-full text-amber-800 font-bold text-sm md:text-base">
+                    Điểm: 0
+                </span>
+            </div>
+
+            <!-- Question -->
+            <div class="mb-6 md:mb-8">
+                <h2 id="question-text"
+                    class="text-xl md:text-3xl font-medium leading-relaxed question-text text-amber-950 serif-font">
+                </h2>
+            </div>
+
+            <!-- Options Container -->
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-8">
+                <!-- Buttons will be injected here by JS -->
+            </div>
+
+            <!-- Explanation & Next Button -->
+            <div id="explanation-container" class="transition-all duration-500 overflow-hidden max-h-0 opacity-0">
+                <div class="bg-orange-50 border border-orange-200 rounded-2xl p-4 md:p-5 mb-5 md:mb-6">
+                    <div id="rationale-text" class="hidden text-base md:text-lg">
+                        <span id="rationale-content" class="block mt-2"></span>
+                    </div>
+                </div>
+
+                <button id="btn-next"
+                    class="w-full py-3 md:py-4 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold rounded-2xl text-lg md:text-xl shadow-md transition-all flex justify-center items-center gap-2 cursor-pointer">
+                    Mẻ Bánh Tiếp Theo 🥖
+                </button>
+            </div>
+            <div class="mt-4 md:mt-6 text-center text-xs md:text-sm text-amber-900/60 font-medium">© Copyright 2026 by
+                Hoang Truong English</div>
+        </div>
+
+        <!-- END SCREEN -->
+        <div id="screen-end"
+            class="glass-panel rounded-3xl p-6 md:p-10 text-center transform hover:scale-105 transition-transform duration-300 hidden">
+            <div class="text-6xl md:text-7xl mb-4">🧑‍🍳🏅</div>
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-2 text-amber-900 serif-font">
+                Mẻ Bánh Hoàn Tất!
+            </h1>
+            <p id="final-message" class="text-base md:text-lg text-amber-700/80 mb-6"></p>
+
+            <!-- Bảng Tổng Kết -->
+            <div
+                class="max-w-md mx-auto bg-amber-50/80 border border-amber-200 rounded-2xl p-5 md:p-6 text-left shadow-sm mb-6 md:mb-8">
+                <h3
+                    class="text-xl md:text-2xl font-bold text-amber-900 mb-4 border-b border-amber-200 pb-3 text-center serif-font">
+                    Bảng Tổng Kết</h3>
+                <ul class="space-y-3 md:space-y-4 text-amber-800 text-sm md:text-lg">
+                    <li class="flex justify-between items-center border-b border-amber-100 pb-2">
+                        <span class="flex items-center gap-2">🕒 Thời gian:</span>
+                        <span id="end-time" class="font-bold text-right text-xs md:text-base"></span>
+                    </li>
+                    <li class="flex justify-between items-center border-b border-amber-100 pb-2">
+                        <span class="flex items-center gap-2">✅ Số câu đúng (lần 1):</span>
+                        <span id="stat-correct" class="font-bold text-emerald-600 text-lg md:text-xl"></span>
+                    </li>
+                    <li class="flex justify-between items-center border-b border-amber-100 pb-2">
+                        <span class="flex items-center gap-2">⚠️ Số câu chọn 2 lần:</span>
+                        <span id="stat-second" class="font-bold text-amber-600 text-lg md:text-xl"></span>
+                    </li>
+                    <li class="flex justify-between items-center pb-1">
+                        <span class="flex items-center gap-2">❌ Số câu sai (cả 2 lần):</span>
+                        <span id="stat-wrong" class="font-bold text-rose-600 text-lg md:text-xl"></span>
+                    </li>
+                </ul>
+            </div>
+
+            <button id="btn-restart"
+                class="px-6 py-3 md:px-8 md:py-4 bg-white hover:bg-amber-50 border-2 border-amber-300 text-amber-800 font-bold rounded-full text-lg md:text-xl transition-all flex items-center justify-center gap-2 mx-auto cursor-pointer shadow-sm">
+                🔄 Nhào Bột Lại Từ Đầu
+            </button>
+            <div class="mt-6 md:mt-8 text-xs md:text-sm text-amber-900/60 font-medium">© Copyright 2026 by Hoang Truong
+                English</div>
+        </div>
+
+    </div>
+
+    <!-- Logic JavaScript -->
+    <script>
+        // Dữ liệu 20 từ vựng chủ đề Làm bánh
+        const rawVocab = [
+            ["strengthen", "v", "/ˈstreŋθən/", "làm mạnh (gluten)", "Proper mixing helps strengthen the dough so it can hold gas during fermentation."],
+            ["oxidation", "n", "/ˌɒksɪˈdeɪʃən/", "sự oxy hóa", "Oxidation improves dough structure and makes the final bread lighter in texture."],
+            ["friction heat", "n", "/ˈfrɪkʃən hiːt/", "nhiệt ma sát", "Friction heat during mixing can increase dough temperature and affect fermentation."],
+            ["Desired Dough Temperature", "n", "/dɪˈzaɪəd dəʊ ˈtemprətʃə/", "nhiệt độ bột mong muốn", "Bakers control Desired Dough Temperature to achieve consistent fermentation results."],
+            ["gluten-forming ability", "n", "/ˈɡluːtn ˈfɔːmɪŋ əˈbɪləti/", "khả năng tạo gluten", "Strong flour has high gluten-forming ability and produces better bread structure."],
+            ["elasticity", "n", "/ˌelæˈstɪsəti/", "độ đàn hồi", "Good elasticity allows the dough to stretch without breaking during shaping."],
+            ["gas retention ability", "n", "/ɡæs rɪˈtenʃən əˈbɪləti/", "khả năng giữ khí", "Dough needs good gas retention ability to achieve proper volume in baking."],
+            ["soften", "v", "/ˈsɒfn/", "làm mềm", "Fat can soften the dough and improve the final texture of bread."],
+            ["shorten", "v", "/ˈʃɔːtn/", "làm ngắn gluten", "Sugar and fat shorten gluten strands and create a softer crumb."],
+            ["Maillard reaction", "n", "/maɪˈjɑːd riˈækʃən/", "phản ứng Maillard", "The Maillard reaction gives bread its golden color and rich flavor during baking."],
+            ["retain", "v", "/rɪˈteɪn/", "giữ lại", "The dough needs to retain gas to rise properly in the oven."],
+            ["slack", "adj", "/slæk/", "bột nhão, chảy", "Overmixed dough becomes slack and difficult to handle during shaping."],
+            ["proper volume", "n", "/ˈprɒpə ˈvɒljuːm/", "độ nở chuẩn", "Good fermentation helps the dough reach proper volume before baking."],
+            ["release", "v", "/rɪˈliːs/", "giải phóng", "Yeast releases gas that helps the dough expand during proofing."],
+            ["excess", "n", "/ɪkˈses/", "dư thừa", "Excess gas can weaken the dough structure and affect final quality."],
+            ["redistribute", "v", "/ˌriːdɪˈstrɪbjuːt/", "phân bố lại", "Bakers knock the dough to redistribute gas and improve texture."],
+            ["yeast cells", "n", "/jiːst selz/", "tế bào men", "Yeast cells produce carbon dioxide during fermentation."],
+            ["equalize", "v", "/ˈiːkwəlaɪz/", "cân bằng", "Resting the dough helps equalize temperature and moisture throughout."],
+            ["acidic smell", "n", "/əˈsɪdɪk smel/", "mùi chua", "Overproofed dough develops an acidic smell that affects flavor."],
+            ["collapse", "v", "/kəˈlæps/", "sụp xuống", "Weak dough may collapse in the oven if it cannot hold its structure."]
+        ];
+
+        // Khởi tạo hiển thị tổng số câu
+        document.getElementById('total-count').innerText = rawVocab.length;
+
+        // Sinh Quiz Động và Xáo trộn
+        const quizData = rawVocab.map((item, index) => {
+            const word = item[0];
+            const type = item[1];
+            const ipa = item[2];
+            const meaning = item[3];
+            const example = item[4];
+
+            let wrongMeanings = [];
+
+            // Random 3 đáp án nhiễu
+            while (wrongMeanings.length < 3) {
+                const randomItem = rawVocab[Math.floor(Math.random() * rawVocab.length)];
+                if (randomItem[3] !== meaning && !wrongMeanings.includes(randomItem[3])) {
+                    wrongMeanings.push(randomItem[3]);
+                }
+            }
+
+            const options = [
+                { text: meaning, isCorrect: true },
+                { text: wrongMeanings[0], isCorrect: false },
+                { text: wrongMeanings[1], isCorrect: false },
+                { text: wrongMeanings[2], isCorrect: false }
+            ];
+
+            return {
+                questionNumber: index + 1,
+                word: word,
+                question: `Nghĩa của từ/cụm từ **${word}** là gì?`,
+                answerOptions: options,
+                rationale: `
+                    <div class="flex items-center flex-wrap gap-2 md:gap-3 mb-2 md:mb-3">
+                        <span class="text-2xl md:text-3xl font-extrabold text-amber-900">${word}</span>
+                        <span class="text-amber-700 italic text-base md:text-lg">(${type})</span>
+                        <span class="text-amber-800 tracking-wide text-base md:text-lg">${ipa}</span>
+                        <button onclick="speakWord('${word.replace(/'/g, "\\'")}')" class="p-2 bg-amber-200 hover:bg-amber-300 rounded-full transition-colors flex items-center justify-center w-8 h-8 md:w-10 md:h-10 shadow-sm" title="Nghe phát âm">
+                            🔊
+                        </button>
+                    </div>
+                    <div class="text-amber-900 font-medium text-base md:text-lg leading-relaxed">
+                        ✨ <span class="font-normal text-amber-800">${example}</span>
+                    </div>`
+            };
+        });
+
+        // Tạo Background Icon bay lơ lửng
+        function createFloatingItems() {
+            const container = document.getElementById('floating-container');
+            const icons = ['🌾', '🥖', '🥐', '🥨', '🍞', '🥞'];
+            for (let i = 0; i < 20; i++) {
+                const item = document.createElement('div');
+                item.className = 'floating-item';
+                item.innerText = icons[Math.floor(Math.random() * icons.length)];
+                item.style.left = `${Math.random() * 100}%`;
+
+                const duration = Math.random() * 15 + 10;
+                item.style.animationDuration = `${duration}s`;
+                item.style.animationDelay = `${Math.random() * 20}s`;
+
+                const scale = Math.random() * 0.5 + 0.8;
+                item.style.transform = `scale(${scale})`;
+
+                container.appendChild(item);
+            }
+        }
+
+        // Trạng thái Game
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctSecondTry = 0;
+        let failedQuestions = 0;
+        let attempts = 0;
+        let hasAnswered = false;
+        let currentShuffledOptions = [];
+
+        // DOM Elements
+        const screenStart = document.getElementById('screen-start');
+        const screenPlaying = document.getElementById('screen-playing');
+        const screenEnd = document.getElementById('screen-end');
+
+        const progressText = document.getElementById('progress-text');
+        const scoreText = document.getElementById('score-text');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationContainer = document.getElementById('explanation-container');
+
+        const rationaleText = document.getElementById('rationale-text');
+        const rationaleContent = document.getElementById('rationale-content');
+        const btnNext = document.getElementById('btn-next');
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function formatMarkdownBold(text) {
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            correctSecondTry = 0;
+            failedQuestions = 0;
+            hasAnswered = false;
+
+            screenStart.classList.add('hidden');
+            screenEnd.classList.add('hidden');
+            screenPlaying.classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            hasAnswered = false;
+            attempts = 0;
+
+            const currentQ = quizData[currentQuestionIndex];
+
+            // Cập nhật UI
+            progressText.innerText = `MẺ BÁNH ${currentQuestionIndex + 1} / ${quizData.length}`;
+            scoreText.innerText = `Điểm: ${score}`;
+            questionText.innerHTML = formatMarkdownBold(currentQ.question);
+
+            // Xáo trộn đáp án
+            currentShuffledOptions = shuffleArray(currentQ.answerOptions);
+
+            // Tạo nút đáp án
+            optionsContainer.innerHTML = '';
+            currentShuffledOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "text-left p-4 md:p-5 rounded-2xl border-2 transition-all duration-300 text-base md:text-lg bg-white border-amber-100 hover:bg-amber-50 hover:border-amber-400 text-amber-900 cursor-pointer shadow-sm";
+                btn.innerText = option.text;
+                btn.onclick = () => handleAnswer(index, option.isCorrect);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Ẩn phần giải thích
+            explanationContainer.classList.remove('max-h-[800px]', 'opacity-100');
+            explanationContainer.classList.add('max-h-0', 'opacity-0');
+            rationaleText.className = "hidden";
+
+            // Cập nhật text nút Next
+            if (currentQuestionIndex < quizData.length - 1) {
+                btnNext.innerText = 'Mẻ Bánh Tiếp Theo 🥖';
+            } else {
+                btnNext.innerText = 'Xem Thành Quả 🏆';
+            }
+        }
+
+        function handleAnswer(selectedIndex, isCorrect) {
+            if (hasAnswered) return;
+
+            const currentQ = quizData[currentQuestionIndex];
+            const buttons = optionsContainer.children;
+            const btn = buttons[selectedIndex];
+
+            if (isCorrect) {
+                hasAnswered = true;
+                if (attempts === 0) {
+                    score++; // Câu đúng lần 1
+                    scoreText.innerText = `Điểm: ${score}`;
+                } else if (attempts === 1) {
+                    correctSecondTry++; // Câu đúng lần 2
+                }
+
+                // Đánh dấu câu đúng
+                btn.className = "text-left p-4 md:p-5 rounded-2xl border-2 transition-all duration-300 text-base md:text-lg bg-emerald-50 border-emerald-500 text-emerald-800 shadow-md font-bold";
+
+                // Vô hiệu hóa các nút còn lại
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].disabled = true;
+                    if (i !== selectedIndex && !buttons[i].classList.contains('bg-rose-50')) {
+                        buttons[i].className += " opacity-50 cursor-not-allowed";
+                    }
+                }
+
+                speakWord(currentQ.word);
+                showRationale(currentQ);
+            } else {
+                attempts++;
+
+                // Lắc và chuyển đỏ cho đáp án sai
+                btn.className = "text-left p-4 md:p-5 rounded-2xl border-2 transition-all duration-300 text-base md:text-lg bg-rose-50 border-rose-500 text-rose-800 animate-shake";
+                btn.disabled = true;
+
+                // Xóa class animate-shake sau khi hiệu ứng kết thúc
+                setTimeout(() => {
+                    btn.classList.remove('animate-shake');
+                }, 400);
+
+                // Nếu đã chọn sai 2 lần -> Khóa toàn bộ và hiển thị đáp án đúng
+                if (attempts >= 2) {
+                    hasAnswered = true;
+                    failedQuestions++; // Câu sai cả 2 lần
+
+                    for (let i = 0; i < buttons.length; i++) {
+                        buttons[i].disabled = true;
+                        if (currentShuffledOptions[i].isCorrect) {
+                            buttons[i].className = "text-left p-4 md:p-5 rounded-2xl border-2 transition-all duration-300 text-base md:text-lg bg-emerald-50 border-emerald-500 text-emerald-800 shadow-md font-bold";
+                        } else if (!buttons[i].classList.contains('bg-rose-50')) {
+                            buttons[i].className += " opacity-50 cursor-not-allowed";
+                        }
+                    }
+                    speakWord(currentQ.word);
+                    showRationale(currentQ);
+                }
+            }
+        }
+
+        function showRationale(currentQ) {
+            rationaleContent.innerHTML = currentQ.rationale;
+            rationaleText.className = "block text-base md:text-lg";
+
+            explanationContainer.classList.remove('max-h-0', 'opacity-0');
+            explanationContainer.classList.add('max-h-[800px]', 'opacity-100');
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            screenPlaying.classList.add('hidden');
+            screenEnd.classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+
+            const finalMessage = document.getElementById('final-message');
+            if (score >= quizData.length * 0.9) {
+                finalMessage.innerText = "Xuất sắc! Điểm số của bạn thật hoàn hảo! 🌟";
+            } else if (score >= quizData.length * 0.5) {
+                finalMessage.innerText = "Bánh nướng khá thơm rồi đấy, ôn tập thêm chút nữa nhé! 🥐";
+            } else {
+                finalMessage.innerText = "Mẻ bánh này hơi khét một chút, hãy đọc lại công thức và thử lại! 🥨";
+            }
+
+            // Sinh thời gian hiện tại
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString('vi-VN');
+
+            // Cập nhật dữ liệu vào Bảng Tổng Kết
+            document.getElementById('end-time').innerText = `${timeString}, ngày ${dateString}`;
+            document.getElementById('stat-correct').innerText = `${score}`;
+            document.getElementById('stat-second').innerText = `${correctSecondTry}`;
+            document.getElementById('stat-wrong').innerText = `${failedQuestions}`;
+        }
+
+        // Tải danh sách giọng nói trước để tối ưu hóa
+        let availableVoices = [];
+        if ('speechSynthesis' in window) {
+            availableVoices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = () => {
+                availableVoices = window.speechSynthesis.getVoices();
+            };
+        }
+
+        // Cấu hình hàm phát âm nâng cao
+        window.speakWord = function (text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+
+                // Lọc tìm giọng Anh-Úc (en-AU)
+                const auVoices = availableVoices.filter(v => v.lang.startsWith('en-AU'));
+                if (auVoices.length > 0) {
+                    // Ưu tiên giọng chuẩn của Google nếu có, nếu không lấy giọng Úc mặc định
+                    const preferredVoice = auVoices.find(v => v.name.includes('Google') || v.name.includes('Natural')) || auVoices[0];
+                    utterance.voice = preferredVoice;
+                } else {
+                    // Fallback dự phòng nếu trình duyệt/máy tính không cài sẵn giọng Úc
+                    const englishVoices = availableVoices.filter(v => v.lang.startsWith('en'));
+                    if (englishVoices.length > 0) {
+                        utterance.voice = englishVoices[0];
+                    }
+                }
+
+                utterance.lang = 'en-AU'; // Thiết lập ngôn ngữ Anh-Úc
+                utterance.rate = 0.85; // Tốc độ đọc
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ tính năng phát âm.");
+            }
+        };
+
+        // Init
+        function initApp() {
+            createFloatingItems();
+            document.getElementById('btn-start').addEventListener('click', startGame);
+            document.getElementById('btn-restart').addEventListener('click', startGame);
+            document.getElementById('btn-next').addEventListener('click', nextQuestion);
+
+            // Xử lý sự kiện nhấn phím Enter
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    if (!screenPlaying.classList.contains('hidden') && hasAnswered) {
+                        event.preventDefault(); // Ngăn hành vi bấm nút mặc định nếu đang focus
+                        nextQuestion();
+                    } else if (!screenStart.classList.contains('hidden')) {
+                        event.preventDefault();
+                        startGame();
+                    } else if (!screenEnd.classList.contains('hidden')) {
+                        event.preventDefault();
+                        startGame();
+                    }
+                }
+            });
+        }
+
+        initApp();
+
+    </script>
+</body>
+
+</html>
